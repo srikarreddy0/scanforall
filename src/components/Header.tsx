@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, History } from 'lucide-react';
+import { ArrowLeft, History, Bell, Settings, User } from 'lucide-react';
 
 interface HeaderProps {
   title?: string;
@@ -17,21 +17,40 @@ const Header: React.FC<HeaderProps> = ({
   const location = useLocation();
   
   return (
-    <header className="flex items-center justify-between p-4 h-16 border-b">
+    <header className="flex items-center justify-between p-4 h-16 border-b border-gray-700 bg-slate-900">
       <div className="flex items-center gap-2">
         {showBack && (
           <Link to="/" className="nav-button">
-            <ArrowLeft size={24} className="text-darkText" />
+            <ArrowLeft size={24} className="text-white" />
           </Link>
         )}
-        <h1 className="text-xl font-semibold text-darkText">{title}</h1>
+        <h1 className="text-xl font-semibold text-white">{title}</h1>
       </div>
       
-      <div>
+      <div className="flex gap-3">
         {showHistory && location.pathname !== '/history' && (
           <Link to="/history" className="nav-button">
-            <History size={24} className="text-darkText" />
+            <History size={24} className="text-white" />
           </Link>
+        )}
+        
+        {/* Notification icon with indicator */}
+        <Link to="/notifications" className="nav-button relative">
+          <Bell size={24} className="text-white" />
+          <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+        </Link>
+        
+        {/* Settings and profile icons, visible on pages other than home */}
+        {location.pathname !== '/' && (
+          <>
+            <Link to="/settings" className="nav-button">
+              <Settings size={24} className="text-white" />
+            </Link>
+            
+            <Link to="/profile" className="nav-button">
+              <User size={24} className="text-white" />
+            </Link>
+          </>
         )}
       </div>
     </header>

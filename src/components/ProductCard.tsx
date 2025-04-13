@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Calendar, Tag, Hash } from 'lucide-react';
+import { Calendar, Tag, Hash, AlertTriangle, XCircle } from 'lucide-react';
 import { Product } from '../utils/mockData';
 import VerificationBadge from './VerificationBadge';
 

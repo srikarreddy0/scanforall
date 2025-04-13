@@ -102,6 +102,22 @@
   }
   
   .nav-button {
-    @apply p-3 rounded-full hover:bg-gray-100 transition-colors;
+    @apply p-3 rounded-full hover:bg-white/10 transition-colors;
   }
+}
+
+@keyframes scan-line {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 0%;
+  }
+}
+
+.animate-scan-line {
+  animation: scan-line 2s linear infinite;
 }

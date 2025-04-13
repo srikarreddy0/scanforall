@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Camera, ScanBarcode } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -34,27 +34,34 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
   
   return (
     <div className="flex flex-col items-center">
-      <div className="scanner-target mb-8">
+      <div className="scanner-target mb-8 relative">
         {scanning && <div className="scan-pulse"></div>}
         <div className="scanner-corner scanner-corner-tl"></div>
         <div className="scanner-corner scanner-corner-tr"></div>
         <div className="scanner-corner scanner-corner-bl"></div>
         <div className="scanner-corner scanner-corner-br"></div>
         
+        {/* Scan line animation */}
+        {scanning && (
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-trustBlue to-transparent absolute animate-scan-line"></div>
+          </div>
+        )}
+        
         <div className="absolute inset-0 flex items-center justify-center">
-          <ScanBarcode size={60} className="text-trustBlue opacity-40" />
+          <ScanBarcode size={60} className="text-white opacity-40" />
         </div>
       </div>
       
       <button 
         onClick={handleScan} 
         disabled={scanning}
-        className="scan-button"
+        className="scan-button bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
       >
         <Camera size={28} />
       </button>
       
-      <p className="mt-4 text-center text-sm text-gray-500">
+      <p className="mt-4 text-center text-sm text-gray-300">
         {scanning ? 'Scanning...' : 'Tap to scan product code'}
       </p>
     </div>
