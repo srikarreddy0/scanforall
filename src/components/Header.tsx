@@ -10,21 +10,21 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ 
-  title = "TrustScan", 
+  title = "Scan", 
   showBack = false,
   showHistory = false
 }) => {
   const location = useLocation();
   
   return (
-    <header className="flex items-center justify-between p-4 h-16 border-b border-gray-700 bg-slate-900">
+    <header className="flex items-center justify-between p-4 h-16 border-b border-purple-700 bg-gradient-to-r from-indigo-900 to-purple-900">
       <div className="flex items-center gap-2">
         {showBack && (
           <Link to="/" className="nav-button">
             <ArrowLeft size={24} className="text-white" />
           </Link>
         )}
-        <h1 className="text-xl font-semibold text-white">{title}</h1>
+        <h1 className="text-xl font-semibold bg-gradient-to-r from-violet-200 to-pink-200 bg-clip-text text-transparent">{title}</h1>
       </div>
       
       <div className="flex gap-3">
@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({
         {/* Notification icon with indicator */}
         <Link to="/notifications" className="nav-button relative">
           <Bell size={24} className="text-white" />
-          <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+          <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-pink-500"></span>
         </Link>
         
         {/* Settings and profile icons, visible on pages other than home */}
