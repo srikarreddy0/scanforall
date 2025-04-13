@@ -35,16 +35,16 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
   return (
     <div className="flex flex-col items-center">
       <div className="scanner-target mb-8 relative border-2 rounded-2xl border-white border-opacity-60 w-64 h-64 mx-auto">
-        {scanning && <div className="absolute top-0 left-0 w-full h-full rounded-2xl border-4 border-purple-500 animate-pulse-ring opacity-70"></div>}
-        <div className="absolute top-0 left-0 w-4 h-4 border-2 border-fuchsia-500 border-b-0 border-r-0 rounded-tl-lg"></div>
-        <div className="absolute top-0 right-0 w-4 h-4 border-2 border-fuchsia-500 border-b-0 border-l-0 rounded-tr-lg"></div>
-        <div className="absolute bottom-0 left-0 w-4 h-4 border-2 border-fuchsia-500 border-t-0 border-r-0 rounded-bl-lg"></div>
-        <div className="absolute bottom-0 right-0 w-4 h-4 border-2 border-fuchsia-500 border-t-0 border-l-0 rounded-br-lg"></div>
+        {scanning && <div className="absolute top-0 left-0 w-full h-full rounded-2xl border-4 border-emerald-500 animate-pulse-ring opacity-70"></div>}
+        <div className="absolute top-0 left-0 w-4 h-4 border-2 border-emerald-500 border-b-0 border-r-0 rounded-tl-lg"></div>
+        <div className="absolute top-0 right-0 w-4 h-4 border-2 border-emerald-500 border-b-0 border-l-0 rounded-tr-lg"></div>
+        <div className="absolute bottom-0 left-0 w-4 h-4 border-2 border-emerald-500 border-t-0 border-r-0 rounded-bl-lg"></div>
+        <div className="absolute bottom-0 right-0 w-4 h-4 border-2 border-emerald-500 border-t-0 border-l-0 rounded-br-lg"></div>
         
         {/* Scan line animation */}
         {scanning && (
           <div className="absolute inset-0 overflow-hidden">
-            <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-fuchsia-500 to-transparent absolute animate-scan-line"></div>
+            <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-emerald-500 to-transparent absolute animate-scan-line"></div>
           </div>
         )}
         
@@ -56,7 +56,7 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
       <button 
         onClick={handleScan} 
         disabled={scanning}
-        className="h-16 w-16 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(167,139,250,0.5)] hover:bg-opacity-90 transition-all active:scale-95"
+        className="h-16 w-16 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] hover:bg-opacity-90 transition-all active:scale-95"
       >
         <Camera size={28} />
       </button>
