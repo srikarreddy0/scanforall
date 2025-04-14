@@ -17,46 +17,41 @@ const Header: React.FC<HeaderProps> = ({
   const location = useLocation();
   
   return (
-    <header className="flex items-center justify-between p-4 h-16 backdrop-blur-xl bg-gradient-to-r from-indigo-900/80 to-emerald-900/80 border-b border-white/10 shadow-lg">
+    <header className="flex items-center justify-between p-4 h-16 neu-header">
       <div className="flex items-center gap-2">
         {showBack && (
-          <Link to="/" className="nav-button relative overflow-hidden group">
-            <div className="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-            <ArrowLeft size={24} className="text-white relative z-10" />
+          <Link to="/" className="neu-button-small relative group">
+            <ArrowLeft size={20} className="text-neu-text" />
           </Link>
         )}
         <div className="flex items-center">
-          <Shield size={20} className="text-emerald-300 mr-2 animate-pulse" />
-          <h1 className="text-xl font-semibold bg-gradient-to-r from-teal-100 to-emerald-200 bg-clip-text text-transparent">{title}</h1>
+          <Shield size={20} className="text-neu-accent mr-2" />
+          <h1 className="text-xl font-semibold text-neu-text">{title}</h1>
         </div>
       </div>
       
-      <div className="flex gap-3">
+      <div className="flex gap-2">
         {showHistory && location.pathname !== '/history' && (
-          <Link to="/history" className="nav-button relative group">
-            <div className="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-            <HistoryIcon size={24} className="text-white relative z-10" />
+          <Link to="/history" className="neu-button-small relative group p-2">
+            <HistoryIcon size={20} className="text-neu-text" />
           </Link>
         )}
         
-        {/* Notification icon with indicator - neumorphism style */}
-        <Link to="/notifications" className="nav-button relative group">
-          <div className="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-          <Bell size={24} className={`relative z-10 ${location.pathname === '/notifications' ? 'text-emerald-300' : 'text-white'}`} />
-          <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)] animate-pulse"></span>
+        {/* Notification icon with indicator */}
+        <Link to="/notifications" className="neu-button-small relative group p-2">
+          <Bell size={20} className={`${location.pathname === '/notifications' ? 'text-neu-accent' : 'text-neu-text'}`} />
+          <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-neu-accent"></span>
         </Link>
         
-        {/* Settings and profile icons, visible on pages other than home - with glassmorphism hover effect */}
+        {/* Settings and profile icons */}
         {location.pathname !== '/' && (
           <>
-            <Link to="/settings" className="nav-button relative group">
-              <div className="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-              <Settings size={24} className={`relative z-10 ${location.pathname === '/settings' ? 'text-emerald-300' : 'text-white'}`} />
+            <Link to="/settings" className="neu-button-small relative group p-2">
+              <Settings size={20} className={`${location.pathname === '/settings' ? 'text-neu-accent' : 'text-neu-text'}`} />
             </Link>
             
-            <Link to="/profile" className="nav-button relative group">
-              <div className="absolute inset-0 bg-white/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-              <User size={24} className={`relative z-10 ${location.pathname === '/profile' ? 'text-emerald-300' : 'text-white'}`} />
+            <Link to="/profile" className="neu-button-small relative group p-2">
+              <User size={20} className={`${location.pathname === '/profile' ? 'text-neu-accent' : 'text-neu-text'}`} />
             </Link>
           </>
         )}
