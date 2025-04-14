@@ -41,7 +41,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-neu-background text-neu-text;
+    @apply bg-white text-gray-800;
   }
 }
 
@@ -50,123 +50,208 @@
     @apply w-full max-w-md mx-auto min-h-screen flex flex-col;
   }
   
-  .scan-button {
-    @apply h-16 w-16 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white flex items-center justify-center 
-           shadow-lg hover:bg-opacity-90 transition-all active:scale-95;
-  }
-  
-  .scanner-target {
-    @apply relative border-2 rounded-2xl border-white border-opacity-60 w-64 h-64 mx-auto;
-  }
-  
-  .scanner-corner {
-    @apply absolute w-4 h-4 border-2 border-fuchsia-500;
-  }
-  
-  .scanner-corner-tl {
-    @apply top-0 left-0 border-b-0 border-r-0 rounded-tl-lg;
-  }
-  
-  .scanner-corner-tr {
-    @apply top-0 right-0 border-b-0 border-l-0 rounded-tr-lg;
-  }
-  
-  .scanner-corner-bl {
-    @apply bottom-0 left-0 border-t-0 border-r-0 rounded-bl-lg;
-  }
-  
-  .scanner-corner-br {
-    @apply bottom-0 right-0 border-t-0 border-l-0 rounded-br-lg;
-  }
-  
-  .scan-pulse {
-    @apply absolute top-0 left-0 w-full h-full rounded-2xl border-4 border-fuchsia-500 
-           animate-pulse-ring opacity-70;
-  }
-  
-  .verified-badge {
-    @apply flex items-center px-3 py-1 rounded-full text-sm font-medium;
-  }
-  
-  .verified-badge-authentic {
-    @apply bg-verifyGreen bg-opacity-20 text-verifyGreen;
-  }
-  
-  .verified-badge-warning {
-    @apply bg-cautionAmber bg-opacity-20 text-cautionAmber;
-  }
-  
-  .verified-badge-fake {
-    @apply bg-alertRed bg-opacity-20 text-alertRed;
-  }
-  
-  .nav-button {
-    @apply p-3 rounded-full hover:bg-white/10 transition-colors;
-  }
-  
-  /* Premium card effects */
-  .premium-card {
-    @apply bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 rounded-xl shadow-xl;
-  }
-  
-  /* Glass button effect */
-  .glass-button {
-    @apply bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/20 transition-all shadow-lg;
-  }
-  
-  /* Neumorphic Elements */
-  .neu-card {
-    @apply bg-gray-800 rounded-xl shadow-[5px_5px_15px_rgba(0,0,0,0.5),-5px_-5px_15px_rgba(255,255,255,0.05)];
-  }
-  
-  .neu-button {
-    @apply bg-gray-800 rounded-xl shadow-[5px_5px_10px_rgba(0,0,0,0.5),-5px_-5px_10px_rgba(255,255,255,0.05)] active:shadow-[inset_3px_3px_5px_rgba(0,0,0,0.5),inset_-3px_-3px_5px_rgba(255,255,255,0.08)];
-  }
-  
-  .neu-inset {
-    @apply bg-gray-800 rounded-xl shadow-[inset_3px_3px_5px_rgba(0,0,0,0.5),inset_-3px_-3px_5px_rgba(255,255,255,0.08)];
-  }
-  
-  .glass-card {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg;
-  }
-  
-  /* Neumorphic components */
+  /* Updated neumorphic components for white and blue theme */
   .neu-container {
     @apply bg-neu-background;
   }
   
   .neu-button {
-    @apply bg-neu-background shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200 text-neu-text rounded-lg;
+    @apply bg-white shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200 text-gray-800 rounded-lg;
   }
   
   .neu-button-small {
-    @apply bg-neu-background shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200 text-neu-text rounded-md p-2;
+    @apply bg-white shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200 text-gray-800 rounded-md p-2;
   }
   
   .neu-button-circle {
-    @apply bg-neu-background shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200 text-neu-text rounded-full;
+    @apply bg-white shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200 text-gray-800 rounded-full;
   }
   
   .neu-card {
-    @apply bg-neu-background shadow-neu-flat rounded-xl p-4;
+    @apply bg-white shadow-neu-flat rounded-xl p-4;
   }
   
   .neu-input {
-    @apply bg-neu-background shadow-neu-pressed rounded-lg px-4 py-2 text-neu-text outline-none focus:shadow-neu-concave;
+    @apply bg-white shadow-neu-pressed rounded-lg px-4 py-2 text-gray-800 outline-none focus:shadow-neu-concave;
   }
   
   .neu-icon-container {
-    @apply flex items-center justify-center w-12 h-12 rounded-full shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200;
+    @apply flex items-center justify-center w-12 h-12 rounded-full shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200 bg-white;
   }
   
   .neu-scanner-target {
-    @apply relative w-64 h-64 mx-auto rounded-2xl shadow-neu-flat overflow-hidden;
+    @apply relative w-64 h-64 mx-auto rounded-2xl shadow-neu-flat overflow-hidden bg-white;
   }
   
   .neu-header {
-    @apply bg-neu-dark border-b border-neu-light backdrop-blur-sm;
+    @apply bg-white border-b border-blue-100 backdrop-blur-sm;
   }
+  
+  /* Keep existing scan line animation */
+  .animate-scan-line {
+    animation: scan-line 2s linear infinite;
+  }
+  
+  @keyframes scan-line {
+    0% {
+      top: 0%;
+    }
+    50% {
+      top: 100%;
+    }
+    100% {
+      top: 0%;
+    }
+  }
+  
+  /* Keep existing animation for pulse ring */
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+  
+  .animate-pulse-ring {
+    animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  }
+  
+  /* Glass card for white/blue theme */
+  .glass-card {
+    @apply bg-blue-50/80 backdrop-blur-lg border border-blue-100/50 rounded-xl shadow-lg;
+  }
+  
+  /* Gradient text for headings */
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent;
+  }
+}
+
+/* Keep remaining styles */
+.app-container {
+  @apply w-full max-w-md mx-auto min-h-screen flex flex-col;
+}
+
+.scan-button {
+  @apply h-16 w-16 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white flex items-center justify-center 
+         shadow-lg hover:bg-opacity-90 transition-all active:scale-95;
+}
+
+.scanner-target {
+  @apply relative border-2 rounded-2xl border-white border-opacity-60 w-64 h-64 mx-auto;
+}
+
+.scanner-corner {
+  @apply absolute w-4 h-4 border-2 border-fuchsia-500;
+}
+
+.scanner-corner-tl {
+  @apply top-0 left-0 border-b-0 border-r-0 rounded-tl-lg;
+}
+
+.scanner-corner-tr {
+  @apply top-0 right-0 border-b-0 border-l-0 rounded-tr-lg;
+}
+
+.scanner-corner-bl {
+  @apply bottom-0 left-0 border-t-0 border-r-0 rounded-bl-lg;
+}
+
+.scanner-corner-br {
+  @apply bottom-0 right-0 border-t-0 border-l-0 rounded-br-lg;
+}
+
+.scan-pulse {
+  @apply absolute top-0 left-0 w-full h-full rounded-2xl border-4 border-fuchsia-500 
+         animate-pulse-ring opacity-70;
+}
+
+.verified-badge {
+  @apply flex items-center px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.verified-badge-authentic {
+  @apply bg-verifyGreen bg-opacity-20 text-verifyGreen;
+}
+
+.verified-badge-warning {
+  @apply bg-cautionAmber bg-opacity-20 text-cautionAmber;
+}
+
+.verified-badge-fake {
+  @apply bg-alertRed bg-opacity-20 text-alertRed;
+}
+
+.nav-button {
+  @apply p-3 rounded-full hover:bg-white/10 transition-colors;
+}
+
+/* Premium card effects */
+.premium-card {
+  @apply bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 rounded-xl shadow-xl;
+}
+
+/* Glass button effect */
+.glass-button {
+  @apply bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/20 transition-all shadow-lg;
+}
+
+/* Neumorphic Elements */
+.neu-card {
+  @apply bg-gray-800 rounded-xl shadow-[5px_5px_15px_rgba(0,0,0,0.5),-5px_-5px_15px_rgba(255,255,255,0.05)];
+}
+
+.neu-button {
+  @apply bg-gray-800 rounded-xl shadow-[5px_5px_10px_rgba(0,0,0,0.5),-5px_-5px_10px_rgba(255,255,255,0.05)] active:shadow-[inset_3px_3px_5px_rgba(0,0,0,0.5),inset_-3px_-3px_5px_rgba(255,255,255,0.08)];
+}
+
+.neu-inset {
+  @apply bg-gray-800 rounded-xl shadow-[inset_3px_3px_5px_rgba(0,0,0,0.5),inset_-3px_-3px_5px_rgba(255,255,255,0.08)];
+}
+
+.glass-card {
+  @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl shadow-lg;
+}
+
+/* Neumorphic components */
+.neu-container {
+  @apply bg-neu-background;
+}
+
+.neu-button {
+  @apply bg-neu-background shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200 text-neu-text rounded-lg;
+}
+
+.neu-button-small {
+  @apply bg-neu-background shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200 text-neu-text rounded-md p-2;
+}
+
+.neu-button-circle {
+  @apply bg-neu-background shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200 text-neu-text rounded-full;
+}
+
+.neu-card {
+  @apply bg-neu-background shadow-neu-flat rounded-xl p-4;
+}
+
+.neu-input {
+  @apply bg-neu-background shadow-neu-pressed rounded-lg px-4 py-2 text-neu-text outline-none focus:shadow-neu-concave;
+}
+
+.neu-icon-container {
+  @apply flex items-center justify-center w-12 h-12 rounded-full shadow-neu-flat hover:shadow-neu-pressed transition-shadow duration-200;
+}
+
+.neu-scanner-target {
+  @apply relative w-64 h-64 mx-auto rounded-2xl shadow-neu-flat overflow-hidden;
+}
+
+.neu-header {
+  @apply bg-neu-dark border-b border-neu-light backdrop-blur-sm;
 }
 
 @keyframes scan-line {

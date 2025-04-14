@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -69,25 +70,26 @@ export default {
 				neutralGray: '#F9FAFB',
 				darkText: '#1F2937',
 				
-				// Neumorphic specific colors
+				// Updated for white and blue theme
 				neu: {
-					background: '#222222',
-					dark: '#1a1a1a',
-					light: '#2c2c2c',
-					shadow: '#191919',
-					highlight: '#2e2e2e',
-					text: '#e0e0e0',
-					'text-muted': '#a0a0a0',
-					accent: '#3b82f6',
-					'accent-dark': '#2563eb',
-					'accent-light': '#60a5fa',
+					background: '#F0F7FF',
+					dark: '#E0EEFB',
+					light: '#FFFFFF',
+					shadow: '#D8E6F6',
+					highlight: '#FFFFFF',
+					text: '#2D3748',
+					'text-muted': '#718096',
+					accent: '#3B82F6',
+					'accent-dark': '#2563EB',
+					'accent-light': '#60A5FA',
 				},
 			},
 			boxShadow: {
-				'neu-flat': '5px 5px 10px #191919, -5px -5px 10px #2e2e2e',
-				'neu-pressed': 'inset 5px 5px 10px #191919, inset -5px -5px 10px #2e2e2e',
-				'neu-convex': '5px 5px 10px #191919, -5px -5px 10px #2e2e2e, inset 1px 1px 1px #2e2e2e, inset -1px -1px 1px #191919',
-				'neu-concave': 'inset 5px 5px 10px #191919, inset -5px -5px 10px #2e2e2e, 1px 1px 1px #2e2e2e, -1px -1px 1px #191919',
+				// Updated shadows for white/blue neumorphism
+				'neu-flat': '5px 5px 10px #D8E6F6, -5px -5px 10px #FFFFFF',
+				'neu-pressed': 'inset 5px 5px 10px #D8E6F6, inset -5px -5px 10px #FFFFFF',
+				'neu-convex': '5px 5px 10px #D8E6F6, -5px -5px 10px #FFFFFF, inset 1px 1px 1px #FFFFFF, inset -1px -1px 1px #D8E6F6',
+				'neu-concave': 'inset 5px 5px 10px #D8E6F6, inset -5px -5px 10px #FFFFFF, 1px 1px 1px #FFFFFF, -1px -1px 1px #D8E6F6',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
