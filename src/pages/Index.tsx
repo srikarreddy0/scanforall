@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Settings, User, HelpCircle, Sparkles, Bell, Search, Shield } from 'lucide-react';
+import { Settings, User, HelpCircle, Sparkles, Bell, Search, Shield, Clock as HistoryIcon } from 'lucide-react';
 import Header from '../components/Header';
 import Scanner from '../components/Scanner';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ const Index: React.FC = () => {
           </p>
         </div>
         
-        {/* Quick access buttons with enhanced premium design - Rearranged for better user psychology */}
+        {/* Quick access buttons with enhanced premium design - Arranged for better user psychology */}
         <div className="flex justify-around mb-8 space-x-2">
           <Button 
             variant="ghost" 
@@ -45,7 +45,7 @@ const Index: React.FC = () => {
             onClick={() => navigate('/history')}
           >
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-green-500 mb-2 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.5)]">
-              <History size={24} className="text-white" />
+              <HistoryIcon size={24} className="text-white" />
             </div>
             <span className="text-xs font-medium">History</span>
           </Button>

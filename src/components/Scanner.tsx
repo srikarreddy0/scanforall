@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Camera, ScanBarcode } from 'lucide-react';
+import { Camera, ScanBarcode, ShieldCheck } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface ScannerProps {
@@ -34,7 +34,7 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
   
   return (
     <div className="flex flex-col items-center">
-      <div className="scanner-target mb-8 relative border-2 rounded-2xl border-white border-opacity-60 w-64 h-64 mx-auto">
+      <div className="scanner-target mb-8 relative border-2 rounded-2xl border-white border-opacity-60 w-64 h-64 mx-auto bg-black/20 backdrop-blur-sm">
         {scanning && <div className="absolute top-0 left-0 w-full h-full rounded-2xl border-4 border-emerald-500 animate-pulse-ring opacity-70"></div>}
         <div className="absolute top-0 left-0 w-4 h-4 border-2 border-emerald-500 border-b-0 border-r-0 rounded-tl-lg"></div>
         <div className="absolute top-0 right-0 w-4 h-4 border-2 border-emerald-500 border-b-0 border-l-0 rounded-tr-lg"></div>
@@ -56,7 +56,7 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
       <button 
         onClick={handleScan} 
         disabled={scanning}
-        className="h-16 w-16 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] hover:bg-opacity-90 transition-all active:scale-95"
+        className="h-16 w-16 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.5)] hover:bg-opacity-90 transition-all active:scale-95 hover:scale-105"
       >
         <Camera size={28} />
       </button>
@@ -64,6 +64,12 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
       <p className="mt-4 text-center text-sm text-gray-300">
         {scanning ? 'Scanning...' : 'Tap to scan product code'}
       </p>
+      
+      {/* Added trust elements */}
+      <div className="mt-6 flex items-center justify-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+        <ShieldCheck size={16} className="text-emerald-400 mr-2" />
+        <span className="text-xs text-white">Secure Verification Technology</span>
+      </div>
     </div>
   );
 };

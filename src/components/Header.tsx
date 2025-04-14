@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, History, Bell, Settings, User } from 'lucide-react';
+import { ArrowLeft, Clock as HistoryIcon, Bell, Settings, User, Shield } from 'lucide-react';
 
 interface HeaderProps {
   title?: string;
@@ -17,27 +17,30 @@ const Header: React.FC<HeaderProps> = ({
   const location = useLocation();
   
   return (
-    <header className="flex items-center justify-between p-4 h-16 border-b border-emerald-700 bg-gradient-to-r from-indigo-800 to-emerald-800">
+    <header className="flex items-center justify-between p-4 h-16 border-b border-emerald-700 bg-gradient-to-r from-indigo-800 to-emerald-800 shadow-md">
       <div className="flex items-center gap-2">
         {showBack && (
           <Link to="/" className="nav-button">
             <ArrowLeft size={24} className="text-white" />
           </Link>
         )}
-        <h1 className="text-xl font-semibold bg-gradient-to-r from-teal-200 to-emerald-200 bg-clip-text text-transparent">{title}</h1>
+        <div className="flex items-center">
+          <Shield size={20} className="text-emerald-300 mr-2" />
+          <h1 className="text-xl font-semibold bg-gradient-to-r from-teal-200 to-emerald-200 bg-clip-text text-transparent">{title}</h1>
+        </div>
       </div>
       
       <div className="flex gap-3">
         {showHistory && location.pathname !== '/history' && (
-          <Link to="/history" className="nav-button">
-            <History size={24} className="text-white" />
+          <Link to="/history" className="nav-button relative">
+            <HistoryIcon size={24} className="text-white" />
           </Link>
         )}
         
         {/* Notification icon with indicator */}
         <Link to="/notifications" className="nav-button relative">
           <Bell size={24} className="text-white" />
-          <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-emerald-400"></span>
+          <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
         </Link>
         
         {/* Settings and profile icons, visible on pages other than home */}
