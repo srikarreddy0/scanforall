@@ -9,6 +9,7 @@ import ProductDetails from "./pages/ProductDetails";
 import History from "./pages/History";
 import Report from "./pages/Report";
 import NotFound from "./pages/NotFound";
+import Notifications from "./pages/Notifications";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/product/:productId" element={<ProductDetails />} />
           <Route path="/history" element={<History />} />
           <Route path="/report/:productId" element={<Report />} />
+          <Route path="/notifications" element={<Notifications />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
