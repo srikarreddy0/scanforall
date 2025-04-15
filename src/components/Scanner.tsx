@@ -91,7 +91,7 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
           
           {scanComplete && (
             <motion.div 
-              className="absolute inset-0 flex items-center justify-center z-20 bg-success-DEFAULT/20 backdrop-blur-sm"
+              className="absolute inset-0 flex items-center justify-center z-20 bg-success-50 backdrop-blur-sm"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.1 }}
@@ -141,14 +141,14 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
         )}
       </button>
       
-      <p className="mt-4 text-center text-sm font-medium text-dark-200">
+      <p className="mt-4 text-center text-sm font-medium text-light-100">
         {scanning ? 'Scanning...' : scanComplete ? 'Scan successful' : 'Tap to scan product code'}
       </p>
       
       {/* Trust badge with premium accent */}
       <div className="mt-6 flex items-center justify-center px-4 py-2 rounded-full premium-glass">
         <ShieldCheck size={16} className="text-premium-500 mr-2" />
-        <span className="text-xs font-medium text-dark-300">Secure Verification Technology</span>
+        <span className="text-xs font-medium text-light-100">Secure Verification Technology</span>
       </div>
     </div>
   );

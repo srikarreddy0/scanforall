@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -230,6 +231,14 @@
 .scan-pulse {
   @apply absolute top-0 left-0 w-full h-full rounded-2xl border-4 border-premium-500 
          animate-pulse-glow opacity-70;
+}
+
+/* Add grid pattern for scanner */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
 .verified-badge {
