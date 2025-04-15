@@ -1,0 +1,90 @@
+
+@layer components {
+  /* Premium Layout Components */
+  .app-container {
+    @apply w-full max-w-md mx-auto min-h-screen flex flex-col relative overflow-hidden;
+  }
+  
+  .premium-header {
+    @apply sticky top-0 z-50 backdrop-blur-lg bg-dark-200/80 border-b border-dark-100/50 shadow-premium-sm;
+  }
+  
+  .premium-card {
+    @apply bg-dark-200 rounded-xl border border-dark-100/50 shadow-premium-md hover:shadow-premium-lg transition-shadow duration-200;
+  }
+  
+  .premium-card-dark {
+    @apply bg-dark-200 rounded-xl border border-dark-100/50 shadow-glass-dark backdrop-blur-md;
+  }
+  
+  .premium-glass {
+    @apply bg-dark-200/80 backdrop-blur-md border border-dark-100/50 shadow-glass;
+  }
+  
+  .premium-glass-dark {
+    @apply bg-dark-200/80 backdrop-blur-md border border-dark-100/50 shadow-glass-dark;
+  }
+  
+  /* Premium Interactive Components */
+  .premium-button {
+    @apply bg-premium-500 text-white rounded-lg px-4 py-2 font-medium shadow-premium-sm
+           hover:bg-premium-600 active:bg-premium-700 transition-all duration-200;
+  }
+  
+  .premium-button-outline {
+    @apply bg-transparent border border-premium-500 text-premium-500 rounded-lg px-4 py-2 font-medium
+           hover:bg-premium-900 active:bg-premium-800 transition-all duration-200;
+  }
+  
+  .premium-button-subtle {
+    @apply bg-dark-100 text-light-300 rounded-lg px-4 py-2 font-medium
+           hover:bg-dark-200 active:bg-dark-300 transition-all duration-200;
+  }
+  
+  .premium-icon-button {
+    @apply w-10 h-10 flex items-center justify-center rounded-full bg-dark-200 
+           border border-dark-100/50 shadow-premium-sm text-light-400
+           hover:bg-dark-100 hover:text-premium-500 active:bg-dark-300 
+           transition-all duration-200;
+  }
+  
+  .premium-action-icon {
+    @apply w-8 h-8 flex items-center justify-center rounded-full
+           hover:bg-dark-100/50 active:bg-dark-200/50 transition-all duration-200;
+  }
+  
+  /* Premium Text Effects */
+  .text-gradient {
+    @apply bg-gradient-premium bg-clip-text text-transparent;
+  }
+  
+  .text-shine {
+    @apply bg-gradient-premium bg-clip-text text-transparent bg-[size:200%] animate-shine;
+  }
+}
+
+/* Animation for ripple effect */
+.ripple-container {
+  @apply relative overflow-hidden;
+}
+
+.ripple {
+  @apply absolute bg-white/30 rounded-full pointer-events-none animate-ripple;
+}
+
+/* Custom text width constraints */
+.text-container-sm {
+  @apply max-w-sm;
+}
+
+.text-container-md {
+  @apply max-w-md;
+}
+
+.text-container-lg {
+  @apply max-w-lg;
+}
+
+.nav-button {
+  @apply premium-action-icon;
+}

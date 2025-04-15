@@ -1,0 +1,17 @@
+
+/* Badge styles */
+.verified-badge {
+  @apply flex items-center px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.verified-badge-authentic {
+  @apply bg-success-50 text-success-DEFAULT;
+}
+
+.verified-badge-warning {
+  @apply bg-warning-50 text-warning-DEFAULT;
+}
+
+.verified-badge-fake {
+  @apply bg-error-50 text-error-DEFAULT;
+}

@@ -1,0 +1,88 @@
+
+@layer components {
+  /* Premium Scanner Components */
+  .premium-scanner-container {
+    @apply relative w-72 h-72 mx-auto rounded-3xl overflow-hidden shadow-premium-xl;
+  }
+  
+  .premium-scanner-frame {
+    @apply absolute inset-0 z-10 border-2 border-premium-500/30 rounded-3xl;
+  }
+  
+  .premium-scanner-corner {
+    @apply absolute w-6 h-6 border-2 z-20;
+  }
+  
+  .premium-scanner-corner-tl {
+    @apply top-0 left-0 border-t-premium-500 border-l-premium-500 border-r-0 border-b-0 rounded-tl-xl;
+  }
+  
+  .premium-scanner-corner-tr {
+    @apply top-0 right-0 border-t-premium-500 border-r-premium-500 border-l-0 border-b-0 rounded-tr-xl;
+  }
+  
+  .premium-scanner-corner-bl {
+    @apply bottom-0 left-0 border-b-premium-500 border-l-premium-500 border-r-0 border-t-0 rounded-bl-xl;
+  }
+  
+  .premium-scanner-corner-br {
+    @apply bottom-0 right-0 border-b-premium-500 border-r-premium-500 border-l-0 border-t-0 rounded-br-xl;
+  }
+  
+  .premium-scan-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-dark-400/60 via-transparent to-dark-400/10 z-10;
+  }
+  
+  .premium-scan-button {
+    @apply w-16 h-16 rounded-full bg-premium-500 text-white flex items-center justify-center 
+           shadow-premium-lg hover:bg-premium-600 active:bg-premium-700 
+           active:scale-95 transition-all duration-200;
+  }
+  
+  .premium-scan-line {
+    @apply absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-premium-400/0 via-premium-500 to-premium-400/0 z-20 
+           animate-scan-line;
+  }
+}
+
+/* Scanner-specific classes */
+.scan-button {
+  @apply premium-scan-button;
+}
+
+.scanner-target {
+  @apply premium-scanner-container;
+}
+
+.scanner-corner {
+  @apply premium-scanner-corner;
+}
+
+.scanner-corner-tl {
+  @apply premium-scanner-corner-tl;
+}
+
+.scanner-corner-tr {
+  @apply premium-scanner-corner-tr;
+}
+
+.scanner-corner-bl {
+  @apply premium-scanner-corner-bl;
+}
+
+.scanner-corner-br {
+  @apply premium-scanner-corner-br;
+}
+
+.scan-pulse {
+  @apply absolute top-0 left-0 w-full h-full rounded-2xl border-4 border-premium-500 
+         animate-pulse-glow opacity-70;
+}
+
+/* Add grid pattern for scanner */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
