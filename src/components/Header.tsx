@@ -1,7 +1,8 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, Clock as HistoryIcon, Bell, Settings, User, Shield } from 'lucide-react';
+import { ArrowLeft, Clock as HistoryIcon, Bell, Settings, User, Shield, ChevronDown } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface HeaderProps {
   title?: string;
@@ -15,6 +16,7 @@ const Header: React.FC<HeaderProps> = ({
   showHistory = false
 }) => {
   const location = useLocation();
+  const [showSettings, setShowSettings] = useState(false);
   
   return (
     <header className="flex items-center justify-between p-4 h-16 bg-white border-b border-blue-100">
@@ -46,17 +48,134 @@ const Header: React.FC<HeaderProps> = ({
         {/* Settings and profile icons */}
         {location.pathname !== '/' && (
           <>
-            <Link to="/settings" className="p-2 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200">
-              <Settings size={20} className={`${location.pathname === '/settings' ? 'text-blue-500' : 'text-gray-600'}`} />
-            </Link>
+            <div className="relative">
+              <button 
+                onClick={() => setShowSettings(!showSettings)}
+                className="p-2 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200"
+              >
+                <Settings size={20} className={`${location.pathname === '/settings' ? 'text-blue-500' : 'text-gray-600'}`} />
+              </button>
+            </div>
             
             <Link to="/profile" className="p-2 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200">
               <User size={20} className={`${location.pathname === '/profile' ? 'text-blue-500' : 'text-gray-600'}`} />
             </Link>
           </>
         )}
+        
+        {/* Settings Menu Button on Home */}
+        {location.pathname === '/' && (
+          <div className="relative">
+            <button 
+              onClick={() => setShowSettings(!showSettings)}
+              className="p-2 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200"
+            >
+              <Settings size={20} className="text-gray-600" />
+            </button>
+            
+            {/* Settings Dropdown */}
+            {showSettings && (
+              <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-neu-flat z-50">
+                <div className="p-4 max-h-[80vh] overflow-y-auto">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-3 border-b border-blue-100 pb-2">Settings</h3>
+                  
+                  {/* Technical Architecture */}
+                  <SettingsCategory 
+                    title="Technical Architecture" 
+                    items={[
+                      { title: "User Scans QR", subitems: ["Voice Output for Blind Users", "AR/Text for General Users"] },
+                      { title: "QR Code Verification", subitems: ["Blockchain Ledger Check", "Fake QR Code Alerts"] },
+                      { title: "Cloud Backend & Data", subitems: ["Brand Portal", "AWS/Azure Storage", "APIs for Auto Updates"] },
+                      { title: "Privacy & Security", subitems: ["Edge Computing (On-Device Processing)", "AES-256 Encryption", "User-Controlled Privacy"] }
+                    ]} 
+                  />
+                  
+                  {/* QR Code Security */}
+                  <SettingsCategory 
+                    title="QR Code Security" 
+                    items={[
+                      { title: "Blockchain Authentication", subitems: ["Tamper-Proof QR Codes", "Immutable Scan Records"] },
+                      { title: "Scan Verification Alerts", subitems: ["User Warning for Fake QR", "Report Counterfeit Products"] },
+                      { title: "Holographic Security", subitems: ["Dynamic QR Patterns", "Prevent Unauthorized Duplication"] },
+                      { title: "AI-Based Verification", subitems: ["Detect Packaging Inconsistencies", "Cross-Check Logo & Shape"] }
+                    ]} 
+                  />
+                  
+                  {/* Business Strategy */}
+                  <SettingsCategory 
+                    title="Business Strategy" 
+                    items={[
+                      { title: "Regulatory Compliance", subitems: ["FSSAI & CDSCO Partnerships", "Certified Accessibility Badge"] },
+                      { title: "Cost Efficiency", subitems: ["Cheaper than Braille Labels", "Govt Subsidies for Accessibility"] },
+                      { title: "Consumer Engagement", subitems: ["Loyalty Points for Scans", "QR-Based Discounts"] }
+                    ]} 
+                  />
+                </div>
+                <button 
+                  className="w-full p-2 text-center text-blue-500 hover:bg-blue-50 rounded-b-lg border-t border-blue-100"
+                  onClick={() => setShowSettings(false)}
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </header>
+  );
+};
+
+// Settings Category Component
+const SettingsCategory = ({ title, items }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <div className="mb-3">
+      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
+        <CollapsibleTrigger className="flex items-center justify-between w-full p-2 rounded-md bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200">
+          <span className="font-medium text-gray-700">{title}</span>
+          <ChevronDown 
+            size={16} 
+            className={`text-gray-600 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} 
+          />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pl-2 mt-2 space-y-2">
+          {items.map((item, index) => (
+            <SettingsSubCategory key={index} title={item.title} items={item.subitems} />
+          ))}
+        </CollapsibleContent>
+      </Collapsible>
+    </div>
+  );
+};
+
+// Settings Sub-Category Component
+const SettingsSubCategory = ({ title, items }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <div className="pl-2">
+      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
+        <CollapsibleTrigger className="flex items-center justify-between w-full p-2 text-sm rounded-md bg-white hover:bg-blue-50 transition-all duration-200">
+          <span className="font-medium text-gray-700">{title}</span>
+          <ChevronDown 
+            size={14} 
+            className={`text-gray-600 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} 
+          />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pl-4 mt-1 space-y-1">
+          {items.map((item, index) => (
+            <div 
+              key={index} 
+              className="p-2 text-xs text-gray-600 hover:bg-blue-50 rounded-md cursor-pointer transition-colors"
+            >
+              {item}
+            </div>
+          ))}
+        </CollapsibleContent>
+      </Collapsible>
+    </div>
   );
 };
 

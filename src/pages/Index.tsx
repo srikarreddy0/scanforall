@@ -2,13 +2,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Settings, 
   User, 
   Search, 
   Shield, 
   Clock as HistoryIcon, 
   Bell,
-  BarChart2
+  Camera
 } from 'lucide-react';
 import Header from '../components/Header';
 import Scanner from '../components/Scanner';
@@ -104,15 +103,7 @@ const Index: React.FC = () => {
           </div>
         </div>
         
-        {/* Settings button with neumorphic style */}
-        <div className="fixed bottom-6 right-6">
-          <Button 
-            className="h-14 w-14 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200 flex items-center justify-center"
-            onClick={() => navigate('/settings')}
-          >
-            <Settings size={24} className="text-blue-500" />
-          </Button>
-        </div>
+        {/* We've removed the fixed settings button as it's now in the header */}
       </div>
     </div>
   );

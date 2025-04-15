@@ -25,6 +25,8 @@ const App = () => (
           <Route path="/history" element={<History />} />
           <Route path="/report/:productId" element={<Report />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/settings" element={<NotFound />} /> {/* Temporary fallback */}
+          <Route path="/profile" element={<NotFound />} /> {/* Temporary fallback */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
