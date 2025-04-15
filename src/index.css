@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -238,15 +237,15 @@
 }
 
 .verified-badge-authentic {
-  @apply bg-success-DEFAULT/10 text-success-DEFAULT;
+  @apply bg-success-50 text-success-DEFAULT;
 }
 
 .verified-badge-warning {
-  @apply bg-warning-DEFAULT/10 text-warning-DEFAULT;
+  @apply bg-warning-50 text-warning-DEFAULT;
 }
 
 .verified-badge-fake {
-  @apply bg-error-DEFAULT/10 text-error-DEFAULT;
+  @apply bg-error-50 text-error-DEFAULT;
 }
 
 .nav-button {

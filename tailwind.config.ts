@@ -105,18 +105,19 @@ export default {
 				},
 				success: {
 					DEFAULT: '#32D583',
-					dark: '#0B9E5A',
-					light: '#ABEFC6',
+					50: 'rgba(50, 213, 131, 0.1)',
+					100: 'rgba(50, 213, 131, 0.2)',
+					// Add more opacity variations as needed
 				},
 				warning: {
 					DEFAULT: '#FFA800',
-					dark: '#CC7A00',
-					light: '#FFD699',
+					50: 'rgba(255, 168, 0, 0.1)',
+					100: 'rgba(255, 168, 0, 0.2)',
 				},
 				error: {
 					DEFAULT: '#F04438',
-					dark: '#B3261E',
-					light: '#FDA29B',
+					50: 'rgba(240, 68, 56, 0.1)',
+					100: 'rgba(240, 68, 56, 0.2)',
 				},
 			},
 			fontFamily: {
