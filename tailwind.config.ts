@@ -63,38 +63,98 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				trustBlue: '#3B82F6',
-				verifyGreen: '#10B981',
-				cautionAmber: '#F59E0B',
-				alertRed: '#EF4444',
-				neutralGray: '#F9FAFB',
-				darkText: '#1F2937',
 				
-				// Updated for white and blue theme
-				neu: {
-					background: '#F0F7FF',
-					dark: '#E0EEFB',
-					light: '#FFFFFF',
-					shadow: '#D8E6F6',
-					highlight: '#FFFFFF',
-					text: '#2D3748',
-					'text-muted': '#718096',
-					accent: '#3B82F6',
-					'accent-dark': '#2563EB',
-					'accent-light': '#60A5FA',
+				// Premium UI color scheme
+				premium: {
+					50: '#F4F7FF',
+					100: '#E6EDFF',
+					200: '#C9D9FF',
+					300: '#A0BCFF',
+					400: '#789BFF',
+					500: '#4F74FF',
+					600: '#2F4EE4',
+					700: '#1E37B8',
+					800: '#15278A',
+					900: '#0E1D6E',
+					950: '#091252',
+				},
+				dark: {
+					100: '#1E1E2C',
+					200: '#171723',
+					300: '#13131E',
+					400: '#0E0E18',
+					500: '#0A0A12',
+					900: '#06060A',
+				},
+				light: {
+					100: '#FFFFFF',
+					200: '#F9FAFC',
+					300: '#F4F5F9',
+					400: '#EAECF2',
+					500: '#DFE2EC',
+					600: '#C5CAD9',
+				},
+				accent1: {
+					DEFAULT: '#F95738',
+					dark: '#D03A1F',
+					light: '#FFA799',
+				},
+				accent2: {
+					DEFAULT: '#37DBFF',
+					dark: '#00A3C4',
+					light: '#B9F1FF',
+				},
+				success: {
+					DEFAULT: '#32D583',
+					dark: '#0B9E5A',
+					light: '#ABEFC6',
+				},
+				warning: {
+					DEFAULT: '#FFA800',
+					dark: '#CC7A00',
+					light: '#FFD699',
+				},
+				error: {
+					DEFAULT: '#F04438',
+					dark: '#B3261E',
+					light: '#FDA29B',
 				},
 			},
-			boxShadow: {
-				// Updated shadows for white/blue neumorphism
-				'neu-flat': '5px 5px 10px #D8E6F6, -5px -5px 10px #FFFFFF',
-				'neu-pressed': 'inset 5px 5px 10px #D8E6F6, inset -5px -5px 10px #FFFFFF',
-				'neu-convex': '5px 5px 10px #D8E6F6, -5px -5px 10px #FFFFFF, inset 1px 1px 1px #FFFFFF, inset -1px -1px 1px #D8E6F6',
-				'neu-concave': 'inset 5px 5px 10px #D8E6F6, inset -5px -5px 10px #FFFFFF, 1px 1px 1px #FFFFFF, -1px -1px 1px #D8E6F6',
+			fontFamily: {
+				sans: ['Inter var', 'Inter', 'sans-serif'],
+				mono: ['JetBrains Mono', 'monospace'],
+				display: ['Satoshi', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+			},
+			boxShadow: {
+				'premium-xs': '0px 1px 2px rgba(16, 24, 40, 0.05)',
+				'premium-sm': '0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)',
+				'premium-md': '0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06)',
+				'premium-lg': '0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)',
+				'premium-xl': '0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)',
+				'premium-2xl': '0px 24px 48px -12px rgba(16, 24, 40, 0.18)',
+				'premium-3xl': '0px 32px 64px -12px rgba(16, 24, 40, 0.14)',
+				'premium-inner': 'inset 0 2px 4px 0 rgba(16, 24, 40, 0.06)',
+				'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+				'glass-dark': '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
+				'glow-premium': '0 0 20px rgba(79, 116, 255, 0.5)',
+				'glow-success': '0 0 20px rgba(50, 213, 131, 0.5)',
+				'glow-warning': '0 0 20px rgba(255, 168, 0, 0.5)',
+				'glow-error': '0 0 20px rgba(240, 68, 56, 0.5)',
+			},
+			backgroundImage: {
+				'gradient-premium': 'linear-gradient(135deg, #4F74FF 0%, #2F4EE4 100%)',
+				'gradient-dark': 'linear-gradient(135deg, #171723 0%, #0E0E18 100%)',
+				'gradient-light': 'linear-gradient(135deg, #FFFFFF 0%, #F4F5F9 100%)',
+				'gradient-success': 'linear-gradient(135deg, #32D583 0%, #0B9E5A 100%)',
+				'gradient-warning': 'linear-gradient(135deg, #FFA800 0%, #CC7A00 100%)',
+				'gradient-error': 'linear-gradient(135deg, #F04438 0%, #B3261E 100%)',
+				'glass': 'linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%)',
+				'glass-dark': 'linear-gradient(135deg, rgba(30, 30, 44, 0.8) 0%, rgba(30, 30, 44, 0.6) 100%)',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -113,43 +173,85 @@ export default {
 						height: '0'
 					}
 				},
-				'pulse-ring': {
-					'0%': {
-						transform: 'scale(0.8)',
-						opacity: '0.8'
+				'pulse-glow': {
+					'0%, 100%': {
+						boxShadow: '0 0 20px rgba(79, 116, 255, 0.2)',
 					},
-					'100%': {
-						transform: 'scale(1.5)',
-						opacity: '0'
-					}
+					'50%': {
+						boxShadow: '0 0 20px rgba(79, 116, 255, 0.6)',
+					},
 				},
-				'fade-in': {
-					'0%': {
-						opacity: '0'
+				'float': {
+					'0%, a100%': {
+						transform: 'translateY(0px)',
 					},
+					'50%': {
+						transform: 'translateY(-10px)',
+					},
+				},
+				'shine': {
+					from: {
+						backgroundPosition: '200% 0',
+					},
+					to: {
+						backgroundPosition: '-200% 0',
+					},
+				},
+				'shimmer': {
 					'100%': {
-						opacity: '1'
-					}
+						transform: 'translateX(100%)',
+					},
 				},
 				'scan-line': {
 					'0%': {
-						top: '0%'
+						top: '0%',
+						opacity: '0.2',
 					},
 					'50%': {
-						top: '100%'
+						top: '100%',
+						opacity: '1',
 					},
 					'100%': {
-						top: '0%'
-					}
-				}
+						top: '0%',
+						opacity: '0.2',
+					},
+				},
+				'fade-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(10px)',
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)',
+					},
+				},
+				'ripple': {
+					'0%': {
+						transform: 'scale(0)',
+						opacity: '1',
+					},
+					'100%': {
+						transform: 'scale(2.5)',
+						opacity: '0',
+					},
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'pulse-ring': 'pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite',
+				'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'float': 'float 3s ease-in-out infinite',
+				'shine': 'shine 8s ease-in-out infinite',
+				'shimmer': 'shimmer 1.5s infinite',
+				'scan-line': 'scan-line.2s linear infinite',
 				'fade-in': 'fade-in 0.5s ease-out',
-				'scan-line': 'scan-line 2s linear infinite'
-			}
+				'ripple': 'ripple 1s cubic-bezier(0, 0, 0.2, 1)',
+			},
+			backdropFilter: {
+				'none': 'none',
+				'blur': 'blur(20px)',
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

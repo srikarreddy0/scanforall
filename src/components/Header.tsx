@@ -1,8 +1,31 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowLeft, Clock as HistoryIcon, Bell, Settings, User, Shield, ChevronDown } from 'lucide-react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { 
+  ArrowLeft, 
+  Clock as HistoryIcon, 
+  Bell, 
+  Settings, 
+  User, 
+  ShieldCheck,
+  X,
+  Menu
+} from 'lucide-react';
+import { 
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from "@/components/ui/sheet";
+import { 
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface HeaderProps {
   title?: string;
@@ -16,110 +39,100 @@ const Header: React.FC<HeaderProps> = ({
   showHistory = false
 }) => {
   const location = useLocation();
-  const [showSettings, setShowSettings] = useState(false);
   
   return (
-    <header className="flex items-center justify-between p-4 h-16 bg-white border-b border-blue-100">
+    <header className="premium-header flex items-center justify-between px-4 py-3 h-16">
       <div className="flex items-center gap-2">
-        {showBack && (
-          <Link to="/" className="p-2 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200">
-            <ArrowLeft size={20} className="text-blue-500" />
+        {showBack ? (
+          <Link to="/" className="premium-icon-button">
+            <ArrowLeft size={20} />
           </Link>
+        ) : (
+          <div className="flex items-center">
+            <ShieldCheck 
+              size={22} 
+              className="text-premium-500 mr-2" 
+              strokeWidth={2.5} 
+            />
+            <h1 className="text-xl font-display font-semibold text-dark-100">
+              {title}
+            </h1>
+          </div>
         )}
-        <div className="flex items-center">
-          <Shield size={20} className="text-blue-500 mr-2" />
-          <h1 className="text-xl font-semibold text-gray-800">{title}</h1>
-        </div>
       </div>
       
       <div className="flex gap-2">
         {showHistory && location.pathname !== '/history' && (
-          <Link to="/history" className="p-2 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200">
-            <HistoryIcon size={20} className="text-gray-600" />
+          <Link to="/history" className="premium-icon-button">
+            <HistoryIcon size={20} />
           </Link>
         )}
         
-        {/* Notification icon with indicator */}
-        <Link to="/notifications" className="p-2 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200 relative">
-          <Bell size={20} className={`${location.pathname === '/notifications' ? 'text-blue-500' : 'text-gray-600'}`} />
-          <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-blue-500"></span>
+        {/* Notification button with indicator */}
+        <Link to="/notifications" className="premium-icon-button relative">
+          <Bell size={20} className={location.pathname === '/notifications' ? 'text-premium-500' : ''} />
+          <span className="absolute top-1 right-1.5 h-2 w-2 rounded-full bg-premium-500 ring-2 ring-light-100"></span>
         </Link>
         
-        {/* Settings and profile icons */}
-        {location.pathname !== '/' && (
-          <>
-            <div className="relative">
-              <button 
-                onClick={() => setShowSettings(!showSettings)}
-                className="p-2 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200"
-              >
-                <Settings size={20} className={`${location.pathname === '/settings' ? 'text-blue-500' : 'text-gray-600'}`} />
-              </button>
-            </div>
-            
-            <Link to="/profile" className="p-2 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200">
-              <User size={20} className={`${location.pathname === '/profile' ? 'text-blue-500' : 'text-gray-600'}`} />
-            </Link>
-          </>
-        )}
-        
-        {/* Settings Menu Button on Home */}
-        {location.pathname === '/' && (
-          <div className="relative">
-            <button 
-              onClick={() => setShowSettings(!showSettings)}
-              className="p-2 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200"
-            >
-              <Settings size={20} className="text-gray-600" />
+        {/* Settings sheet */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="premium-icon-button">
+              <Settings size={20} className={location.pathname === '/settings' ? 'text-premium-500' : ''} />
             </button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[90vw] sm:max-w-md">
+            <SheetHeader className="mb-6">
+              <SheetTitle className="text-2xl font-display flex items-center">
+                <ShieldCheck size={24} className="text-premium-500 mr-2" />
+                <span>ScanForAll Settings</span>
+              </SheetTitle>
+              <SheetDescription>
+                Configure your authentication and scanning experience
+              </SheetDescription>
+            </SheetHeader>
             
-            {/* Settings Dropdown */}
-            {showSettings && (
-              <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-neu-flat z-50">
-                <div className="p-4 max-h-[80vh] overflow-y-auto">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-3 border-b border-blue-100 pb-2">Settings</h3>
-                  
-                  {/* Technical Architecture */}
-                  <SettingsCategory 
-                    title="Technical Architecture" 
-                    items={[
-                      { title: "User Scans QR", subitems: ["Voice Output for Blind Users", "AR/Text for General Users"] },
-                      { title: "QR Code Verification", subitems: ["Blockchain Ledger Check", "Fake QR Code Alerts"] },
-                      { title: "Cloud Backend & Data", subitems: ["Brand Portal", "AWS/Azure Storage", "APIs for Auto Updates"] },
-                      { title: "Privacy & Security", subitems: ["Edge Computing (On-Device Processing)", "AES-256 Encryption", "User-Controlled Privacy"] }
-                    ]} 
-                  />
-                  
-                  {/* QR Code Security */}
-                  <SettingsCategory 
-                    title="QR Code Security" 
-                    items={[
-                      { title: "Blockchain Authentication", subitems: ["Tamper-Proof QR Codes", "Immutable Scan Records"] },
-                      { title: "Scan Verification Alerts", subitems: ["User Warning for Fake QR", "Report Counterfeit Products"] },
-                      { title: "Holographic Security", subitems: ["Dynamic QR Patterns", "Prevent Unauthorized Duplication"] },
-                      { title: "AI-Based Verification", subitems: ["Detect Packaging Inconsistencies", "Cross-Check Logo & Shape"] }
-                    ]} 
-                  />
-                  
-                  {/* Business Strategy */}
-                  <SettingsCategory 
-                    title="Business Strategy" 
-                    items={[
-                      { title: "Regulatory Compliance", subitems: ["FSSAI & CDSCO Partnerships", "Certified Accessibility Badge"] },
-                      { title: "Cost Efficiency", subitems: ["Cheaper than Braille Labels", "Govt Subsidies for Accessibility"] },
-                      { title: "Consumer Engagement", subitems: ["Loyalty Points for Scans", "QR-Based Discounts"] }
-                    ]} 
-                  />
-                </div>
-                <button 
-                  className="w-full p-2 text-center text-blue-500 hover:bg-blue-50 rounded-b-lg border-t border-blue-100"
-                  onClick={() => setShowSettings(false)}
-                >
-                  Close
-                </button>
-              </div>
-            )}
-          </div>
+            <Accordion type="single" collapsible className="w-full">
+              {/* Technical Architecture */}
+              <SettingsCategory 
+                title="Technical Architecture" 
+                items={[
+                  { title: "User Scans QR", subitems: ["Voice Output for Blind Users", "AR/Text for General Users"] },
+                  { title: "QR Code Verification", subitems: ["Blockchain Ledger Check", "Fake QR Code Alerts"] },
+                  { title: "Cloud Backend & Data", subitems: ["Brand Portal", "AWS/Azure Storage", "APIs for Auto Updates"] },
+                  { title: "Privacy & Security", subitems: ["Edge Computing (On-Device Processing)", "AES-256 Encryption", "User-Controlled Privacy"] }
+                ]} 
+              />
+              
+              {/* QR Code Security */}
+              <SettingsCategory 
+                title="QR Code Security" 
+                items={[
+                  { title: "Blockchain Authentication", subitems: ["Tamper-Proof QR Codes", "Immutable Scan Records"] },
+                  { title: "Scan Verification Alerts", subitems: ["User Warning for Fake QR", "Report Counterfeit Products"] },
+                  { title: "Holographic Security", subitems: ["Dynamic QR Patterns", "Prevent Unauthorized Duplication"] },
+                  { title: "AI-Based Verification", subitems: ["Detect Packaging Inconsistencies", "Cross-Check Logo & Shape"] }
+                ]} 
+              />
+              
+              {/* Business Strategy */}
+              <SettingsCategory 
+                title="Business Strategy" 
+                items={[
+                  { title: "Regulatory Compliance", subitems: ["FSSAI & CDSCO Partnerships", "Certified Accessibility Badge"] },
+                  { title: "Cost Efficiency", subitems: ["Cheaper than Braille Labels", "Govt Subsidies for Accessibility"] },
+                  { title: "Consumer Engagement", subitems: ["Loyalty Points for Scans", "QR-Based Discounts"] }
+                ]} 
+              />
+            </Accordion>
+          </SheetContent>
+        </Sheet>
+        
+        {/* User profile - Only show on non-profile pages */}
+        {location.pathname !== '/profile' && (
+          <Link to="/profile" className="premium-icon-button">
+            <User size={20} className={location.pathname === '/profile' ? 'text-premium-500' : ''} />
+          </Link>
         )}
       </div>
     </header>
@@ -128,54 +141,42 @@ const Header: React.FC<HeaderProps> = ({
 
 // Settings Category Component
 const SettingsCategory = ({ title, items }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  
   return (
-    <div className="mb-3">
-      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
-        <CollapsibleTrigger className="flex items-center justify-between w-full p-2 rounded-md bg-white shadow-neu-flat hover:shadow-neu-pressed transition-all duration-200">
-          <span className="font-medium text-gray-700">{title}</span>
-          <ChevronDown 
-            size={16} 
-            className={`text-gray-600 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} 
-          />
-        </CollapsibleTrigger>
-        <CollapsibleContent className="pl-2 mt-2 space-y-2">
-          {items.map((item, index) => (
-            <SettingsSubCategory key={index} title={item.title} items={item.subitems} />
-          ))}
-        </CollapsibleContent>
-      </Collapsible>
-    </div>
+    <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')}>
+      <AccordionTrigger className="text-lg font-medium py-3">
+        {title}
+      </AccordionTrigger>
+      <AccordionContent className="pl-1">
+        {items.map((item, index) => (
+          <SettingsSubCategory key={index} title={item.title} items={item.subitems} />
+        ))}
+      </AccordionContent>
+    </AccordionItem>
   );
 };
 
 // Settings Sub-Category Component
 const SettingsSubCategory = ({ title, items }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  
   return (
-    <div className="pl-2">
-      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
-        <CollapsibleTrigger className="flex items-center justify-between w-full p-2 text-sm rounded-md bg-white hover:bg-blue-50 transition-all duration-200">
-          <span className="font-medium text-gray-700">{title}</span>
-          <ChevronDown 
-            size={14} 
-            className={`text-gray-600 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} 
-          />
-        </CollapsibleTrigger>
-        <CollapsibleContent className="pl-4 mt-1 space-y-1">
-          {items.map((item, index) => (
-            <div 
-              key={index} 
-              className="p-2 text-xs text-gray-600 hover:bg-blue-50 rounded-md cursor-pointer transition-colors"
-            >
-              {item}
-            </div>
-          ))}
-        </CollapsibleContent>
-      </Collapsible>
-    </div>
+    <Accordion type="single" collapsible className="w-full border-l border-light-500 pl-3 py-1 mb-2">
+      <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')} className="border-none">
+        <AccordionTrigger className="text-md py-2">
+          {title}
+        </AccordionTrigger>
+        <AccordionContent>
+          <div className="space-y-2 pl-2">
+            {items.map((item, index) => (
+              <div 
+                key={index} 
+                className="flex items-center text-sm py-2 px-3 rounded-lg text-dark-200 hover:bg-light-300 transition-colors"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 };
 

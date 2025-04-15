@@ -1,7 +1,8 @@
 
-import React, { useState } from 'react';
-import { Camera, ScanBarcode, Shield } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Camera, ScanBarcode, ShieldCheck, Loader2, Check } from 'lucide-react';
 import { toast } from 'sonner';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface ScannerProps {
   onScan: (productId: string) => void;
@@ -9,70 +10,145 @@ interface ScannerProps {
 
 const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
   const [scanning, setScanning] = useState(false);
+  const [scanComplete, setScanComplete] = useState(false);
+  
+  // Reset the scanner after completion
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (scanComplete) {
+      timeout = setTimeout(() => {
+        setScanComplete(false);
+      }, 1500);
+    }
+    return () => clearTimeout(timeout);
+  }, [scanComplete]);
   
   // Mock scanner for demo purposes
   const handleScan = () => {
+    if (scanning || scanComplete) return;
+    
     setScanning(true);
     
     // Show scanning animation for a moment
     setTimeout(() => {
       setScanning(false);
+      setScanComplete(true);
       
       // Simulate successful scan of a random product from our mock database
       const productIds = ['PROD123456', 'PROD654321', 'PROD987654', 'PROD246810'];
       const randomId = productIds[Math.floor(Math.random() * productIds.length)];
       
       // Notify user of successful scan
-      toast.success('Product code scanned successfully');
+      toast.success('Product code scanned successfully', {
+        description: 'Redirecting to details page...',
+        icon: <Check className="text-success-DEFAULT" />,
+      });
       
-      // Pass the scanned ID to parent component
-      onScan(randomId);
+      // Wait a brief moment before navigating
+      setTimeout(() => {
+        // Pass the scanned ID to parent component
+        onScan(randomId);
+      }, 800);
     }, 1500);
   };
   
   return (
     <div className="flex flex-col items-center">
-      {/* Scanner target with white/blue neumorphic style */}
-      <div className="w-64 h-64 mx-auto rounded-2xl bg-white shadow-neu-flat relative mb-8">
-        {scanning && (
-          <div className="absolute top-0 left-0 w-full h-full rounded-2xl border-4 border-blue-400 animate-pulse-ring opacity-70"></div>
-        )}
+      {/* Scanner target with premium glass effect */}
+      <div className="premium-scanner-container bg-gradient-dark mb-8">
+        {/* Scanner frame corners */}
+        <div className="premium-scanner-corner premium-scanner-corner-tl"></div>
+        <div className="premium-scanner-corner premium-scanner-corner-tr"></div>
+        <div className="premium-scanner-corner premium-scanner-corner-bl"></div>
+        <div className="premium-scanner-corner premium-scanner-corner-br"></div>
         
-        {/* Neumorphic corners */}
-        <div className="absolute top-0 left-0 w-4 h-4 border-2 border-blue-400 border-b-0 border-r-0 rounded-tl-lg"></div>
-        <div className="absolute top-0 right-0 w-4 h-4 border-2 border-blue-400 border-b-0 border-l-0 rounded-tr-lg"></div>
-        <div className="absolute bottom-0 left-0 w-4 h-4 border-2 border-blue-400 border-t-0 border-r-0 rounded-bl-lg"></div>
-        <div className="absolute bottom-0 right-0 w-4 h-4 border-2 border-blue-400 border-t-0 border-l-0 rounded-br-lg"></div>
+        {/* Scanner overlay gradient */}
+        <div className="premium-scan-overlay"></div>
         
-        {/* Scan line animation */}
-        {scanning && (
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="h-1 w-full bg-blue-400 absolute animate-scan-line opacity-80"></div>
-          </div>
-        )}
-        
-        <div className="absolute inset-0 flex items-center justify-center">
-          <ScanBarcode size={60} className="text-gray-400" />
-        </div>
+        {/* Dynamic scan states */}
+        <AnimatePresence mode="wait">
+          {scanning && (
+            <>
+              {/* Scan line animation */}
+              <div className="premium-scan-line"></div>
+              
+              {/* Scanning grid overlay */}
+              <div className="absolute inset-0 z-10 bg-grid-pattern opacity-30"></div>
+              
+              {/* Focused scan area */}
+              <motion.div 
+                className="absolute inset-0 flex items-center justify-center z-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <div className="w-56 h-56 border-2 border-premium-400/80 rounded-lg flex items-center justify-center">
+                  <Loader2 size={32} className="text-white animate-spin" />
+                </div>
+              </motion.div>
+            </>
+          )}
+          
+          {scanComplete && (
+            <motion.div 
+              className="absolute inset-0 flex items-center justify-center z-20 bg-success-DEFAULT/20 backdrop-blur-sm"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.1 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 15
+                }}
+              >
+                <div className="w-20 h-20 rounded-full bg-success-DEFAULT flex items-center justify-center shadow-glow-success">
+                  <Check size={36} className="text-white" strokeWidth={3} />
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+          
+          {!scanning && !scanComplete && (
+            <motion.div 
+              className="absolute inset-0 flex items-center justify-center z-20"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ScanBarcode size={80} className="text-white/30" />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       
-      {/* Neumorphic scan button with blue accent */}
+      {/* Premium scan button with ripple effect */}
       <button 
         onClick={handleScan} 
-        disabled={scanning}
-        className="h-16 w-16 rounded-full bg-white shadow-neu-flat hover:shadow-neu-pressed active:shadow-neu-pressed transition-all duration-200 flex items-center justify-center"
+        disabled={scanning || scanComplete}
+        className="ripple-container premium-scan-button"
       >
-        <Camera size={24} className="text-blue-500" />
+        {scanning ? (
+          <Loader2 size={28} className="animate-spin" />
+        ) : scanComplete ? (
+          <Check size={28} strokeWidth={3} />
+        ) : (
+          <Camera size={28} />
+        )}
       </button>
       
-      <p className="mt-4 text-center text-sm text-gray-600">
-        {scanning ? 'Scanning...' : 'Tap to scan product code'}
+      <p className="mt-4 text-center text-sm font-medium text-dark-200">
+        {scanning ? 'Scanning...' : scanComplete ? 'Scan successful' : 'Tap to scan product code'}
       </p>
       
-      {/* Trust element with blue accent */}
-      <div className="mt-6 flex items-center justify-center px-4 py-2 rounded-full bg-white shadow-neu-flat">
-        <Shield size={16} className="text-blue-500 mr-2" />
-        <span className="text-xs text-gray-600 font-medium">Secure Verification Technology</span>
+      {/* Trust badge with premium accent */}
+      <div className="mt-6 flex items-center justify-center px-4 py-2 rounded-full premium-glass">
+        <ShieldCheck size={16} className="text-premium-500 mr-2" />
+        <span className="text-xs font-medium text-dark-300">Secure Verification Technology</span>
       </div>
     </div>
   );
