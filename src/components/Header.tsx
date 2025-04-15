@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   ArrowLeft, 
@@ -8,8 +8,10 @@ import {
   Settings, 
   User, 
   ShieldCheck,
-  X,
-  Menu
+  Sparkles,
+  Palette,
+  HelpCircle,
+  Users
 } from 'lucide-react';
 import { 
   Sheet,
@@ -74,28 +76,29 @@ const Header: React.FC<HeaderProps> = ({
           <span className="absolute top-1 right-1.5 h-2 w-2 rounded-full bg-premium-500 ring-2 ring-light-100"></span>
         </Link>
         
-        {/* Settings sheet */}
+        {/* Settings sheet with updated categories */}
         <Sheet>
           <SheetTrigger asChild>
             <button className="premium-icon-button">
               <Settings size={20} className={location.pathname === '/settings' ? 'text-premium-500' : ''} />
             </button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[90vw] sm:max-w-md">
+          <SheetContent side="right" className="w-[90vw] sm:max-w-md bg-dark-200 text-light-100 border-dark-100">
             <SheetHeader className="mb-6">
-              <SheetTitle className="text-2xl font-display flex items-center">
+              <SheetTitle className="text-2xl font-display flex items-center text-light-100">
                 <ShieldCheck size={24} className="text-premium-500 mr-2" />
                 <span>ScanForAll Settings</span>
               </SheetTitle>
-              <SheetDescription>
+              <SheetDescription className="text-light-500">
                 Configure your authentication and scanning experience
               </SheetDescription>
             </SheetHeader>
             
             <Accordion type="single" collapsible className="w-full">
-              {/* Technical Architecture */}
+              {/* Features */}
               <SettingsCategory 
-                title="Technical Architecture" 
+                title="Features" 
+                icon={<Sparkles size={18} className="text-premium-500 mr-2" />}
                 items={[
                   { title: "User Scans QR", subitems: ["Voice Output for Blind Users", "AR/Text for General Users"] },
                   { title: "QR Code Verification", subitems: ["Blockchain Ledger Check", "Fake QR Code Alerts"] },
@@ -104,24 +107,36 @@ const Header: React.FC<HeaderProps> = ({
                 ]} 
               />
               
-              {/* QR Code Security */}
+              {/* Theme */}
               <SettingsCategory 
-                title="QR Code Security" 
+                title="Theme" 
+                icon={<Palette size={18} className="text-premium-500 mr-2" />}
                 items={[
-                  { title: "Blockchain Authentication", subitems: ["Tamper-Proof QR Codes", "Immutable Scan Records"] },
-                  { title: "Scan Verification Alerts", subitems: ["User Warning for Fake QR", "Report Counterfeit Products"] },
-                  { title: "Holographic Security", subitems: ["Dynamic QR Patterns", "Prevent Unauthorized Duplication"] },
-                  { title: "AI-Based Verification", subitems: ["Detect Packaging Inconsistencies", "Cross-Check Logo & Shape"] }
+                  { title: "Appearance", subitems: ["Light Mode", "Dark Mode", "System Default"] },
+                  { title: "Color Schemes", subitems: ["Premium Blue", "Night Sky", "Ocean Breeze"] },
+                  { title: "Accessibility", subitems: ["High Contrast", "Reduced Motion", "Larger Text"] }
                 ]} 
               />
               
-              {/* Business Strategy */}
+              {/* Help */}
               <SettingsCategory 
-                title="Business Strategy" 
+                title="Help" 
+                icon={<HelpCircle size={18} className="text-premium-500 mr-2" />}
                 items={[
-                  { title: "Regulatory Compliance", subitems: ["FSSAI & CDSCO Partnerships", "Certified Accessibility Badge"] },
-                  { title: "Cost Efficiency", subitems: ["Cheaper than Braille Labels", "Govt Subsidies for Accessibility"] },
-                  { title: "Consumer Engagement", subitems: ["Loyalty Points for Scans", "QR-Based Discounts"] }
+                  { title: "FAQ", subitems: ["Scanning Issues", "Authentication Problems", "Product Questions"] },
+                  { title: "Contact Support", subitems: ["Email", "Chat", "Phone"] },
+                  { title: "Tutorials", subitems: ["Quick Start Guide", "Advanced Features", "Security Tips"] }
+                ]} 
+              />
+              
+              {/* About Us */}
+              <SettingsCategory 
+                title="About Us" 
+                icon={<Users size={18} className="text-premium-500 mr-2" />}
+                items={[
+                  { title: "Our Mission", subitems: ["Accessibility for All", "Fighting Counterfeit Products", "Building Trust"] },
+                  { title: "The Team", subitems: ["Leadership", "Developers", "Advisors"] },
+                  { title: "Legal", subitems: ["Privacy Policy", "Terms of Service", "Licenses"] }
                 ]} 
               />
             </Accordion>
@@ -140,11 +155,14 @@ const Header: React.FC<HeaderProps> = ({
 };
 
 // Settings Category Component
-const SettingsCategory = ({ title, items }) => {
+const SettingsCategory = ({ title, icon, items }) => {
   return (
-    <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')}>
-      <AccordionTrigger className="text-lg font-medium py-3">
-        {title}
+    <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')} className="border-dark-100">
+      <AccordionTrigger className="text-lg font-medium py-3 text-light-100 hover:text-premium-500">
+        <div className="flex items-center">
+          {icon}
+          {title}
+        </div>
       </AccordionTrigger>
       <AccordionContent className="pl-1">
         {items.map((item, index) => (
@@ -158,9 +176,9 @@ const SettingsCategory = ({ title, items }) => {
 // Settings Sub-Category Component
 const SettingsSubCategory = ({ title, items }) => {
   return (
-    <Accordion type="single" collapsible className="w-full border-l border-light-500 pl-3 py-1 mb-2">
+    <Accordion type="single" collapsible className="w-full border-l border-dark-100 pl-3 py-1 mb-2">
       <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')} className="border-none">
-        <AccordionTrigger className="text-md py-2">
+        <AccordionTrigger className="text-md py-2 text-light-300 hover:text-premium-500">
           {title}
         </AccordionTrigger>
         <AccordionContent>
@@ -168,7 +186,7 @@ const SettingsSubCategory = ({ title, items }) => {
             {items.map((item, index) => (
               <div 
                 key={index} 
-                className="flex items-center text-sm py-2 px-3 rounded-lg text-dark-200 hover:bg-light-300 transition-colors"
+                className="flex items-center text-sm py-2 px-3 rounded-lg text-light-400 hover:bg-dark-100 transition-colors"
               >
                 {item}
               </div>

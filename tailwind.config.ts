@@ -63,27 +63,27 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				
-				// Premium UI color scheme
+				// Premium UI color scheme - updated to match the image
 				premium: {
-					50: '#F4F7FF',
-					100: '#E6EDFF',
-					200: '#C9D9FF',
-					300: '#A0BCFF',
-					400: '#789BFF',
-					500: '#4F74FF',
-					600: '#2F4EE4',
-					700: '#1E37B8',
-					800: '#15278A',
-					900: '#0E1D6E',
-					950: '#091252',
+					50: '#E6F4FF',
+					100: '#CCE9FF',
+					200: '#99D3FF',
+					300: '#66BDFF',
+					400: '#33A7FF',
+					500: '#0091FF', // Main blue accent from image
+					600: '#0077CC',
+					700: '#005C99',
+					800: '#004166',
+					900: '#002733',
+					950: '#001A26',
 				},
 				dark: {
-					100: '#1E1E2C',
-					200: '#171723',
-					300: '#13131E',
-					400: '#0E0E18',
-					500: '#0A0A12',
-					900: '#06060A',
+					100: '#2A2F3C', // Lighter shade
+					200: '#1E2330', // Card background
+					300: '#161B26', // Main background
+					400: '#121622',
+					500: '#0E111B',
+					900: '#090C14',
 				},
 				light: {
 					100: '#FFFFFF',
@@ -140,20 +140,20 @@ export default {
 				'premium-inner': 'inset 0 2px 4px 0 rgba(16, 24, 40, 0.06)',
 				'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
 				'glass-dark': '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
-				'glow-premium': '0 0 20px rgba(79, 116, 255, 0.5)',
+				'glow-premium': '0 0 20px rgba(0, 145, 255, 0.5)',
 				'glow-success': '0 0 20px rgba(50, 213, 131, 0.5)',
 				'glow-warning': '0 0 20px rgba(255, 168, 0, 0.5)',
 				'glow-error': '0 0 20px rgba(240, 68, 56, 0.5)',
 			},
 			backgroundImage: {
-				'gradient-premium': 'linear-gradient(135deg, #4F74FF 0%, #2F4EE4 100%)',
-				'gradient-dark': 'linear-gradient(135deg, #171723 0%, #0E0E18 100%)',
+				'gradient-premium': 'linear-gradient(135deg, #0091FF 0%, #006DC1 100%)',
+				'gradient-dark': 'linear-gradient(135deg, #1E2330 0%, #161B26 100%)',
 				'gradient-light': 'linear-gradient(135deg, #FFFFFF 0%, #F4F5F9 100%)',
 				'gradient-success': 'linear-gradient(135deg, #32D583 0%, #0B9E5A 100%)',
 				'gradient-warning': 'linear-gradient(135deg, #FFA800 0%, #CC7A00 100%)',
 				'gradient-error': 'linear-gradient(135deg, #F04438 0%, #B3261E 100%)',
 				'glass': 'linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%)',
-				'glass-dark': 'linear-gradient(135deg, rgba(30, 30, 44, 0.8) 0%, rgba(30, 30, 44, 0.6) 100%)',
+				'glass-dark': 'linear-gradient(135deg, rgba(30, 35, 48, 0.8) 0%, rgba(30, 35, 48, 0.6) 100%)',
 			},
 			keyframes: {
 				'accordion-down': {
