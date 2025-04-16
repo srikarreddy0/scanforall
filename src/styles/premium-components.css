@@ -6,23 +6,28 @@
   }
   
   .premium-header {
-    @apply sticky top-0 z-50 backdrop-blur-lg bg-dark-200/80 border-b border-dark-100/50 shadow-premium-sm;
+    @apply sticky top-0 z-50 backdrop-blur-lg dark:bg-dark-200/80 bg-light-200/90 
+           dark:border-b dark:border-dark-100/50 border-b border-light-400/50 shadow-premium-sm;
   }
   
   .premium-card {
-    @apply bg-dark-200 rounded-xl border border-dark-100/50 shadow-premium-md hover:shadow-premium-lg transition-shadow duration-200;
+    @apply dark:bg-dark-200 bg-light-200 rounded-xl dark:border dark:border-dark-100/50 
+           border border-light-400/50 shadow-premium-md hover:shadow-premium-lg transition-shadow duration-200;
   }
   
   .premium-card-dark {
-    @apply bg-dark-200 rounded-xl border border-dark-100/50 shadow-glass-dark backdrop-blur-md;
+    @apply dark:bg-dark-200 bg-light-200 rounded-xl dark:border dark:border-dark-100/50 
+           border border-light-400/50 dark:shadow-glass-dark shadow-glass backdrop-blur-md;
   }
   
   .premium-glass {
-    @apply bg-dark-200/80 backdrop-blur-md border border-dark-100/50 shadow-glass;
+    @apply dark:bg-dark-200/80 bg-light-200/80 backdrop-blur-md dark:border dark:border-dark-100/50 
+           border border-light-400/50 dark:shadow-glass shadow-premium-sm;
   }
   
   .premium-glass-dark {
-    @apply bg-dark-200/80 backdrop-blur-md border border-dark-100/50 shadow-glass-dark;
+    @apply dark:bg-dark-200/80 bg-light-200/80 backdrop-blur-md dark:border dark:border-dark-100/50 
+           border border-light-400/50 dark:shadow-glass-dark shadow-premium-sm;
   }
   
   /* Premium Interactive Components */
@@ -33,24 +38,24 @@
   
   .premium-button-outline {
     @apply bg-transparent border border-premium-500 text-premium-500 rounded-lg px-4 py-2 font-medium
-           hover:bg-premium-900 active:bg-premium-800 transition-all duration-200;
+           dark:hover:bg-premium-900 hover:bg-premium-50 active:bg-premium-800 transition-all duration-200;
   }
   
   .premium-button-subtle {
-    @apply bg-dark-100 text-light-300 rounded-lg px-4 py-2 font-medium
-           hover:bg-dark-200 active:bg-dark-300 transition-all duration-200;
+    @apply dark:bg-dark-100 bg-light-400 dark:text-light-300 text-dark-400 rounded-lg px-4 py-2 font-medium
+           dark:hover:bg-dark-200 hover:bg-light-500 active:bg-dark-300 transition-all duration-200;
   }
   
   .premium-icon-button {
-    @apply w-10 h-10 flex items-center justify-center rounded-full bg-dark-200 
-           border border-dark-100/50 shadow-premium-sm text-light-400
-           hover:bg-dark-100 hover:text-premium-500 active:bg-dark-300 
+    @apply w-10 h-10 flex items-center justify-center rounded-full dark:bg-dark-200 bg-light-300 
+           dark:border dark:border-dark-100/50 border border-light-400/50 shadow-premium-sm dark:text-light-400 text-dark-400
+           dark:hover:bg-dark-100 hover:bg-light-400 hover:text-premium-500 active:bg-dark-300 
            transition-all duration-200;
   }
   
   .premium-action-icon {
     @apply w-8 h-8 flex items-center justify-center rounded-full
-           hover:bg-dark-100/50 active:bg-dark-200/50 transition-all duration-200;
+           dark:hover:bg-dark-100/50 hover:bg-light-400/50 active:bg-dark-200/50 transition-all duration-200;
   }
   
   /* Premium Text Effects */

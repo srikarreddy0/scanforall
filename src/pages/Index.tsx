@@ -49,7 +49,7 @@ const Index: React.FC = () => {
   };
 
   return (
-    <div className="app-container bg-dark-300 text-light-100">
+    <div className="app-container dark:bg-dark-300 bg-light-300 dark:text-light-100 text-dark-300">
       <Header showHistory={true} />
       
       <motion.div 
@@ -59,10 +59,10 @@ const Index: React.FC = () => {
         animate="visible"
       >
         <motion.div className="mb-6 text-center" variants={itemVariants}>
-          <h1 className="text-3xl font-display font-bold text-light-100 mb-2">
+          <h1 className="text-3xl font-display font-bold dark:text-light-100 text-dark-300 mb-2">
             Verify Product
           </h1>
-          <p className="text-light-500 font-medium">
+          <p className="dark:text-light-500 text-dark-400 font-medium">
             Authenticate products with a simple scan
           </p>
         </motion.div>
@@ -102,9 +102,9 @@ const Index: React.FC = () => {
           <div className="text-center mb-4">
             <div className="inline-flex items-center gap-2 mb-3">
               <ShieldCheck size={24} className="text-premium-500" strokeWidth={2.5} />
-              <h2 className="text-xl font-display font-semibold text-light-100">ScanForAll</h2>
+              <h2 className="text-xl font-display font-semibold dark:text-light-100 text-dark-300">ScanForAll</h2>
             </div>
-            <p className="text-light-500 text-sm font-medium">
+            <p className="dark:text-light-500 text-dark-400 text-sm font-medium">
               Position QR code within the frame to scan
             </p>
           </div>
@@ -118,7 +118,7 @@ const Index: React.FC = () => {
           variants={itemVariants}
         >
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-sm font-medium text-light-400">Recent Activity</h3>
+            <h3 className="text-sm font-medium dark:text-light-400 text-dark-400">Recent Activity</h3>
             <Button 
               variant="ghost" 
               className="text-xs text-premium-500 p-0 h-auto"
@@ -130,17 +130,17 @@ const Index: React.FC = () => {
           
           <div className="premium-card-dark p-4 mb-4">
             <div className="flex gap-3">
-              <div className="w-10 h-10 rounded-full bg-premium-800 flex items-center justify-center">
-                <Info size={18} className="text-premium-300" />
+              <div className="w-10 h-10 rounded-full dark:bg-premium-800 bg-premium-100 flex items-center justify-center">
+                <Info size={18} className="dark:text-premium-300 text-premium-600" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-light-100">Product Authentication Guide</p>
-                <p className="text-xs text-light-500">Learn how to spot counterfeits</p>
+                <p className="text-sm font-medium dark:text-light-100 text-dark-300">Product Authentication Guide</p>
+                <p className="text-xs dark:text-light-500 text-dark-400">Learn how to spot counterfeits</p>
               </div>
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 hover:bg-dark-100"
+                className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 dark:hover:bg-dark-100 hover:bg-light-400"
               >
                 View
               </Button>
@@ -158,15 +158,15 @@ const QuickActionButton = ({ icon, label, onClick, hasNotification = false }) =>
     className="flex flex-col items-center gap-1 group"
     onClick={onClick}
   >
-    <div className="relative w-12 h-12 rounded-full bg-dark-200 flex items-center justify-center border border-dark-100 group-hover:border-premium-700 group-hover:bg-dark-100 transition-all duration-200">
-      <div className="text-light-400 group-hover:text-premium-400 transition-colors duration-200">
+    <div className="relative w-12 h-12 rounded-full dark:bg-dark-200 bg-light-300 flex items-center justify-center dark:border dark:border-dark-100 border border-light-400 group-hover:border-premium-700 dark:group-hover:bg-dark-100 group-hover:bg-light-400 transition-all duration-200">
+      <div className="dark:text-light-400 text-dark-400 group-hover:text-premium-400 transition-colors duration-200">
         {icon}
       </div>
       {hasNotification && (
-        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-premium-500 ring-2 ring-dark-200"></span>
+        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-premium-500 dark:ring-2 dark:ring-dark-200 ring-2 ring-light-300"></span>
       )}
     </div>
-    <span className="text-xs font-medium text-light-400">{label}</span>
+    <span className="text-xs font-medium dark:text-light-400 text-dark-400">{label}</span>
   </button>
 );
 

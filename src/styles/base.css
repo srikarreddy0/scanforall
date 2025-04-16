@@ -5,9 +5,15 @@
 
 @layer base {
   :root {
-    /* Base colors */
-    --background: 228 100% 99%;
+    /* Light Mode - Default */
+    --background: 210 40% 98%;
     --foreground: 224 71% 4%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 224 71% 4%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71% 4%;
     
     --primary: 225 100% 66%;
     --primary-foreground: 210 40% 98%;
@@ -27,12 +33,6 @@
     --border: 214 32% 91%;
     --input: 214 32% 91%;
     --ring: 221 83% 53%;
-    
-    --card: 0 0% 100%;
-    --card-foreground: 224 71% 4%;
-    
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71% 4%;
     
     --radius: 0.75rem;
   }
@@ -73,11 +73,48 @@
     @apply border-border;
   }
   body {
-    @apply bg-dark-300 text-light-100 font-sans;
+    @apply bg-background text-foreground font-sans;
+  }
+  
+  /* Dark mode specific styles */
+  .dark body {
+    @apply bg-dark-300 text-light-100;
+  }
+  
+  /* Light mode specific styles */
+  body:not(.dark) {
+    @apply bg-light-300 text-dark-300;
   }
   
   html, body {
     height: 100%;
     overflow-x: hidden;
   }
+}
+
+/* Light mode component variants */
+.light .premium-header {
+  @apply bg-light-200/80 border-light-400/50 shadow-premium-sm;
+}
+
+.light .premium-card {
+  @apply bg-light-200 border-light-400/50;
+}
+
+.light .premium-card-dark {
+  @apply bg-light-200 border-light-400/50;
+}
+
+.light .premium-glass,
+.light .premium-glass-dark {
+  @apply bg-light-200/80 border-light-400/50;
+}
+
+.light .premium-icon-button {
+  @apply bg-light-300 border-light-400/50 text-dark-300
+         hover:bg-light-400 hover:text-premium-500;
+}
+
+.light .premium-action-icon {
+  @apply hover:bg-light-400/50;
 }

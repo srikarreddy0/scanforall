@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -10,7 +11,9 @@ import {
   Sparkles,
   Palette,
   HelpCircle,
-  Users
+  Users,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { 
   Sheet,
@@ -27,6 +30,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import ThemeToggle from './ThemeToggle';
 
 interface HeaderProps {
   title?: string;
@@ -55,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({
               className="text-premium-500 mr-2" 
               strokeWidth={2.5} 
             />
-            <h1 className="text-xl font-display font-semibold text-dark-100">
+            <h1 className="text-xl font-display font-semibold dark:text-dark-100 text-dark-300">
               {title}
             </h1>
           </div>
@@ -63,6 +67,9 @@ const Header: React.FC<HeaderProps> = ({
       </div>
       
       <div className="flex gap-2">
+        {/* Theme Toggle */}
+        <ThemeToggle />
+        
         {showHistory && location.pathname !== '/history' && (
           <Link to="/history" className="premium-icon-button">
             <HistoryIcon size={20} />
@@ -72,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({
         {/* Notification button with indicator */}
         <Link to="/notifications" className="premium-icon-button relative">
           <Bell size={20} className={location.pathname === '/notifications' ? 'text-premium-500' : ''} />
-          <span className="absolute top-1 right-1.5 h-2 w-2 rounded-full bg-premium-500 ring-2 ring-light-100"></span>
+          <span className="absolute top-1 right-1.5 h-2 w-2 rounded-full bg-premium-500 ring-2 ring-light-100 dark:ring-dark-200"></span>
         </Link>
         
         {/* Settings sheet with updated categories */}
@@ -82,13 +89,13 @@ const Header: React.FC<HeaderProps> = ({
               <Settings size={20} className={location.pathname === '/settings' ? 'text-premium-500' : ''} />
             </button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[90vw] sm:max-w-md bg-dark-200 text-light-100 border-dark-100">
+          <SheetContent side="right" className="w-[90vw] sm:max-w-md dark:bg-dark-200 bg-light-200 dark:text-light-100 text-dark-300 dark:border-dark-100 border-light-400">
             <SheetHeader className="mb-6">
-              <SheetTitle className="text-2xl font-display flex items-center text-light-100">
+              <SheetTitle className="text-2xl font-display flex items-center dark:text-light-100 text-dark-300">
                 <ShieldCheck size={24} className="text-premium-500 mr-2" />
                 <span>ScanForAll Settings</span>
               </SheetTitle>
-              <SheetDescription className="text-light-500">
+              <SheetDescription className="dark:text-light-500 text-dark-400">
                 Configure your authentication and scanning experience
               </SheetDescription>
             </SheetHeader>
@@ -156,8 +163,8 @@ const Header: React.FC<HeaderProps> = ({
 // Settings Category Component
 const SettingsCategory = ({ title, icon, items }) => {
   return (
-    <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')} className="border-dark-100">
-      <AccordionTrigger className="text-lg font-medium py-3 text-light-100 hover:text-premium-500">
+    <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')} className="dark:border-dark-100 border-light-400">
+      <AccordionTrigger className="text-lg font-medium py-3 dark:text-light-100 text-dark-300 hover:text-premium-500">
         <div className="flex items-center">
           {icon}
           {title}
@@ -175,9 +182,9 @@ const SettingsCategory = ({ title, icon, items }) => {
 // Settings Sub-Category Component
 const SettingsSubCategory = ({ title, items }) => {
   return (
-    <Accordion type="single" collapsible className="w-full border-l border-dark-100 pl-3 py-1 mb-2">
+    <Accordion type="single" collapsible className="w-full dark:border-dark-100 border-light-400 pl-3 py-1 mb-2">
       <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')} className="border-none">
-        <AccordionTrigger className="text-md py-2 text-light-300 hover:text-premium-500">
+        <AccordionTrigger className="text-md py-2 dark:text-light-300 text-dark-400 hover:text-premium-500">
           {title}
         </AccordionTrigger>
         <AccordionContent>
@@ -185,7 +192,7 @@ const SettingsSubCategory = ({ title, items }) => {
             {items.map((item, index) => (
               <div 
                 key={index} 
-                className="flex items-center text-sm py-2 px-3 rounded-lg text-light-400 hover:bg-dark-100 transition-colors"
+                className="flex items-center text-sm py-2 px-3 rounded-lg dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400 transition-colors"
               >
                 {item}
               </div>
