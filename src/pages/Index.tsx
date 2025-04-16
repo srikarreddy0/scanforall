@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -6,7 +5,6 @@ import {
   Search, 
   ShieldCheck, 
   Clock as HistoryIcon, 
-  Bell,
   Camera,
   Bookmark,
   Info
@@ -60,7 +58,7 @@ const Index: React.FC = () => {
       >
         <motion.div className="mb-6 text-center" variants={itemVariants}>
           <h1 className="text-3xl font-display font-bold dark:text-light-100 text-dark-300 mb-2">
-            Verify Product
+            ScanForAll
           </h1>
           <p className="dark:text-light-500 text-dark-400 font-medium">
             Authenticate products with a simple scan
@@ -86,12 +84,6 @@ const Index: React.FC = () => {
             icon={<Bookmark size={20} />} 
             label="Saved" 
             onClick={() => navigate('/saved')} 
-          />
-          <QuickActionButton 
-            icon={<Bell size={20} />} 
-            label="Alerts" 
-            onClick={() => navigate('/notifications')} 
-            hasNotification 
           />
         </motion.div>
         
