@@ -5,13 +5,13 @@
 }
 
 .verified-badge-authentic {
-  @apply bg-success-50 text-success-DEFAULT;
+  @apply bg-success-50 text-success-foreground;
 }
 
 .verified-badge-warning {
-  @apply bg-warning-50 text-warning-DEFAULT;
+  @apply bg-warning-50 text-warning-foreground;
 }
 
 .verified-badge-fake {
-  @apply bg-error-50 text-error-DEFAULT;
+  @apply bg-error-50 text-error-foreground;
 }
