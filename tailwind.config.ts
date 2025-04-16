@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 // Colors configuration
@@ -91,16 +90,19 @@ const colors = {
     DEFAULT: '#32D583',
     50: 'rgba(50, 213, 131, 0.1)',
     100: 'rgba(50, 213, 131, 0.2)',
+    foreground: '#32D583', // Adding this to ensure text-success-DEFAULT works
   },
   warning: {
     DEFAULT: '#FFA800',
     50: 'rgba(255, 168, 0, 0.1)',
     100: 'rgba(255, 168, 0, 0.2)',
+    foreground: '#FFA800', // Adding for consistency
   },
   error: {
     DEFAULT: '#F04438',
     50: 'rgba(240, 68, 56, 0.1)',
     100: 'rgba(240, 68, 56, 0.2)',
+    foreground: '#F04438', // Adding for consistency
   },
 };
 
