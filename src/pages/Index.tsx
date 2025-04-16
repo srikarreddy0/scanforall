@@ -50,7 +50,7 @@ const Index: React.FC = () => {
 
   return (
     <div className="app-container dark:bg-dark-300 bg-light-300 dark:text-light-100 text-dark-300">
-      <Header showHistory={true} />
+      <Header />
       
       <motion.div 
         className="p-5 flex flex-col h-[calc(100vh-4rem)]"
@@ -100,10 +100,6 @@ const Index: React.FC = () => {
           variants={itemVariants}
         >
           <div className="text-center mb-4">
-            <div className="inline-flex items-center gap-2 mb-3">
-              <ShieldCheck size={24} className="text-premium-500" strokeWidth={2.5} />
-              <h2 className="text-xl font-display font-semibold dark:text-light-100 text-dark-300">ScanForAll</h2>
-            </div>
             <p className="dark:text-light-500 text-dark-400 text-sm font-medium">
               Position QR code within the frame to scan
             </p>

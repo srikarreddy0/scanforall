@@ -3,7 +3,6 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   ArrowLeft, 
-  Clock as HistoryIcon, 
   Bell, 
   Settings, 
   User, 
@@ -12,8 +11,6 @@ import {
   Palette,
   HelpCircle,
   Users,
-  Sun,
-  Moon
 } from 'lucide-react';
 import { 
   Sheet,
@@ -39,7 +36,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ 
-  title = "ScanForAll", 
+  title = "", 
   showBack = false,
   showHistory = false
 }) => {
@@ -59,23 +56,11 @@ const Header: React.FC<HeaderProps> = ({
               className="text-premium-500 mr-2" 
               strokeWidth={2.5} 
             />
-            <h1 className="text-xl font-display font-semibold dark:text-dark-100 text-dark-300">
-              {title}
-            </h1>
           </div>
         )}
       </div>
       
       <div className="flex gap-2">
-        {/* Theme Toggle */}
-        <ThemeToggle />
-        
-        {showHistory && location.pathname !== '/history' && (
-          <Link to="/history" className="premium-icon-button">
-            <HistoryIcon size={20} />
-          </Link>
-        )}
-        
         {/* Notification button with indicator */}
         <Link to="/notifications" className="premium-icon-button relative">
           <Bell size={20} className={location.pathname === '/notifications' ? 'text-premium-500' : ''} />
@@ -93,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({
             <SheetHeader className="mb-6">
               <SheetTitle className="text-2xl font-display flex items-center dark:text-light-100 text-dark-300">
                 <ShieldCheck size={24} className="text-premium-500 mr-2" />
-                <span>ScanForAll Settings</span>
+                <span>Settings</span>
               </SheetTitle>
               <SheetDescription className="dark:text-light-500 text-dark-400">
                 Configure your authentication and scanning experience
@@ -118,7 +103,11 @@ const Header: React.FC<HeaderProps> = ({
                 title="Theme" 
                 icon={<Palette size={18} className="text-premium-500 mr-2" />}
                 items={[
-                  { title: "Appearance", subitems: ["Light Mode", "Dark Mode", "System Default"] },
+                  { 
+                    title: "Appearance", 
+                    subitems: ["Light Mode", "Dark Mode", "System Default"], 
+                    customContent: <ThemeToggle inSettings={true} />
+                  },
                   { title: "Color Schemes", subitems: ["Premium Blue", "Night Sky", "Ocean Breeze"] },
                   { title: "Accessibility", subitems: ["High Contrast", "Reduced Motion", "Larger Text"] }
                 ]} 
@@ -172,7 +161,12 @@ const SettingsCategory = ({ title, icon, items }) => {
       </AccordionTrigger>
       <AccordionContent className="pl-1">
         {items.map((item, index) => (
-          <SettingsSubCategory key={index} title={item.title} items={item.subitems} />
+          <SettingsSubCategory 
+            key={index} 
+            title={item.title} 
+            items={item.subitems} 
+            customContent={item.customContent} 
+          />
         ))}
       </AccordionContent>
     </AccordionItem>
@@ -180,7 +174,7 @@ const SettingsCategory = ({ title, icon, items }) => {
 };
 
 // Settings Sub-Category Component
-const SettingsSubCategory = ({ title, items }) => {
+const SettingsSubCategory = ({ title, items, customContent }) => {
   return (
     <Accordion type="single" collapsible className="w-full dark:border-dark-100 border-light-400 pl-3 py-1 mb-2">
       <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')} className="border-none">
@@ -188,16 +182,20 @@ const SettingsSubCategory = ({ title, items }) => {
           {title}
         </AccordionTrigger>
         <AccordionContent>
-          <div className="space-y-2 pl-2">
-            {items.map((item, index) => (
-              <div 
-                key={index} 
-                className="flex items-center text-sm py-2 px-3 rounded-lg dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400 transition-colors"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
+          {customContent ? (
+            <div className="pl-2 py-2">{customContent}</div>
+          ) : (
+            <div className="space-y-2 pl-2">
+              {items.map((item, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-center text-sm py-2 px-3 rounded-lg dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400 transition-colors"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          )}
         </AccordionContent>
       </AccordionItem>
     </Accordion>
