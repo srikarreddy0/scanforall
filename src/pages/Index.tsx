@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -67,7 +68,7 @@ const Index: React.FC = () => {
         
         {/* Quick action buttons */}
         <motion.div 
-          className="grid grid-cols-4 gap-4 mb-8"
+          className="grid grid-cols-3 gap-4 mb-8"
           variants={itemVariants}
         >
           <QuickActionButton 
