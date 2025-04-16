@@ -1,17 +1,16 @@
-
 import React, { useState, useEffect } from 'react';
 import { Camera, ScanBarcode, ShieldCheck, Loader2, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import { AnimatePresence, motion } from 'framer-motion';
-
 interface ScannerProps {
   onScan: (productId: string) => void;
 }
-
-const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
+const Scanner: React.FC<ScannerProps> = ({
+  onScan
+}) => {
   const [scanning, setScanning] = useState(false);
   const [scanComplete, setScanComplete] = useState(false);
-  
+
   // Reset the scanner after completion
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -22,28 +21,27 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
     }
     return () => clearTimeout(timeout);
   }, [scanComplete]);
-  
+
   // Mock scanner for demo purposes
   const handleScan = () => {
     if (scanning || scanComplete) return;
-    
     setScanning(true);
-    
+
     // Show scanning animation for a moment
     setTimeout(() => {
       setScanning(false);
       setScanComplete(true);
-      
+
       // Simulate successful scan of a random product from our mock database
       const productIds = ['PROD123456', 'PROD654321', 'PROD987654', 'PROD246810'];
       const randomId = productIds[Math.floor(Math.random() * productIds.length)];
-      
+
       // Notify user of successful scan
       toast.success('Product code scanned successfully', {
         description: 'Redirecting to details page...',
-        icon: <Check className="text-success-DEFAULT" />,
+        icon: <Check className="text-success-DEFAULT" />
       });
-      
+
       // Wait a brief moment before navigating
       setTimeout(() => {
         // Pass the scanned ID to parent component
@@ -51,9 +49,7 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
       }, 800);
     }, 1500);
   };
-  
-  return (
-    <div className="flex flex-col items-center">
+  return <div className="flex flex-col items-center">
       {/* Scanner target with premium glass effect */}
       <div className="premium-scanner-container bg-gradient-dark mb-8">
         {/* Scanner frame corners */}
@@ -67,8 +63,7 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
         
         {/* Dynamic scan states */}
         <AnimatePresence mode="wait">
-          {scanning && (
-            <>
+          {scanning && <>
               {/* Scan line animation */}
               <div className="premium-scan-line"></div>
               
@@ -76,82 +71,72 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
               <div className="absolute inset-0 z-10 bg-grid-pattern opacity-30"></div>
               
               {/* Focused scan area */}
-              <motion.div 
-                className="absolute inset-0 flex items-center justify-center z-20"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
+              <motion.div className="absolute inset-0 flex items-center justify-center z-20" initial={{
+            opacity: 0
+          }} animate={{
+            opacity: 1
+          }} exit={{
+            opacity: 0
+          }}>
                 <div className="w-56 h-56 border-2 border-premium-400/80 rounded-lg flex items-center justify-center">
                   <Loader2 size={32} className="text-white animate-spin" />
                 </div>
               </motion.div>
-            </>
-          )}
+            </>}
           
-          {scanComplete && (
-            <motion.div 
-              className="absolute inset-0 flex items-center justify-center z-20 bg-success-50 backdrop-blur-sm"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.1 }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 15
-                }}
-              >
+          {scanComplete && <motion.div className="absolute inset-0 flex items-center justify-center z-20 bg-success-50 backdrop-blur-sm" initial={{
+          opacity: 0,
+          scale: 0.9
+        }} animate={{
+          opacity: 1,
+          scale: 1
+        }} exit={{
+          opacity: 0,
+          scale: 1.1
+        }} transition={{
+          duration: 0.2
+        }}>
+              <motion.div initial={{
+            scale: 0
+          }} animate={{
+            scale: 1
+          }} transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 15
+          }}>
                 <div className="w-20 h-20 rounded-full bg-success-DEFAULT flex items-center justify-center shadow-glow-success">
                   <Check size={36} className="text-white" strokeWidth={3} />
                 </div>
               </motion.div>
-            </motion.div>
-          )}
+            </motion.div>}
           
-          {!scanning && !scanComplete && (
-            <motion.div 
-              className="absolute inset-0 flex items-center justify-center z-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
+          {!scanning && !scanComplete && <motion.div className="absolute inset-0 flex items-center justify-center z-20" initial={{
+          opacity: 0
+        }} animate={{
+          opacity: 1
+        }} transition={{
+          duration: 0.3
+        }}>
               <ScanBarcode size={80} className="text-white/30" />
-            </motion.div>
-          )}
+            </motion.div>}
         </AnimatePresence>
       </div>
       
       {/* Premium scan button with ripple effect */}
-      <button 
-        onClick={handleScan} 
-        disabled={scanning || scanComplete}
-        className="ripple-container premium-scan-button"
-      >
-        {scanning ? (
-          <Loader2 size={28} className="animate-spin" />
-        ) : scanComplete ? (
-          <Check size={28} strokeWidth={3} />
-        ) : (
-          <Camera size={28} />
-        )}
+      <button onClick={handleScan} disabled={scanning || scanComplete} className="ripple-container premium-scan-button">
+        {scanning ? <Loader2 size={28} className="animate-spin" /> : scanComplete ? <Check size={28} strokeWidth={3} /> : <Camera size={28} />}
       </button>
       
-      <p className="mt-4 text-center text-sm font-medium text-light-100">
+      <p className="mt-4 text-center text-sm font-medium text-gray-950">
         {scanning ? 'Scanning...' : scanComplete ? 'Scan successful' : 'Tap to scan product code'}
       </p>
       
       {/* Trust badge with premium accent */}
-      <div className="mt-6 flex items-center justify-center px-4 py-2 rounded-full premium-glass">
+      <div className="mt-6 flex items-center justify-center px-4 py-2 rounded-full premium-glass bg-slate-400">
         <ShieldCheck size={16} className="text-premium-500 mr-2" />
-        <span className="text-xs font-medium text-light-100">Secure Verification Technology</span>
+        <span className="text-xs font-medium text-[#1f211f]">Secure Verification Technology</span>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Scanner;
