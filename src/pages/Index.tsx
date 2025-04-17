@@ -1,14 +1,12 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  User, 
   Search, 
-  ShieldCheck, 
-  Clock as HistoryIcon, 
-  Camera,
+  HistoryIcon, 
   Bookmark,
-  Info
+  Info,
+  Volume2
 } from 'lucide-react';
 import Header from '../components/Header';
 import Scanner from '../components/Scanner';
@@ -17,6 +15,24 @@ import { motion } from 'framer-motion';
 
 const Index: React.FC = () => {
   const navigate = useNavigate();
+  const [readAloud, setReadAloud] = React.useState(false);
+
+  useEffect(() => {
+    // Get read aloud preference from localStorage
+    const savedReadAloud = localStorage.getItem('readAloud');
+    if (savedReadAloud) {
+      setReadAloud(savedReadAloud === 'true');
+    }
+    
+    // Welcome message for visually impaired users
+    if (savedReadAloud === 'true') {
+      setTimeout(() => {
+        const welcomeMessage = "Welcome to ScanForAll. Position a food product QR code within the frame to scan. Tap the center button to start scanning.";
+        const utterance = new SpeechSynthesisUtterance(welcomeMessage);
+        window.speechSynthesis.speak(utterance);
+      }, 1000);
+    }
+  }, []);
 
   const handleScan = (productId: string) => {
     // Navigate to product details page with the scanned product ID
@@ -62,7 +78,7 @@ const Index: React.FC = () => {
             ScanForAll
           </h1>
           <p className="dark:text-light-500 text-dark-400 font-medium">
-            Authenticate products with a simple scan
+            Scan food labels for complete product details
           </p>
         </motion.div>
         
@@ -94,7 +110,7 @@ const Index: React.FC = () => {
         >
           <div className="text-center mb-4">
             <p className="dark:text-light-500 text-dark-400 text-sm font-medium">
-              Position QR code within the frame to scan
+              Position food product QR code within the frame to scan
             </p>
           </div>
           
@@ -107,7 +123,7 @@ const Index: React.FC = () => {
           variants={itemVariants}
         >
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-sm font-medium dark:text-light-400 text-dark-400">Recent Activity</h3>
+            <h3 className="text-sm font-medium dark:text-light-400 text-dark-400">Food Information</h3>
             <Button 
               variant="ghost" 
               className="text-xs text-premium-500 p-0 h-auto"
@@ -123,8 +139,8 @@ const Index: React.FC = () => {
                 <Info size={18} className="dark:text-premium-300 text-premium-600" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium dark:text-light-100 text-dark-300">Product Authentication Guide</p>
-                <p className="text-xs dark:text-light-500 text-dark-400">Learn how to spot counterfeits</p>
+                <p className="text-sm font-medium dark:text-light-100 text-dark-300">Food Allergen Guide</p>
+                <p className="text-xs dark:text-light-500 text-dark-400">Learn about common food allergens and dietary restrictions</p>
               </div>
               <Button 
                 variant="ghost" 
@@ -132,6 +148,25 @@ const Index: React.FC = () => {
                 className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 dark:hover:bg-dark-100 hover:bg-light-400"
               >
                 View
+              </Button>
+            </div>
+          </div>
+          
+          <div className="premium-card-dark p-4">
+            <div className="flex gap-3">
+              <div className="w-10 h-10 rounded-full dark:bg-premium-800 bg-premium-100 flex items-center justify-center">
+                <Volume2 size={18} className="dark:text-premium-300 text-premium-600" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium dark:text-light-100 text-dark-300">Accessibility Features</p>
+                <p className="text-xs dark:text-light-500 text-dark-400">Voice guidance available for visually impaired users</p>
+              </div>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 dark:hover:bg-dark-100 hover:bg-light-400"
+              >
+                Setup
               </Button>
             </div>
           </div>
