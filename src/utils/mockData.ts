@@ -18,6 +18,21 @@ export interface Product {
     location: string;
     contact?: string;
   };
+  contents?: {
+    ingredients: string[];
+    allergens: string[];
+    nutritionalInfo?: {
+      calories: string;
+      protein: string;
+      carbs: string;
+      fat: string;
+    };
+  };
+  usage?: {
+    instructions: string[];
+    storage: string[];
+    warnings?: string[];
+  };
 }
 
 // Mock product database
@@ -118,6 +133,43 @@ export const productDatabase: Record<string, Product> = {
       name: "Nature's Best Foods Inc.",
       location: "California, USA",
       contact: "support@naturesbest.com"
+    },
+    contents: {
+      ingredients: [
+        "Whole grain oats",
+        "Honey",
+        "Almonds",
+        "Raisins",
+        "Sunflower seeds",
+        "Coconut oil"
+      ],
+      allergens: [
+        "Contains tree nuts (almonds)",
+        "May contain traces of other nuts",
+        "Produced in a facility that processes wheat"
+      ],
+      nutritionalInfo: {
+        calories: "240 kcal",
+        protein: "6g",
+        carbs: "32g",
+        fat: "12g"
+      }
+    },
+    usage: {
+      instructions: [
+        "Pour desired amount into bowl",
+        "Add milk or yogurt as preferred",
+        "Can be eaten as a dry snack"
+      ],
+      storage: [
+        "Store in a cool, dry place",
+        "Keep sealed after opening",
+        "Best consumed within 30 days of opening"
+      ],
+      warnings: [
+        "Check for freshness before consuming",
+        "Not suitable for nut allergy sufferers"
+      ]
     }
   },
 };
