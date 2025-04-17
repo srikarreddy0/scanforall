@@ -100,7 +100,26 @@ export const productDatabase: Record<string, Product> = {
       location: "San Francisco, USA",
       contact: "help@techwear.com"
     }
-  }
+  },
+  "http://q-r.to/pdfpromo": {
+    id: "http://q-r.to/pdfpromo",
+    name: "Organic Granola",
+    brand: "Nature's Best",
+    model: "Classic Recipe",
+    category: "Food",
+    description: "Delicious and nutritious organic granola made with whole grains and natural ingredients.",
+    manufacturingDate: "2023-06-15",
+    expiryDate: "2024-06-15",
+    batchNumber: "BN-http://q",
+    serialNumber: "SN-GRANOLA-001",
+    isAuthentic: true,
+    imageUrl: "/placeholder.svg",
+    manufacturer: {
+      name: "Nature's Best Foods Inc.",
+      location: "California, USA",
+      contact: "support@naturesbest.com"
+    }
+  },
 };
 
 // Function to simulate verification

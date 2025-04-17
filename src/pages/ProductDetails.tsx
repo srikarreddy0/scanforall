@@ -1,17 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  ShieldCheck, ShieldAlert, Building, MapPin, Phone, Flag, Volume2, VolumeX, Share2
-} from 'lucide-react';
+import { FileText, Calendar, Package, Utensils, AlertTriangle, Volume2, VolumeX, Share2, Phone, MapPin, Building, Flag } from 'lucide-react';
 import { toast } from 'sonner';
 import Header from '../components/Header';
-import ProductCard from '../components/ProductCard';
-import { 
-  verifyProduct, 
-  Product, 
-  saveToHistory 
-} from '../utils/mockData';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs';
+import { Product, verifyProduct, saveToHistory } from '../utils/mockData';
 import { Button } from '../components/ui/button';
 
 type VerificationStatus = 'authentic' | 'counterfeit' | 'warning' | 'not-found';
@@ -148,83 +141,160 @@ const ProductDetails: React.FC = () => {
   }
 
   return (
-    <div className="app-container">
-      <Header title="Product Verification" showBack={true} />
+    <div className="app-container bg-slate-50 dark:bg-slate-900">
+      <Header title={product.name} showBack={true} />
       
-      <div className="flex-1 overflow-auto pb-6">
-        <div className="p-4">
-          {/* Action buttons */}
-          <div className="flex justify-end gap-2 mb-4">
-            <button
-              onClick={toggleReadAloud}
-              className="premium-icon-button"
-              aria-label={readAloud ? "Disable read aloud" : "Enable read aloud"}
-            >
-              {readAloud ? <Volume2 size={20} className="text-premium-500" /> : <VolumeX size={20} />}
-            </button>
-            
-            <button
-              onClick={shareProduct}
-              className="premium-icon-button"
-              aria-label="Share product"
-            >
-              <Share2 size={20} />
-            </button>
+      <div className="flex-1 overflow-auto">
+        <div className="p-4 space-y-4">
+          {/* Product Title Section */}
+          <div className="text-left space-y-2">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+              {product.name}
+            </h1>
+            <p className="text-slate-600 dark:text-slate-400">{product.brand}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-500">
+              {product.description}
+            </p>
           </div>
-          
-          <ProductCard product={product} status={status} readAloud={readAloud} />
-          
-          <div className="mt-6 bg-white rounded-xl shadow-md p-4">
-            <h3 className="font-bold text-lg mb-3">Manufacturer Details</h3>
-            <div className="space-y-2">
-              <div 
-                className="flex items-center text-sm text-gray-600"
-                onClick={() => readAloud && speakText(`Manufacturer: ${product.manufacturer.name}`)}
+
+          {/* Read Aloud Toggle */}
+          <button
+            onClick={toggleReadAloud}
+            className="absolute top-20 right-4 premium-icon-button"
+            aria-label={readAloud ? "Disable read aloud" : "Enable read aloud"}
+          >
+            {readAloud ? <Volume2 size={20} className="text-premium-500" /> : <VolumeX size={20} />}
+          </button>
+
+          {/* Tabs Navigation */}
+          <Tabs defaultValue="details" className="w-full">
+            <TabsList className="w-full grid grid-cols-4 gap-4 bg-transparent h-auto p-0">
+              <TabsTrigger 
+                value="details"
+                className="data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-slate-800"
               >
-                <Building size={16} className="mr-2" />
-                <span>{product.manufacturer.name}</span>
-              </div>
-              
-              <div 
-                className="flex items-center text-sm text-gray-600"
-                onClick={() => readAloud && speakText(`Location: ${product.manufacturer.location}`)}
+                <FileText className="w-4 h-4 mr-2" />
+                Details
+              </TabsTrigger>
+              <TabsTrigger 
+                value="mfg-exp"
+                className="data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-slate-800"
               >
-                <MapPin size={16} className="mr-2" />
-                <span>{product.manufacturer.location}</span>
-              </div>
-              
-              {product.manufacturer.contact && (
-                <div 
-                  className="flex items-center text-sm text-gray-600"
-                  onClick={() => readAloud && speakText(`Contact: ${product.manufacturer.contact}`)}
-                >
-                  <Phone size={16} className="mr-2" />
-                  <span>{product.manufacturer.contact}</span>
+                <Calendar className="w-4 h-4 mr-2" />
+                Mfg - Exp
+              </TabsTrigger>
+              <TabsTrigger 
+                value="contents"
+                className="data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-slate-800"
+              >
+                <Package className="w-4 h-4 mr-2" />
+                Contents
+              </TabsTrigger>
+              <TabsTrigger 
+                value="usage"
+                className="data-[state=active]:bg-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-slate-800"
+              >
+                <Utensils className="w-4 h-4 mr-2" />
+                Usage
+              </TabsTrigger>
+            </TabsList>
+
+            {/* Tab Contents */}
+            <div className="mt-4 space-y-4">
+              <TabsContent value="details" className="m-0">
+                <div className="bg-white dark:bg-slate-800 rounded-lg p-4 space-y-4 shadow-sm">
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                      Batch Number
+                    </p>
+                    <p className="text-sm text-slate-900 dark:text-slate-100">
+                      {product.batchNumber}
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                      Serial Number
+                    </p>
+                    <p className="text-sm text-slate-900 dark:text-slate-100">
+                      {product.serialNumber}
+                    </p>
+                  </div>
                 </div>
-              )}
+              </TabsContent>
+
+              <TabsContent value="mfg-exp" className="m-0">
+                <div className="bg-white dark:bg-slate-800 rounded-lg p-4 space-y-4 shadow-sm">
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                      Manufacturing Date
+                    </p>
+                    <p className="text-sm text-slate-900 dark:text-slate-100">
+                      {product.manufacturingDate}
+                    </p>
+                  </div>
+                  {product.expiryDate && (
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                        Expiry Date
+                      </p>
+                      <p className="text-sm text-slate-900 dark:text-slate-100">
+                        {product.expiryDate}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="contents" className="m-0">
+                <div className="bg-white dark:bg-slate-800 rounded-lg p-4 space-y-4 shadow-sm">
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                      Ingredients
+                    </p>
+                    <p className="text-sm text-slate-900 dark:text-slate-100">
+                      Water, Wheat Flour, Sugar, Vegetable Oil, Salt, Emulsifiers, Natural Flavoring
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                      Allergens
+                    </p>
+                    <p className="text-sm text-slate-900 dark:text-slate-100">
+                      Contains Wheat, May contain traces of Nuts and Soy
+                    </p>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="usage" className="m-0">
+                <div className="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm">
+                  <p className="text-sm text-slate-900 dark:text-slate-100">
+                    Store in a cool, dry place. Once opened, consume within 3 days.
+                  </p>
+                </div>
+              </TabsContent>
             </div>
-          </div>
-          
-          {/* Food-specific additional information */}
-          <div className="mt-6 bg-white rounded-xl shadow-md p-4">
-            <h3 className="font-bold text-lg mb-3">Ingredients & Allergens</h3>
-            <div 
-              className="text-sm text-gray-600 mb-4"
-              onClick={() => readAloud && speakText("Ingredients: Water, Wheat Flour, Sugar, Vegetable Oil, Salt, Emulsifiers, Natural Flavoring.")}
-            >
-              <p className="font-medium mb-1">Ingredients:</p>
-              <p>Water, Wheat Flour, Sugar, Vegetable Oil, Salt, Emulsifiers, Natural Flavoring.</p>
+          </Tabs>
+
+          {/* Warning Section */}
+          {status === 'warning' && product.warningFlags && (
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+              <div className="flex items-start">
+                <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5" />
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-amber-800">Warnings</h3>
+                  <div className="mt-2 text-sm text-amber-700">
+                    <ul className="list-disc pl-5 space-y-1">
+                      {product.warningFlags.map((flag, index) => (
+                        <li key={index}>{flag}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <div 
-              className="text-sm text-gray-600"
-              onClick={() => readAloud && speakText("Allergens: Contains Wheat, May contain traces of Nuts and Soy.")}
-            >
-              <p className="font-medium mb-1">Allergens:</p>
-              <p>Contains Wheat, May contain traces of Nuts and Soy.</p>
-            </div>
-          </div>
-          
+          )}
+
           {(status === 'counterfeit' || status === 'warning') && (
             <div className="mt-6">
               <Button 
