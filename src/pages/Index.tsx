@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -35,10 +36,26 @@ const Index: React.FC = () => {
 
   const handleScan = (productId: string) => {
     console.log("Scanned product ID:", productId);
-    // Ensure productId is properly formatted
-    const formattedId = productId.trim();
+    
+    // Clean up and encode the product ID for URL safety
+    let formattedId = productId.trim();
+    
+    // Remove HTTP:// or http:// prefix for routing purposes
+    if (formattedId.toUpperCase().startsWith('HTTP://')) {
+      formattedId = formattedId.substring(7);
+    } else if (formattedId.toLowerCase().startsWith('http://')) {
+      formattedId = formattedId.substring(7);
+    }
+    
+    // Also handle https:// prefix
+    if (formattedId.toUpperCase().startsWith('HTTPS://')) {
+      formattedId = formattedId.substring(8);
+    } else if (formattedId.toLowerCase().startsWith('https://')) {
+      formattedId = formattedId.substring(8);
+    }
+    
     if (formattedId) {
-      // Navigate to product details page with the scanned product ID
+      // Navigate to product details page with the cleaned product ID
       navigate(`/product/${formattedId}`);
     } else {
       console.error("Invalid product ID scanned:", productId);

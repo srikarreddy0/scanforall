@@ -172,6 +172,122 @@ export const productDatabase: Record<string, Product> = {
       ]
     }
   },
+  
+  // Add duplicated entries for URLs without http:// prefix
+  "q-r.to/pdfpromo": {
+    id: "q-r.to/pdfpromo",
+    name: "Organic Granola",
+    brand: "Nature's Best",
+    model: "Classic Recipe",
+    category: "Food",
+    description: "Delicious and nutritious organic granola made with whole grains and natural ingredients.",
+    manufacturingDate: "2023-06-15",
+    expiryDate: "2024-06-15",
+    batchNumber: "BN-http://q",
+    serialNumber: "SN-GRANOLA-001",
+    isAuthentic: true,
+    imageUrl: "/placeholder.svg",
+    manufacturer: {
+      name: "Nature's Best Foods Inc.",
+      location: "California, USA",
+      contact: "support@naturesbest.com"
+    },
+    contents: {
+      ingredients: [
+        "Whole grain oats",
+        "Honey",
+        "Almonds",
+        "Raisins",
+        "Sunflower seeds",
+        "Coconut oil"
+      ],
+      allergens: [
+        "Contains tree nuts (almonds)",
+        "May contain traces of other nuts",
+        "Produced in a facility that processes wheat"
+      ],
+      nutritionalInfo: {
+        calories: "240 kcal",
+        protein: "6g",
+        carbs: "32g",
+        fat: "12g"
+      }
+    },
+    usage: {
+      instructions: [
+        "Pour desired amount into bowl",
+        "Add milk or yogurt as preferred",
+        "Can be eaten as a dry snack"
+      ],
+      storage: [
+        "Store in a cool, dry place",
+        "Keep sealed after opening",
+        "Best consumed within 30 days of opening"
+      ],
+      warnings: [
+        "Check for freshness before consuming",
+        "Not suitable for nut allergy sufferers"
+      ]
+    }
+  },
+  
+  // Add entries for the other known problematic URLs
+  "MOBIBRIX.COM/V0JDN9": {
+    id: "MOBIBRIX.COM/V0JDN9",
+    name: "Organic Granola",
+    brand: "Nature's Best",
+    model: "Classic Recipe",
+    category: "Food",
+    description: "Delicious and nutritious organic granola made with whole grains and natural ingredients.",
+    manufacturingDate: "2023-06-15",
+    expiryDate: "2024-06-15",
+    batchNumber: "BN-MOBIBRIX",
+    serialNumber: "SN-GRANOLA-002",
+    isAuthentic: true,
+    imageUrl: "/placeholder.svg",
+    manufacturer: {
+      name: "Nature's Best Foods Inc.",
+      location: "California, USA",
+      contact: "support@naturesbest.com"
+    },
+    contents: {
+      ingredients: [
+        "Whole grain oats",
+        "Honey",
+        "Almonds",
+        "Raisins",
+        "Sunflower seeds",
+        "Coconut oil"
+      ],
+      allergens: [
+        "Contains tree nuts (almonds)",
+        "May contain traces of other nuts",
+        "Produced in a facility that processes wheat"
+      ],
+      nutritionalInfo: {
+        calories: "240 kcal",
+        protein: "6g",
+        carbs: "32g",
+        fat: "12g"
+      }
+    },
+    usage: {
+      instructions: [
+        "Pour desired amount into bowl",
+        "Add milk or yogurt as preferred",
+        "Can be eaten as a dry snack"
+      ],
+      storage: [
+        "Store in a cool, dry place",
+        "Keep sealed after opening",
+        "Best consumed within 30 days of opening"
+      ],
+      warnings: [
+        "Check for freshness before consuming",
+        "Not suitable for nut allergy sufferers"
+      ]
+    }
+  }
 };
 
 // Function to simulate verification

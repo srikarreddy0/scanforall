@@ -26,28 +26,69 @@ const ProductDetails: React.FC = () => {
       setReadAloud(savedReadAloud === 'true');
     }
 
-    setTimeout(() => {
-      const result = verifyProduct(productId);
+    // Try to find the product with or without the http prefix
+    let lookupId = productId;
+    
+    // Check if we need to add http:// prefix back for lookup
+    // This matches our mock data keys that contain full URLs
+    if (!lookupId.toLowerCase().startsWith('http://') && 
+        !lookupId.toUpperCase().startsWith('HTTP://')) {
+      // Try with the http:// prefix added back
+      const withHttpPrefix = `http://${lookupId}`;
+      console.log("Trying to find product with HTTP prefix:", withHttpPrefix);
+      
+      // Use the verifyProduct function to check both options
+      let result = verifyProduct(withHttpPrefix);
+      
+      // If not found with http prefix, try original ID
+      if (result.status === 'not-found') {
+        console.log("Product not found with HTTP prefix, trying original ID:", lookupId);
+        result = verifyProduct(lookupId);
+      }
+      
       setProduct(result.product);
       setStatus(result.status);
       setLoading(false);
       
       if (result.product) {
         saveToHistory({
-          productId,
+          productId: lookupId,
           productName: result.product.name,
           brand: result.product.brand,
           timestamp: new Date().toISOString(),
           status: result.status
         });
+        
+        if (readAloud) {
+          const productInfo = `Product verified. ${result.product.name} by ${result.product.brand}. Status: ${result.status}`;
+          speakText(productInfo);
+        }
       }
-
-      if (readAloud && result.product) {
-        const productInfo = `Product verified. ${result.product.name} by ${result.product.brand}. Status: ${result.status}`;
-        speakText(productInfo);
-      }
-    }, 1000);
-  }, [productId]);
+    } else {
+      // Use the productId as-is
+      setTimeout(() => {
+        const result = verifyProduct(lookupId);
+        setProduct(result.product);
+        setStatus(result.status);
+        setLoading(false);
+        
+        if (result.product) {
+          saveToHistory({
+            productId: lookupId,
+            productName: result.product.name,
+            brand: result.product.brand,
+            timestamp: new Date().toISOString(),
+            status: result.status
+          });
+          
+          if (readAloud) {
+            const productInfo = `Product verified. ${result.product.name} by ${result.product.brand}. Status: ${result.status}`;
+            speakText(productInfo);
+          }
+        }
+      }, 1000);
+    }
+  }, [productId, readAloud]);
 
   const handleReportCounterfeit = () => {
     navigate(`/report/${productId}`);
@@ -139,7 +180,7 @@ const ProductDetails: React.FC = () => {
   }
 
   return (
-    <div className="app-container bg-slate-50 dark:bg-slate-900">
+    <div className="app-container bg-slate-50 dark:bg-dark-300">
       <ProductHeader
         productName={product.name}
         readAloud={readAloud}
@@ -150,7 +191,7 @@ const ProductDetails: React.FC = () => {
       <div className="flex-1 overflow-auto">
         <div className="p-4 space-y-4">
           <div className="text-left space-y-2">
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
               {product.name}
             </h1>
             <p className="text-slate-600 dark:text-slate-400">{product.brand}</p>
