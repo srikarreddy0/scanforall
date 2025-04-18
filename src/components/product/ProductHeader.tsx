@@ -20,13 +20,22 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
   return (
     <>
       <Header title={productName} showBack={true} />
-      <button
-        onClick={toggleReadAloud}
-        className="absolute top-20 right-4 premium-icon-button"
-        aria-label={readAloud ? "Disable read aloud" : "Enable read aloud"}
-      >
-        {readAloud ? <Volume2 size={20} className="text-premium-500" /> : <VolumeX size={20} />}
-      </button>
+      <div className="absolute top-20 right-4 flex items-center gap-3">
+        <button
+          onClick={toggleReadAloud}
+          className="premium-icon-button"
+          aria-label={readAloud ? "Disable read aloud" : "Enable read aloud"}
+        >
+          {readAloud ? <Volume2 size={20} className="text-premium-500" /> : <VolumeX size={20} />}
+        </button>
+        <button
+          onClick={onShare}
+          className="premium-icon-button"
+          aria-label="Share product"
+        >
+          <Share2 size={20} />
+        </button>
+      </div>
     </>
   );
 };

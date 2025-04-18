@@ -51,13 +51,23 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan }) => {
           window.speechSynthesis.speak(utterance);
         }
 
-        // Pass scanned data to parent
-        onScan(code.data);
-
-        // Show success toast
-        toast.success('QR Code scanned successfully', {
-          description: 'Retrieving product details...'
-        });
+        console.log("QR code data:", code.data);
+        
+        // Pass scanned data to parent - ensure it's a clean string
+        const productId = code.data.trim();
+        if (productId) {
+          // Show success toast
+          toast.success('QR Code scanned successfully', {
+            description: 'Retrieving product details...'
+          });
+          
+          // Call the onScan handler with the product ID
+          onScan(productId);
+        } else {
+          toast.error('Invalid QR code', {
+            description: 'The scanned QR code does not contain valid product information.'
+          });
+        }
 
         // Stop camera stream
         if (stream) {

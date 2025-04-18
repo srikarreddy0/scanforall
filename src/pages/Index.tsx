@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -35,8 +34,15 @@ const Index: React.FC = () => {
   }, []);
 
   const handleScan = (productId: string) => {
-    // Navigate to product details page with the scanned product ID
-    navigate(`/product/${productId}`);
+    console.log("Scanned product ID:", productId);
+    // Ensure productId is properly formatted
+    const formattedId = productId.trim();
+    if (formattedId) {
+      // Navigate to product details page with the scanned product ID
+      navigate(`/product/${formattedId}`);
+    } else {
+      console.error("Invalid product ID scanned:", productId);
+    }
   };
 
   // Animation variants
