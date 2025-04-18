@@ -1,10 +1,8 @@
-
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
-import { FileText, Calendar, Package, Utensils, AlertTriangle, Volume2, VolumeX, Share2, Phone, MapPin, Building, Flag, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { Volume2, VolumeX, ShieldCheck, ShieldAlert, Flag } from 'lucide-react';
 import Header from '../components/Header';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs';
 import { Product, verifyProduct, saveToHistory } from '../utils/mockData';
 import { Button } from '../components/ui/button';
 import ProductHeader from '../components/product/ProductHeader';
@@ -14,7 +12,8 @@ import ProductWarnings from '../components/product/ProductWarnings';
 type VerificationStatus = 'authentic' | 'counterfeit' | 'warning' | 'not-found';
 
 const ProductDetails: React.FC = () => {
-  const { productId = '' } = useParams<{ productId: string }>();
+  const { productId = '', '*': wildcardPath } = useParams<{ productId: string, '*': string }>();
+  const location = useLocation();
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
   const [status, setStatus] = useState<VerificationStatus>('not-found');
@@ -27,41 +26,52 @@ const ProductDetails: React.FC = () => {
       setReadAloud(savedReadAloud === 'true');
     }
 
-    // Handle product ID from URL
-    // Important: We need to handle URLs with slashes properly
-    let formattedId = productId;
+    // Get the complete product ID, including any path segments after it
+    let fullProductId = productId;
     
-    // If the productId contains slashes, we need to handle it differently
-    // because the router will split it into multiple segments
-    if (productId.includes('/')) {
-      // For cases like 'q-r.to/pdfpromo' or 'MOBIBRIX.COM/V0JDN9'
-      console.log("Product ID contains slashes:", productId);
-      
-      // First try direct lookup
-      let result = verifyProduct(productId);
+    // If there's additional path information after the productId, include it
+    if (wildcardPath) {
+      fullProductId = `${productId}/${wildcardPath}`;
+    }
+    
+    // For debugging
+    console.log("Product page received ID:", fullProductId);
+    console.log("Full location pathname:", location.pathname);
+    
+    // Try different variations of the product ID to find a match
+    const verifyProductWithVariations = (id: string) => {
+      // Try with original ID
+      let result = verifyProduct(id);
+      console.log(`Tried lookup with: "${id}", result:`, result.status);
       
       // If not found, try with http:// prefix
       if (result.status === 'not-found') {
-        const withHttpPrefix = `http://${productId}`;
+        const withHttpPrefix = `http://${id}`;
         console.log("Trying with HTTP prefix:", withHttpPrefix);
         result = verifyProduct(withHttpPrefix);
       }
       
-      // If still not found and doesn't have HTTP prefix already, try uppercase version
-      if (result.status === 'not-found' && !productId.toUpperCase().includes('HTTP://')) {
-        const withUppercase = productId.toUpperCase();
-        console.log("Trying uppercase version:", withUppercase);
-        result = verifyProduct(withUppercase);
+      // If still not found, try with uppercase version
+      if (result.status === 'not-found') {
+        const uppercaseId = id.toUpperCase();
+        console.log("Trying uppercase version:", uppercaseId);
+        result = verifyProduct(uppercaseId);
       }
       
-      // Process result
+      return result;
+    };
+    
+    setTimeout(() => {
+      // Verify the product with its full ID including path segments
+      const result = verifyProductWithVariations(fullProductId);
+      
       setProduct(result.product);
       setStatus(result.status);
       setLoading(false);
       
       if (result.product) {
         saveToHistory({
-          productId,
+          productId: fullProductId,
           productName: result.product.name,
           brand: result.product.brand,
           timestamp: new Date().toISOString(),
@@ -73,40 +83,9 @@ const ProductDetails: React.FC = () => {
           speakText(productInfo);
         }
       }
-    } else {
-      // Original flow for simple IDs without slashes
-      setTimeout(() => {
-        // Try with original ID
-        let result = verifyProduct(productId);
-        
-        // If not found, try with http:// prefix
-        if (result.status === 'not-found') {
-          const withHttpPrefix = `http://${productId}`;
-          console.log("Trying with HTTP prefix:", withHttpPrefix);
-          result = verifyProduct(withHttpPrefix);
-        }
-        
-        setProduct(result.product);
-        setStatus(result.status);
-        setLoading(false);
-        
-        if (result.product) {
-          saveToHistory({
-            productId,
-            productName: result.product.name,
-            brand: result.product.brand,
-            timestamp: new Date().toISOString(),
-            status: result.status
-          });
-          
-          if (readAloud) {
-            const productInfo = `Product verified. ${result.product.name} by ${result.product.brand}. Status: ${result.status}`;
-            speakText(productInfo);
-          }
-        }
-      }, 1000);
-    }
-  }, [productId, readAloud]);
+    }, 1000);
+    
+  }, [productId, wildcardPath, location.pathname, readAloud]);
 
   const handleReportCounterfeit = () => {
     navigate(`/report/${productId}`);

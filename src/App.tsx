@@ -22,6 +22,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/product/:productId" element={<ProductDetails />} />
+          {/* Special catch-all route for product IDs with slashes */}
+          <Route path="/product/:productId/*" element={<ProductDetails />} />
           <Route path="/history" element={<History />} />
           <Route path="/report/:productId" element={<Report />} />
           <Route path="/notifications" element={<Notifications />} />
