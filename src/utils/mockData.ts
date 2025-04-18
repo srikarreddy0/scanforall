@@ -295,12 +295,17 @@ export const verifyProduct = (productId: string): {
   product: Product | null, 
   status: 'authentic' | 'counterfeit' | 'warning' | 'not-found' 
 } => {
-  // Simulate network delay
+  console.log("Verifying product with ID:", productId);
+  
+  // Directly look up the product in the database
   const product = productDatabase[productId];
   
   if (!product) {
+    console.log("Product not found:", productId);
     return { product: null, status: 'not-found' };
   }
+  
+  console.log("Product found:", product.name);
   
   if (!product.isAuthentic) {
     return { product, status: 'counterfeit' };

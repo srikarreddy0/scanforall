@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -26,33 +27,41 @@ const ProductDetails: React.FC = () => {
       setReadAloud(savedReadAloud === 'true');
     }
 
-    // Try to find the product with or without the http prefix
-    let lookupId = productId;
+    // Handle product ID from URL
+    // Important: We need to handle URLs with slashes properly
+    let formattedId = productId;
     
-    // Check if we need to add http:// prefix back for lookup
-    // This matches our mock data keys that contain full URLs
-    if (!lookupId.toLowerCase().startsWith('http://') && 
-        !lookupId.toUpperCase().startsWith('HTTP://')) {
-      // Try with the http:// prefix added back
-      const withHttpPrefix = `http://${lookupId}`;
-      console.log("Trying to find product with HTTP prefix:", withHttpPrefix);
+    // If the productId contains slashes, we need to handle it differently
+    // because the router will split it into multiple segments
+    if (productId.includes('/')) {
+      // For cases like 'q-r.to/pdfpromo' or 'MOBIBRIX.COM/V0JDN9'
+      console.log("Product ID contains slashes:", productId);
       
-      // Use the verifyProduct function to check both options
-      let result = verifyProduct(withHttpPrefix);
+      // First try direct lookup
+      let result = verifyProduct(productId);
       
-      // If not found with http prefix, try original ID
+      // If not found, try with http:// prefix
       if (result.status === 'not-found') {
-        console.log("Product not found with HTTP prefix, trying original ID:", lookupId);
-        result = verifyProduct(lookupId);
+        const withHttpPrefix = `http://${productId}`;
+        console.log("Trying with HTTP prefix:", withHttpPrefix);
+        result = verifyProduct(withHttpPrefix);
       }
       
+      // If still not found and doesn't have HTTP prefix already, try uppercase version
+      if (result.status === 'not-found' && !productId.toUpperCase().includes('HTTP://')) {
+        const withUppercase = productId.toUpperCase();
+        console.log("Trying uppercase version:", withUppercase);
+        result = verifyProduct(withUppercase);
+      }
+      
+      // Process result
       setProduct(result.product);
       setStatus(result.status);
       setLoading(false);
       
       if (result.product) {
         saveToHistory({
-          productId: lookupId,
+          productId,
           productName: result.product.name,
           brand: result.product.brand,
           timestamp: new Date().toISOString(),
@@ -65,16 +74,25 @@ const ProductDetails: React.FC = () => {
         }
       }
     } else {
-      // Use the productId as-is
+      // Original flow for simple IDs without slashes
       setTimeout(() => {
-        const result = verifyProduct(lookupId);
+        // Try with original ID
+        let result = verifyProduct(productId);
+        
+        // If not found, try with http:// prefix
+        if (result.status === 'not-found') {
+          const withHttpPrefix = `http://${productId}`;
+          console.log("Trying with HTTP prefix:", withHttpPrefix);
+          result = verifyProduct(withHttpPrefix);
+        }
+        
         setProduct(result.product);
         setStatus(result.status);
         setLoading(false);
         
         if (result.product) {
           saveToHistory({
-            productId: lookupId,
+            productId,
             productName: result.product.name,
             brand: result.product.brand,
             timestamp: new Date().toISOString(),
