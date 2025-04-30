@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Search, 
@@ -6,7 +7,6 @@ import {
   Bookmark,
   Info,
   Volume2,
-  ShieldCheck,
   AlertOctagon
 } from 'lucide-react';
 import Header from '../components/Header';
@@ -14,9 +14,51 @@ import Scanner from '../components/Scanner';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 
+// Extracted QuickActionButton to improve component readability
+const QuickActionButton = ({ icon, label, onClick, hasNotification = false }) => (
+  <button 
+    className="flex flex-col items-center gap-1 group"
+    onClick={onClick}
+  >
+    <div className="relative w-12 h-12 rounded-full dark:bg-dark-200 bg-light-300 flex items-center justify-center dark:border dark:border-dark-100 border border-light-400 group-hover:border-premium-700 dark:group-hover:bg-dark-100 group-hover:bg-light-400 transition-all duration-200">
+      <div className="dark:text-light-400 text-dark-400 group-hover:text-premium-400 transition-colors duration-200">
+        {icon}
+      </div>
+      {hasNotification && (
+        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-premium-500 dark:ring-2 dark:ring-dark-200 ring-2 ring-light-300"></span>
+      )}
+    </div>
+    <span className="text-xs font-medium dark:text-light-400 text-dark-400">{label}</span>
+  </button>
+);
+
 const Index: React.FC = () => {
   const navigate = useNavigate();
-  const [readAloud, setReadAloud] = React.useState(false);
+  const [readAloud, setReadAloud] = useState(false);
+
+  // Animation variants - memoized to avoid recreating on each render
+  const containerVariants = useMemo(() => ({
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  }), []);
+  
+  const itemVariants = useMemo(() => ({
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20
+      }
+    }
+  }), []);
 
   useEffect(() => {
     // Get read aloud preference from localStorage
@@ -35,7 +77,8 @@ const Index: React.FC = () => {
     }
   }, []);
 
-  const handleScan = (productId: string) => {
+  // Optimized scan handler with useCallback
+  const handleScan = useCallback((productId: string) => {
     console.log("Scanned product ID:", productId);
     
     // Clean up and encode the product ID for URL safety
@@ -61,31 +104,13 @@ const Index: React.FC = () => {
     } else {
       console.error("Invalid product ID scanned:", productId);
     }
-  };
-  
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-  
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 20
-      }
-    }
-  };
+  }, [navigate]);
+
+  // Navigation handlers
+  const navigateToSearch = useCallback(() => navigate('/search'), [navigate]);
+  const navigateToNotifications = useCallback(() => navigate('/notifications'), [navigate]);
+  const navigateToHistory = useCallback(() => navigate('/history'), [navigate]);
+  const navigateToBookmarks = useCallback(() => navigate('/bookmarks'), [navigate]);
 
   return (
     <div className="app-container dark:bg-dark-300 bg-light-300 dark:text-light-100 text-dark-300">
@@ -114,23 +139,23 @@ const Index: React.FC = () => {
           <QuickActionButton 
             icon={<Search size={20} />} 
             label="Search" 
-            onClick={() => navigate('/search')} 
+            onClick={navigateToSearch}
           />
           <QuickActionButton 
             icon={<AlertOctagon size={20} />} 
             label="Alert" 
-            onClick={() => navigate('/notifications')} 
+            onClick={navigateToNotifications}
             hasNotification={true}
           />
           <QuickActionButton 
             icon={<HistoryIcon size={20} />} 
             label="History" 
-            onClick={() => navigate('/history')} 
+            onClick={navigateToHistory}
           />
           <QuickActionButton 
             icon={<Bookmark size={20} />} 
             label="Saved" 
-            onClick={() => navigate('/bookmarks')} 
+            onClick={navigateToBookmarks}
           />
         </motion.div>
         
@@ -157,7 +182,7 @@ const Index: React.FC = () => {
             <Button 
               variant="ghost" 
               className="text-xs text-premium-500 p-0 h-auto"
-              onClick={() => navigate('/history')}
+              onClick={navigateToHistory}
             >
               View All
             </Button>
@@ -195,6 +220,7 @@ const Index: React.FC = () => {
                 variant="ghost" 
                 size="sm" 
                 className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 dark:hover:bg-dark-100 hover:bg-light-400"
+                onClick={() => navigate('/settings')}
               >
                 Setup
               </Button>
@@ -205,23 +231,5 @@ const Index: React.FC = () => {
     </div>
   );
 };
-
-// Quick Action Button Component
-const QuickActionButton = ({ icon, label, onClick, hasNotification = false }) => (
-  <button 
-    className="flex flex-col items-center gap-1 group"
-    onClick={onClick}
-  >
-    <div className="relative w-12 h-12 rounded-full dark:bg-dark-200 bg-light-300 flex items-center justify-center dark:border dark:border-dark-100 border border-light-400 group-hover:border-premium-700 dark:group-hover:bg-dark-100 group-hover:bg-light-400 transition-all duration-200">
-      <div className="dark:text-light-400 text-dark-400 group-hover:text-premium-400 transition-colors duration-200">
-        {icon}
-      </div>
-      {hasNotification && (
-        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-premium-500 dark:ring-2 dark:ring-dark-200 ring-2 ring-light-300"></span>
-      )}
-    </div>
-    <span className="text-xs font-medium dark:text-light-400 text-dark-400">{label}</span>
-  </button>
-);
 
 export default Index;
