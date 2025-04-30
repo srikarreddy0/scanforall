@@ -29,7 +29,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
         <TabsTrigger value="contents" className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950 ">
           Contents
         </TabsTrigger>
-        <TabsTrigger value="usage" className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950 font-normal">
+        <TabsTrigger value="usage" className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950 font-normal bg-zinc-500 hover:bg-zinc-400">
           Usage
         </TabsTrigger>
       </TabsList>
@@ -67,7 +67,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
         </TabsContent>
 
         <TabsContent value="contents" className="m-0">
-          <div className="space-y-4">
+          <div className="space-y-4 bg-zinc-500">
             {product.contents && <>
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-blue-300">Ingredients</p>
@@ -86,7 +86,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
         </TabsContent>
 
         <TabsContent value="usage" className="m-0">
-          <div className="space-y-4">
+          <div className="space-y-4 bg-zinc-500">
             {product.usage && <>
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-blue-300">Instructions</p>
@@ -105,7 +105,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
         </TabsContent>
 
         <TabsContent value="mfg-exp" className="m-0">
-          <div className="space-y-4">
+          <div className="space-y-4 bg-zinc-500 rounded-xl py-[16px] px-[16px]">
             <div className="space-y-2">
               <p className="text-sm font-medium text-blue-300">Manufacturing Date</p>
               <p className="text-sm text-white">{formatDate(product.manufacturingDate)}</p>
