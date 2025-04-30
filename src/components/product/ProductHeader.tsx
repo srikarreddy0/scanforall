@@ -3,6 +3,11 @@ import React from 'react';
 import { Volume2, VolumeX, Share2 } from 'lucide-react';
 import { toast } from 'sonner';
 import Header from '../Header';
+import { 
+  getReadAloudPreference,
+  setReadAloudPreference,
+  cancelSpeech 
+} from '@/utils/readAloudUtils';
 
 interface ProductHeaderProps {
   productName: string;

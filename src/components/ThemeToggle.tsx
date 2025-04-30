@@ -1,38 +1,16 @@
 
 import { useState, useEffect } from 'react';
-import { Sun, Moon, Monitor, Volume2, VolumeX } from 'lucide-react';
+import { Sun, Moon, Monitor } from 'lucide-react';
 import { Switch } from './ui/switch';
 import { toast } from 'sonner';
+import { cancelSpeech } from '@/utils/readAloudUtils';
 
 interface ThemeToggleProps {
   inSettings?: boolean;
 }
 
-export const toggleReadAloud = (currentValue: boolean) => {
-  const newValue = !currentValue;
-  localStorage.setItem('readAloud', newValue.toString());
-  
-  if (newValue) {
-    toast.success('Read aloud enabled', {
-      description: 'Product details will be read aloud',
-      icon: <Volume2 className="text-premium-500" />
-    });
-  } else {
-    toast.info('Read aloud disabled', {
-      icon: <VolumeX className="text-muted-foreground" />
-    });
-    // Stop any ongoing speech
-    if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-    }
-  }
-  
-  return newValue;
-};
-
 const ThemeToggle: React.FC<ThemeToggleProps> = ({ inSettings = false }) => {
   const [theme, setTheme] = useState<'dark' | 'light' | 'system'>('dark');
-  const [readAloud, setReadAloud] = useState(false);
 
   useEffect(() => {
     // Check if user has already set a preference
@@ -58,12 +36,6 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ inSettings = false }) => {
         document.documentElement.classList.remove('dark');
         document.body.classList.remove('dark');
       }
-    }
-
-    // Check read aloud preference
-    const savedReadAloud = localStorage.getItem('readAloud');
-    if (savedReadAloud) {
-      setReadAloud(savedReadAloud === 'true');
     }
   }, []);
 
@@ -92,11 +64,6 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ inSettings = false }) => {
         document.body.classList.remove('dark');
       }
     }
-  };
-
-  const handleReadAloudToggle = () => {
-    const newValue = toggleReadAloud(readAloud);
-    setReadAloud(newValue);
   };
 
   if (inSettings) {
@@ -128,8 +95,6 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ inSettings = false }) => {
             <span>System Default</span>
           </button>
         </div>
-
-        {/* Read Aloud toggle moved to Settings page */}
       </div>
     );
   }
