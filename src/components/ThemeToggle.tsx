@@ -1,8 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Sun, Moon, Monitor, Volume2, VolumeX } from 'lucide-react';
-import { Switch } from './ui/switch';
-import { toast } from 'sonner';
+import { Sun, Moon, Monitor } from 'lucide-react';
 
 interface ThemeToggleProps {
   inSettings?: boolean;
@@ -10,7 +8,6 @@ interface ThemeToggleProps {
 
 const ThemeToggle: React.FC<ThemeToggleProps> = ({ inSettings = false }) => {
   const [theme, setTheme] = useState<'dark' | 'light' | 'system'>('dark');
-  const [readAloud, setReadAloud] = useState(false);
 
   useEffect(() => {
     // Check if user has already set a preference
@@ -36,12 +33,6 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ inSettings = false }) => {
         document.documentElement.classList.remove('dark');
         document.body.classList.remove('dark');
       }
-    }
-
-    // Check read aloud preference
-    const savedReadAloud = localStorage.getItem('readAloud');
-    if (savedReadAloud) {
-      setReadAloud(savedReadAloud === 'true');
     }
   }, []);
 
@@ -72,78 +63,33 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ inSettings = false }) => {
     }
   };
 
-  const toggleReadAloud = () => {
-    const newValue = !readAloud;
-    setReadAloud(newValue);
-    localStorage.setItem('readAloud', newValue.toString());
-    
-    if (newValue) {
-      toast.success('Read aloud enabled', {
-        description: 'Product details will be read aloud',
-        icon: <Volume2 className="text-premium-500" />
-      });
-    } else {
-      toast.info('Read aloud disabled', {
-        icon: <VolumeX className="text-muted-foreground" />
-      });
-      // Stop any ongoing speech
-      if (window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
-    }
-  };
-
   if (inSettings) {
     // Render radio button style options for settings panel
     return (
-      <div className="space-y-4">
-        <div className="flex flex-col space-y-2">
-          <button 
-            onClick={() => setThemeMode('light')}
-            className={`flex items-center gap-2 py-2 px-3 rounded-lg ${theme === 'light' ? 'bg-premium-500 text-white' : 'dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400'}`}
-          >
-            <Sun size={16} />
-            <span>Light Mode</span>
-          </button>
-          
-          <button 
-            onClick={() => setThemeMode('dark')}
-            className={`flex items-center gap-2 py-2 px-3 rounded-lg ${theme === 'dark' ? 'bg-premium-500 text-white' : 'dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400'}`}
-          >
-            <Moon size={16} />
-            <span>Dark Mode</span>
-          </button>
-          
-          <button 
-            onClick={() => setThemeMode('system')}
-            className={`flex items-center gap-2 py-2 px-3 rounded-lg ${theme === 'system' ? 'bg-premium-500 text-white' : 'dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400'}`}
-          >
-            <Monitor size={16} />
-            <span>System Default</span>
-          </button>
-        </div>
-
-        {/* Read Aloud toggle */}
-        <div className="pt-4 border-t dark:border-dark-100 border-light-400">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              {readAloud ? (
-                <Volume2 size={18} className="text-premium-500" />
-              ) : (
-                <VolumeX size={18} className="dark:text-light-400 text-dark-500" />
-              )}
-              <span className="dark:text-light-300 text-dark-400">Read Aloud</span>
-            </div>
-            <Switch 
-              checked={readAloud} 
-              onCheckedChange={toggleReadAloud}
-              className={readAloud ? "bg-premium-500" : ""} 
-            />
-          </div>
-          <p className="text-sm mt-1 dark:text-light-500 text-dark-500">
-            Enable text-to-speech for product details
-          </p>
-        </div>
+      <div className="flex flex-col space-y-2">
+        <button 
+          onClick={() => setThemeMode('light')}
+          className={`flex items-center gap-2 py-2 px-3 rounded-lg ${theme === 'light' ? 'bg-premium-500 text-white' : 'dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400'}`}
+        >
+          <Sun size={16} />
+          <span>Light Mode</span>
+        </button>
+        
+        <button 
+          onClick={() => setThemeMode('dark')}
+          className={`flex items-center gap-2 py-2 px-3 rounded-lg ${theme === 'dark' ? 'bg-premium-500 text-white' : 'dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400'}`}
+        >
+          <Moon size={16} />
+          <span>Dark Mode</span>
+        </button>
+        
+        <button 
+          onClick={() => setThemeMode('system')}
+          className={`flex items-center gap-2 py-2 px-3 rounded-lg ${theme === 'system' ? 'bg-premium-500 text-white' : 'dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400'}`}
+        >
+          <Monitor size={16} />
+          <span>System Default</span>
+        </button>
       </div>
     );
   }

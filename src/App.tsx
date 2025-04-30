@@ -25,7 +25,6 @@ const App = () => (
           {/* Special catch-all route for product IDs with slashes */}
           <Route path="/product/:productId/*" element={<ProductDetails />} />
           <Route path="/history" element={<History />} />
-          <Route path="/bookmarks" element={<NotFound />} /> {/* Temporary fallback until we create a dedicated Bookmarks page */}
           <Route path="/report/:productId" element={<Report />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/settings" element={<NotFound />} /> {/* Temporary fallback */}

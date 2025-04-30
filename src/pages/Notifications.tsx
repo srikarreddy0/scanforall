@@ -33,25 +33,25 @@ const Notifications: React.FC = () => {
   });
 
   return (
-    <div className="app-container bg-white min-h-screen">
+    <div className="app-container bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen">
       <Header title="Notifications" showBack={true} />
       
       <div className="p-6 space-y-6">
         {/* Stats at the top */}
         <div className="flex justify-between items-center">
-          <div className="bg-gradient-to-br from-light-100 to-light-300 p-4 rounded-2xl w-40 shadow-premium-sm">
-            <p className="text-xs text-dark-300/70">Notifications</p>
-            <p className="text-2xl font-semibold text-dark-200">{notificationList.length}</p>
+          <div className="glass-card p-4 rounded-2xl w-40">
+            <p className="text-xs text-gray-400">Notifications</p>
+            <p className="text-2xl font-semibold text-white">{notificationList.length}</p>
           </div>
           
-          <div className="bg-gradient-to-br from-light-100 to-light-300 p-4 rounded-2xl w-40 shadow-premium-sm">
-            <p className="text-xs text-dark-300/70">Unread</p>
-            <p className="text-2xl font-semibold text-dark-200">{notificationList.filter(n => !n.read).length}</p>
+          <div className="glass-card p-4 rounded-2xl w-40">
+            <p className="text-xs text-gray-400">Unread</p>
+            <p className="text-2xl font-semibold text-white">{notificationList.filter(n => !n.read).length}</p>
           </div>
         </div>
         
         {/* Filters for notifications */}
-        <div className="bg-light-200/80 backdrop-blur-md rounded-xl p-1.5 shadow-premium-xs">
+        <div className="bg-gray-800/50 backdrop-blur-md rounded-xl p-1.5">
           <ToggleGroup 
             type="single" 
             value={activeFilter}
@@ -60,16 +60,16 @@ const Notifications: React.FC = () => {
             }}
             className="flex justify-between w-full"
           >
-            <ToggleGroupItem value="all" className="w-full data-[state=on]:bg-white data-[state=on]:shadow-inner rounded-lg text-dark-200">
+            <ToggleGroupItem value="all" className="w-full data-[state=on]:bg-gray-700 data-[state=on]:shadow-inner rounded-lg">
               All
             </ToggleGroupItem>
-            <ToggleGroupItem value="unread" className="w-full data-[state=on]:bg-white data-[state=on]:shadow-inner rounded-lg text-dark-200">
+            <ToggleGroupItem value="unread" className="w-full data-[state=on]:bg-gray-700 data-[state=on]:shadow-inner rounded-lg">
               Unread
             </ToggleGroupItem>
-            <ToggleGroupItem value="alerts" className="w-full data-[state=on]:bg-white data-[state=on]:shadow-inner rounded-lg text-dark-200">
+            <ToggleGroupItem value="alerts" className="w-full data-[state=on]:bg-gray-700 data-[state=on]:shadow-inner rounded-lg">
               Alerts
             </ToggleGroupItem>
-            <ToggleGroupItem value="updates" className="w-full data-[state=on]:bg-white data-[state=on]:shadow-inner rounded-lg text-dark-200">
+            <ToggleGroupItem value="updates" className="w-full data-[state=on]:bg-gray-700 data-[state=on]:shadow-inner rounded-lg">
               Updates
             </ToggleGroupItem>
           </ToggleGroup>
@@ -80,7 +80,7 @@ const Notifications: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={handleMarkAllRead}
-            className="flex-1 bg-white border-light-500 hover:bg-light-300 text-dark-200"
+            className="flex-1 bg-gray-800/60 border-gray-700 hover:bg-gray-700 text-white"
           >
             <CheckCheck size={16} className="mr-2" />
             Mark All Read
@@ -89,7 +89,7 @@ const Notifications: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={handleClearAll}
-            className="flex-1 bg-white border-light-500 hover:bg-light-300 text-dark-200"
+            className="flex-1 bg-gray-800/60 border-gray-700 hover:bg-gray-700 text-white"
           >
             <Trash2 size={16} className="mr-2" />
             Clear All
@@ -99,10 +99,10 @@ const Notifications: React.FC = () => {
         {/* Notifications List */}
         <div className="space-y-3 mt-4">
           {filteredNotifications.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center bg-gradient-to-b from-light-100 to-light-300 rounded-2xl shadow-premium-sm">
-              <Bell size={48} className="text-light-600 mb-4" />
-              <h3 className="text-xl font-semibold text-dark-300 mb-2">No notifications</h3>
-              <p className="text-dark-300/70">
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <Bell size={48} className="text-gray-600 mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">No notifications</h3>
+              <p className="text-gray-400">
                 {activeFilter === "all" 
                   ? "You don't have any notifications yet" 
                   : `No ${activeFilter} notifications to display`}

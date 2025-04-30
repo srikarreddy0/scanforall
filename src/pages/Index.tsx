@@ -62,7 +62,7 @@ const Index: React.FC = () => {
       console.error("Invalid product ID scanned:", productId);
     }
   };
-  
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -106,9 +106,9 @@ const Index: React.FC = () => {
           </p>
         </motion.div>
         
-        {/* Quick action buttons - now with 4 buttons in a row */}
+        {/* Quick action buttons */}
         <motion.div 
-          className="grid grid-cols-4 gap-3 mb-8"
+          className="grid grid-cols-3 gap-4 mb-8"
           variants={itemVariants}
         >
           <QuickActionButton 
@@ -126,11 +126,6 @@ const Index: React.FC = () => {
             icon={<HistoryIcon size={20} />} 
             label="History" 
             onClick={() => navigate('/history')} 
-          />
-          <QuickActionButton 
-            icon={<Bookmark size={20} />} 
-            label="Saved" 
-            onClick={() => navigate('/bookmarks')} 
           />
         </motion.div>
         

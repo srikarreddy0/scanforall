@@ -20,21 +20,21 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   const getIcon = () => {
     switch (notification.type) {
       case 'alert':
-        return <AlertTriangle size={20} className="text-warning-DEFAULT" />;
+        return <AlertTriangle size={20} className="text-amber-400" />;
       case 'security':
-        return <ShieldCheck size={20} className="text-success-DEFAULT" />;
+        return <ShieldCheck size={20} className="text-emerald-400" />;
       case 'update':
-        return <Info size={20} className="text-premium-500" />;
+        return <Info size={20} className="text-blue-400" />;
       default:
-        return <Bell size={20} className="text-dark-100" />;
+        return <Bell size={20} className="text-gray-400" />;
     }
   };
   
   const getBgColor = () => {
     if (!notification.read) {
-      return 'bg-gradient-to-br from-white to-light-300 shadow-premium-sm';
+      return 'bg-gray-800/80 backdrop-blur-md';
     }
-    return 'bg-light-200/80 shadow-premium-xs';
+    return 'bg-gray-800/40 backdrop-blur-sm';
   };
   
   const formatTime = (timestamp: string) => {
@@ -42,42 +42,42 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   };
 
   return (
-    <div className={`rounded-xl ${getBgColor()} transition-all duration-200 overflow-hidden backdrop-blur-sm`}>
+    <div className={`rounded-xl ${getBgColor()} transition-all duration-200 overflow-hidden`}>
       <div className="flex items-start p-4 relative">
         {/* Unread indicator */}
         {!notification.read && (
-          <div className="absolute top-0 right-0 w-2 h-2 rounded-full bg-premium-500 m-3"></div>
+          <div className="absolute top-0 right-0 w-2 h-2 rounded-full bg-emerald-400 m-3"></div>
         )}
         
-        {/* Icon with soft shadow effect */}
-        <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3 bg-white shadow-premium-xs">
+        {/* Icon with neumorphic effect */}
+        <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3 bg-gray-800 shadow-[inset_2px_2px_5px_rgba(0,0,0,0.7),_inset_-2px_-2px_5px_rgba(255,255,255,0.1)]">
           {getIcon()}
         </div>
         
         <div className="flex-1">
-          <h4 className="font-semibold mb-1 text-dark-300">{notification.title}</h4>
-          <p className="text-sm text-dark-200 mb-2">{notification.message}</p>
-          <p className="text-xs text-dark-100">{formatTime(notification.timestamp)}</p>
+          <h4 className="font-semibold mb-1 text-white">{notification.title}</h4>
+          <p className="text-sm text-gray-300 mb-2">{notification.message}</p>
+          <p className="text-xs text-gray-400">{formatTime(notification.timestamp)}</p>
         </div>
         
         <button 
           onClick={() => setShowActions(!showActions)}
-          className="p-2 rounded-full hover:bg-light-400/70"
+          className="p-2 rounded-full hover:bg-gray-700/50"
         >
-          <MoreVertical size={16} className="text-dark-100" />
+          <MoreVertical size={16} className="text-gray-400" />
         </button>
       </div>
       
       {/* Action buttons */}
       {showActions && (
-        <div className="flex border-t border-light-400/50">
+        <div className="flex border-t border-gray-700/50">
           {!notification.read && (
             <button
               onClick={() => {
                 onMarkRead(notification.id);
                 setShowActions(false);
               }}
-              className="flex-1 py-2 flex items-center justify-center text-sm hover:bg-light-300/50 text-dark-200"
+              className="flex-1 py-2 flex items-center justify-center text-sm hover:bg-gray-700/30"
             >
               <Check size={14} className="mr-1.5" />
               Mark as read
@@ -89,7 +89,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
               onDelete(notification.id);
               setShowActions(false);
             }}
-            className="flex-1 py-2 flex items-center justify-center text-sm hover:bg-light-300/50 text-error-DEFAULT"
+            className="flex-1 py-2 flex items-center justify-center text-sm hover:bg-gray-700/30 text-red-400"
           >
             <Trash size={14} className="mr-1.5" />
             Delete
