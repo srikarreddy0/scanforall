@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Volume2, VolumeX } from 'lucide-react';
@@ -5,6 +6,7 @@ import { toast } from 'sonner';
 import Header from '../components/Header';
 import ProductHeader from '../components/product/ProductHeader';
 import ProductTabs from '../components/product/ProductTabs';
+
 const ProductDetails: React.FC = () => {
   const {
     productId = '',
@@ -15,6 +17,7 @@ const ProductDetails: React.FC = () => {
   }>();
   const location = useLocation();
   const [readAloud, setReadAloud] = useState(false);
+
   useEffect(() => {
     const savedReadAloud = localStorage.getItem('readAloud');
     if (savedReadAloud) {
@@ -26,6 +29,7 @@ const ProductDetails: React.FC = () => {
     console.log("Product ID from params:", productId);
     console.log("Wildcard path:", wildcardPath);
   }, [productId, wildcardPath, location.pathname]);
+
   const toggleReadAloud = () => {
     const newValue = !readAloud;
     setReadAloud(newValue);
@@ -42,6 +46,7 @@ const ProductDetails: React.FC = () => {
       window.speechSynthesis.cancel();
     }
   };
+
   const speakText = (text: string) => {
     if (window.speechSynthesis && readAloud) {
       window.speechSynthesis.cancel();
@@ -49,6 +54,7 @@ const ProductDetails: React.FC = () => {
       window.speechSynthesis.speak(utterance);
     }
   };
+
   const shareProduct = () => {
     navigator.clipboard.writeText(window.location.href);
     toast.success('Link copied to clipboard');
@@ -78,12 +84,16 @@ const ProductDetails: React.FC = () => {
       storage: ['Store in a cool, dry place', 'Keep sealed after opening', 'Best consumed within 30 days of opening']
     }
   };
+
   return <div className="app-container bg-darkest dark:bg-dark-300">
       <ProductHeader productName={defaultProduct.name} readAloud={readAloud} toggleReadAloud={toggleReadAloud} onShare={shareProduct} />
       
       <div className="flex-1 overflow-auto bg-zinc-400">
         <div className="p-4 space-y-4">
-          <div className="text-left space-y-2 p-4 rounded-xl bg-zinc-500">
+          <div 
+            className="text-left space-y-2 p-4 rounded-xl bg-zinc-500"
+            onClick={() => speakText(`${defaultProduct.name} by ${defaultProduct.brand}. ${defaultProduct.description}`)}
+          >
             <h1 className="text-2xl font-bold text-white">
               {defaultProduct.name}
             </h1>
