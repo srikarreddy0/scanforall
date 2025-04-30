@@ -10,6 +10,7 @@ import History from "./pages/History";
 import Report from "./pages/Report";
 import NotFound from "./pages/NotFound";
 import Notifications from "./pages/Notifications";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -28,7 +29,7 @@ const App = () => (
           <Route path="/bookmarks" element={<NotFound />} /> {/* Temporary fallback until we create a dedicated Bookmarks page */}
           <Route path="/report/:productId" element={<Report />} />
           <Route path="/notifications" element={<Notifications />} />
-          <Route path="/settings" element={<NotFound />} /> {/* Temporary fallback */}
+          <Route path="/settings" element={<Settings />} /> {/* Updated to use our new Settings page */}
           <Route path="/profile" element={<NotFound />} /> {/* Temporary fallback */}
           <Route path="*" element={<NotFound />} />
         </Routes>

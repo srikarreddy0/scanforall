@@ -8,6 +8,28 @@ interface ThemeToggleProps {
   inSettings?: boolean;
 }
 
+export const toggleReadAloud = (currentValue: boolean) => {
+  const newValue = !currentValue;
+  localStorage.setItem('readAloud', newValue.toString());
+  
+  if (newValue) {
+    toast.success('Read aloud enabled', {
+      description: 'Product details will be read aloud',
+      icon: <Volume2 className="text-premium-500" />
+    });
+  } else {
+    toast.info('Read aloud disabled', {
+      icon: <VolumeX className="text-muted-foreground" />
+    });
+    // Stop any ongoing speech
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+  }
+  
+  return newValue;
+};
+
 const ThemeToggle: React.FC<ThemeToggleProps> = ({ inSettings = false }) => {
   const [theme, setTheme] = useState<'dark' | 'light' | 'system'>('dark');
   const [readAloud, setReadAloud] = useState(false);
@@ -72,25 +94,9 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ inSettings = false }) => {
     }
   };
 
-  const toggleReadAloud = () => {
-    const newValue = !readAloud;
+  const handleReadAloudToggle = () => {
+    const newValue = toggleReadAloud(readAloud);
     setReadAloud(newValue);
-    localStorage.setItem('readAloud', newValue.toString());
-    
-    if (newValue) {
-      toast.success('Read aloud enabled', {
-        description: 'Product details will be read aloud',
-        icon: <Volume2 className="text-premium-500" />
-      });
-    } else {
-      toast.info('Read aloud disabled', {
-        icon: <VolumeX className="text-muted-foreground" />
-      });
-      // Stop any ongoing speech
-      if (window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
-    }
   };
 
   if (inSettings) {
@@ -123,27 +129,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ inSettings = false }) => {
           </button>
         </div>
 
-        {/* Read Aloud toggle */}
-        <div className="pt-4 border-t dark:border-dark-100 border-light-400">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              {readAloud ? (
-                <Volume2 size={18} className="text-premium-500" />
-              ) : (
-                <VolumeX size={18} className="dark:text-light-400 text-dark-500" />
-              )}
-              <span className="dark:text-light-300 text-dark-400">Read Aloud</span>
-            </div>
-            <Switch 
-              checked={readAloud} 
-              onCheckedChange={toggleReadAloud}
-              className={readAloud ? "bg-premium-500" : ""} 
-            />
-          </div>
-          <p className="text-sm mt-1 dark:text-light-500 text-dark-500">
-            Enable text-to-speech for product details
-          </p>
-        </div>
+        {/* Read Aloud toggle moved to Settings page */}
       </div>
     );
   }
