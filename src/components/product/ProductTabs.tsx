@@ -29,7 +29,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
         <TabsTrigger value="contents" className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950 ">
           Contents
         </TabsTrigger>
-        <TabsTrigger value="usage" className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950 font-normal bg-zinc-500 hover:bg-zinc-400">
+        <TabsTrigger value="usage" className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950 font-normal bg-inherit">
           Usage
         </TabsTrigger>
       </TabsList>
