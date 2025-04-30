@@ -6,7 +6,8 @@ import {
   Bookmark,
   Info,
   Volume2,
-  ShieldCheck
+  ShieldCheck,
+  AlertOctagon
 } from 'lucide-react';
 import Header from '../components/Header';
 import Scanner from '../components/Scanner';
@@ -116,9 +117,10 @@ const Index: React.FC = () => {
             onClick={() => navigate('/search')} 
           />
           <QuickActionButton 
-            icon={<ShieldCheck size={20} />} 
-            label="Verify" 
-            onClick={() => navigate('/settings')} 
+            icon={<AlertOctagon size={20} />} 
+            label="Alert" 
+            onClick={() => navigate('/notifications')} 
+            hasNotification={true}
           />
           <QuickActionButton 
             icon={<HistoryIcon size={20} />} 
