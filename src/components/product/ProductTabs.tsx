@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import { Calendar } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ui/tabs';
 interface ProductTabsProps {
@@ -18,25 +19,45 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
       year: 'numeric'
     });
   };
+
   return <Tabs defaultValue="details" className="w-full">
       <TabsList className="w-full grid grid-cols-4 bg-transparent h-auto p-0 border-b border-gray-700">
-        <TabsTrigger value="details" className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950">
+        <TabsTrigger 
+          value="details" 
+          className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950"
+          onClick={() => readText("Details tab")}
+        >
           Details
         </TabsTrigger>
-        <TabsTrigger value="mfg-exp" className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950">
+        <TabsTrigger 
+          value="mfg-exp" 
+          className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950"
+          onClick={() => readText("Manufacturing and Expiry Information")}
+        >
           Mfg - Exp
         </TabsTrigger>
-        <TabsTrigger value="contents" className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950 ">
+        <TabsTrigger 
+          value="contents" 
+          className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950"
+          onClick={() => readText("Product Contents")}
+        >
           Contents
         </TabsTrigger>
-        <TabsTrigger value="usage" className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950 font-normal bg-inherit">
+        <TabsTrigger 
+          value="usage" 
+          className="data-[state=active]:border-b-2 data-[state=active]:border-purple-400 rounded-none text-zinc-950 font-normal bg-inherit"
+          onClick={() => readText("Usage Instructions")}
+        >
           Usage
         </TabsTrigger>
       </TabsList>
 
       <div className="mt-4 space-y-4">
         <TabsContent value="details" className="m-0 text-white">
-          <div className="space-y-4 rounded-xl p-4 bg-zinc-500">
+          <div 
+            className="space-y-4 rounded-xl p-4 bg-zinc-500"
+            onClick={() => readText(`Product details: Manufacturing date ${formatDate(product.manufacturingDate)}. Expiry date ${formatDate(product.expiryDate)}. Batch number ${product.batchNumber}`)}
+          >
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
                 <div className="flex items-center text-blue-300">
@@ -66,8 +87,33 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
           </div>
         </TabsContent>
 
+        <TabsContent value="mfg-exp" className="m-0">
+          <div 
+            className="space-y-4 bg-zinc-500 rounded-xl py-[16px] px-[16px]"
+            onClick={() => readText(`Manufacturing date: ${formatDate(product.manufacturingDate)}. Expiry date: ${formatDate(product.expiryDate)}`)}
+          >
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-blue-300">Manufacturing Date</p>
+              <p className="text-sm text-white">{formatDate(product.manufacturingDate)}</p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-blue-300">Expiry Date</p>
+              <p className="text-sm text-white">{formatDate(product.expiryDate)}</p>
+            </div>
+          </div>
+        </TabsContent>
+
         <TabsContent value="contents" className="m-0">
-          <div className="space-y-4 bg-zinc-500 py-[16px] px-[16px] rounded-xl">
+          <div 
+            className="space-y-4 bg-zinc-500 py-[16px] px-[16px] rounded-xl"
+            onClick={() => {
+              if (product.contents) {
+                const ingredientsText = `Ingredients: ${product.contents.ingredients.join(', ')}`;
+                const allergensText = `Allergens: ${product.contents.allergens.join(', ')}`;
+                readText(`${ingredientsText}. ${allergensText}`);
+              }
+            }}
+          >
             {product.contents && <>
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-blue-300">Ingredients</p>
@@ -86,7 +132,16 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
         </TabsContent>
 
         <TabsContent value="usage" className="m-0">
-          <div className="space-y-4 bg-zinc-500 px-[16px] py-[16px] rounded-xl">
+          <div 
+            className="space-y-4 bg-zinc-500 px-[16px] py-[16px] rounded-xl"
+            onClick={() => {
+              if (product.usage) {
+                const instructionsText = `Instructions: ${product.usage.instructions.join(', ')}`;
+                const storageText = `Storage: ${product.usage.storage.join(', ')}`;
+                readText(`${instructionsText}. ${storageText}`);
+              }
+            }}
+          >
             {product.usage && <>
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-blue-300">Instructions</p>
@@ -101,19 +156,6 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
                   </ul>
                 </div>
               </>}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="mfg-exp" className="m-0">
-          <div className="space-y-4 bg-zinc-500 rounded-xl py-[16px] px-[16px]">
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-blue-300">Manufacturing Date</p>
-              <p className="text-sm text-white">{formatDate(product.manufacturingDate)}</p>
-            </div>
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-blue-300">Expiry Date</p>
-              <p className="text-sm text-white">{formatDate(product.expiryDate)}</p>
-            </div>
           </div>
         </TabsContent>
       </div>
