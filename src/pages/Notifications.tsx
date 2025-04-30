@@ -33,25 +33,25 @@ const Notifications: React.FC = () => {
   });
 
   return (
-    <div className="app-container bg-gradient-to-b from-gray-900 to-gray-800 text-white min-h-screen">
+    <div className="app-container bg-[#121624] text-white min-h-screen">
       <Header title="Notifications" showBack={true} />
       
       <div className="p-6 space-y-6">
         {/* Stats at the top */}
         <div className="flex justify-between items-center">
-          <div className="glass-card p-4 rounded-2xl w-40">
+          <div className="bg-[#1e2433]/70 p-4 rounded-2xl w-40 backdrop-blur-md">
             <p className="text-xs text-gray-400">Notifications</p>
             <p className="text-2xl font-semibold text-white">{notificationList.length}</p>
           </div>
           
-          <div className="glass-card p-4 rounded-2xl w-40">
+          <div className="bg-[#1e2433]/70 p-4 rounded-2xl w-40 backdrop-blur-md">
             <p className="text-xs text-gray-400">Unread</p>
             <p className="text-2xl font-semibold text-white">{notificationList.filter(n => !n.read).length}</p>
           </div>
         </div>
         
         {/* Filters for notifications */}
-        <div className="bg-gray-800/50 backdrop-blur-md rounded-xl p-1.5">
+        <div className="bg-[#1e2433]/50 backdrop-blur-md rounded-xl p-1.5">
           <ToggleGroup 
             type="single" 
             value={activeFilter}
@@ -60,16 +60,16 @@ const Notifications: React.FC = () => {
             }}
             className="flex justify-between w-full"
           >
-            <ToggleGroupItem value="all" className="w-full data-[state=on]:bg-gray-700 data-[state=on]:shadow-inner rounded-lg">
+            <ToggleGroupItem value="all" className="w-full data-[state=on]:bg-[#2a324b] data-[state=on]:shadow-inner rounded-lg">
               All
             </ToggleGroupItem>
-            <ToggleGroupItem value="unread" className="w-full data-[state=on]:bg-gray-700 data-[state=on]:shadow-inner rounded-lg">
+            <ToggleGroupItem value="unread" className="w-full data-[state=on]:bg-[#2a324b] data-[state=on]:shadow-inner rounded-lg">
               Unread
             </ToggleGroupItem>
-            <ToggleGroupItem value="alerts" className="w-full data-[state=on]:bg-gray-700 data-[state=on]:shadow-inner rounded-lg">
+            <ToggleGroupItem value="alerts" className="w-full data-[state=on]:bg-[#2a324b] data-[state=on]:shadow-inner rounded-lg">
               Alerts
             </ToggleGroupItem>
-            <ToggleGroupItem value="updates" className="w-full data-[state=on]:bg-gray-700 data-[state=on]:shadow-inner rounded-lg">
+            <ToggleGroupItem value="updates" className="w-full data-[state=on]:bg-[#2a324b] data-[state=on]:shadow-inner rounded-lg">
               Updates
             </ToggleGroupItem>
           </ToggleGroup>
@@ -80,7 +80,7 @@ const Notifications: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={handleMarkAllRead}
-            className="flex-1 bg-gray-800/60 border-gray-700 hover:bg-gray-700 text-white"
+            className="flex-1 bg-[#1e2433]/60 border-gray-700 hover:bg-[#2a324b] text-white"
           >
             <CheckCheck size={16} className="mr-2" />
             Mark All Read
@@ -89,7 +89,7 @@ const Notifications: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={handleClearAll}
-            className="flex-1 bg-gray-800/60 border-gray-700 hover:bg-gray-700 text-white"
+            className="flex-1 bg-[#1e2433]/60 border-gray-700 hover:bg-[#2a324b] text-white"
           >
             <Trash2 size={16} className="mr-2" />
             Clear All

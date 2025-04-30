@@ -32,9 +32,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   
   const getBgColor = () => {
     if (!notification.read) {
-      return 'bg-gray-800/80 backdrop-blur-md';
+      return 'bg-[#1e2433]/90 backdrop-blur-md';
     }
-    return 'bg-gray-800/40 backdrop-blur-sm';
+    return 'bg-[#1e2433]/60 backdrop-blur-sm';
   };
   
   const formatTime = (timestamp: string) => {
@@ -50,7 +50,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         )}
         
         {/* Icon with neumorphic effect */}
-        <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3 bg-gray-800 shadow-[inset_2px_2px_5px_rgba(0,0,0,0.7),_inset_-2px_-2px_5px_rgba(255,255,255,0.1)]">
+        <div className="w-10 h-10 rounded-full flex items-center justify-center mr-3 bg-[#2a324b] shadow-[inset_2px_2px_5px_rgba(0,0,0,0.7),_inset_-2px_-2px_5px_rgba(255,255,255,0.1)]">
           {getIcon()}
         </div>
         
@@ -62,7 +62,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         
         <button 
           onClick={() => setShowActions(!showActions)}
-          className="p-2 rounded-full hover:bg-gray-700/50"
+          className="p-2 rounded-full hover:bg-[#2a324b]/70"
         >
           <MoreVertical size={16} className="text-gray-400" />
         </button>
@@ -70,14 +70,14 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
       
       {/* Action buttons */}
       {showActions && (
-        <div className="flex border-t border-gray-700/50">
+        <div className="flex border-t border-[#2a324b]/70">
           {!notification.read && (
             <button
               onClick={() => {
                 onMarkRead(notification.id);
                 setShowActions(false);
               }}
-              className="flex-1 py-2 flex items-center justify-center text-sm hover:bg-gray-700/30"
+              className="flex-1 py-2 flex items-center justify-center text-sm hover:bg-[#2a324b]/50"
             >
               <Check size={14} className="mr-1.5" />
               Mark as read
@@ -89,7 +89,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
               onDelete(notification.id);
               setShowActions(false);
             }}
-            className="flex-1 py-2 flex items-center justify-center text-sm hover:bg-gray-700/30 text-red-400"
+            className="flex-1 py-2 flex items-center justify-center text-sm hover:bg-[#2a324b]/50 text-red-400"
           >
             <Trash size={14} className="mr-1.5" />
             Delete
