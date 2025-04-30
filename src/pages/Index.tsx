@@ -1,43 +1,18 @@
 
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Search, 
-  HistoryIcon, 
-  Bookmark,
-  Info,
-  Volume2,
-  AlertOctagon
-} from 'lucide-react';
-import Header from '../components/Header';
-import Scanner from '../components/Scanner';
-import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-
-// Extracted QuickActionButton to improve component readability
-const QuickActionButton = ({ icon, label, onClick, hasNotification = false }) => (
-  <button 
-    className="flex flex-col items-center gap-1 group"
-    onClick={onClick}
-  >
-    <div className="relative w-12 h-12 rounded-full dark:bg-dark-200 bg-light-300 flex items-center justify-center dark:border dark:border-dark-100 border border-light-400 group-hover:border-premium-700 dark:group-hover:bg-dark-100 group-hover:bg-light-400 transition-all duration-200">
-      <div className="dark:text-light-400 text-dark-400 group-hover:text-premium-400 transition-colors duration-200">
-        {icon}
-      </div>
-      {hasNotification && (
-        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-premium-500 dark:ring-2 dark:ring-dark-200 ring-2 ring-light-300"></span>
-      )}
-    </div>
-    <span className="text-xs font-medium dark:text-light-400 text-dark-400">{label}</span>
-  </button>
-);
+import { ScanBarcode } from 'lucide-react';
+import Header from '../components/Header';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const Index: React.FC = () => {
   const navigate = useNavigate();
-  const [readAloud, setReadAloud] = useState(false);
-
-  // Animation variants - memoized to avoid recreating on each render
-  const containerVariants = useMemo(() => ({
+  const [isScanning, setIsScanning] = useState(false);
+  
+  // Animation variants
+  const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -45,9 +20,9 @@ const Index: React.FC = () => {
         staggerChildren: 0.1
       }
     }
-  }), []);
+  };
   
-  const itemVariants = useMemo(() => ({
+  const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -58,59 +33,31 @@ const Index: React.FC = () => {
         damping: 20
       }
     }
-  }), []);
+  };
 
-  useEffect(() => {
-    // Get read aloud preference from localStorage
-    const savedReadAloud = localStorage.getItem('readAloud');
-    if (savedReadAloud) {
-      setReadAloud(savedReadAloud === 'true');
-    }
+  const simulateScan = useCallback(() => {
+    setIsScanning(true);
     
-    // Welcome message for visually impaired users
-    if (savedReadAloud === 'true') {
+    // Show scanning toast
+    toast.info('Scanning product...', {
+      description: 'Position QR code within frame'
+    });
+    
+    // Simulate scanning delay
+    setTimeout(() => {
+      setIsScanning(false);
+      
+      // Show success toast
+      toast.success('QR Code detected!', {
+        description: 'Retrieving product information...'
+      });
+      
+      // Navigate to product details with sample product ID
       setTimeout(() => {
-        const welcomeMessage = "Welcome to ScanForAll. Position a food product QR code within the frame to scan. Tap the center button to start scanning.";
-        const utterance = new SpeechSynthesisUtterance(welcomeMessage);
-        window.speechSynthesis.speak(utterance);
-      }, 1000);
-    }
-  }, []);
-
-  // Optimized scan handler with useCallback
-  const handleScan = useCallback((productId: string) => {
-    console.log("Scanned product ID:", productId);
-    
-    // Clean up and encode the product ID for URL safety
-    let formattedId = productId.trim();
-    
-    // Remove HTTP:// or http:// prefix for routing purposes
-    if (formattedId.toUpperCase().startsWith('HTTP://')) {
-      formattedId = formattedId.substring(7);
-    } else if (formattedId.toLowerCase().startsWith('http://')) {
-      formattedId = formattedId.substring(7);
-    }
-    
-    // Also handle https:// prefix
-    if (formattedId.toUpperCase().startsWith('HTTPS://')) {
-      formattedId = formattedId.substring(8);
-    } else if (formattedId.toLowerCase().startsWith('https://')) {
-      formattedId = formattedId.substring(8);
-    }
-    
-    if (formattedId) {
-      // Navigate to product details page with the cleaned product ID
-      navigate(`/product/${formattedId}`);
-    } else {
-      console.error("Invalid product ID scanned:", productId);
-    }
+        navigate('/product/PROD123456');
+      }, 800);
+    }, 1500);
   }, [navigate]);
-
-  // Navigation handlers
-  const navigateToSearch = useCallback(() => navigate('/search'), [navigate]);
-  const navigateToNotifications = useCallback(() => navigate('/notifications'), [navigate]);
-  const navigateToHistory = useCallback(() => navigate('/history'), [navigate]);
-  const navigateToBookmarks = useCallback(() => navigate('/bookmarks'), [navigate]);
 
   return (
     <div className="app-container dark:bg-dark-300 bg-light-300 dark:text-light-100 text-dark-300">
@@ -127,104 +74,91 @@ const Index: React.FC = () => {
             ScanForAll
           </h1>
           <p className="dark:text-light-500 text-dark-400 font-medium">
-            Scan food labels for complete product details
+            Connecting restaurants with NGOs to reduce food waste
           </p>
         </motion.div>
         
-        {/* Quick action buttons - now with 4 buttons in a row */}
+        {/* Main content area with illustration */}
         <motion.div 
-          className="grid grid-cols-4 gap-3 mb-8"
+          className="flex-1 flex flex-col items-center justify-center mb-8"
           variants={itemVariants}
         >
-          <QuickActionButton 
-            icon={<Search size={20} />} 
-            label="Search" 
-            onClick={navigateToSearch}
-          />
-          <QuickActionButton 
-            icon={<AlertOctagon size={20} />} 
-            label="Alert" 
-            onClick={navigateToNotifications}
-            hasNotification={true}
-          />
-          <QuickActionButton 
-            icon={<HistoryIcon size={20} />} 
-            label="History" 
-            onClick={navigateToHistory}
-          />
-          <QuickActionButton 
-            icon={<Bookmark size={20} />} 
-            label="Saved" 
-            onClick={navigateToBookmarks}
-          />
-        </motion.div>
-        
-        <motion.div 
-          className="flex-1 flex flex-col items-center justify-center"
-          variants={itemVariants}
-        >
-          <div className="text-center mb-4">
-            <p className="dark:text-light-500 text-dark-400 text-sm font-medium">
-              Position food product QR code within the frame to scan
-            </p>
+          <div className="w-full max-w-md bg-gray-100 rounded-xl p-4 mb-8">
+            <div className="bg-white rounded-lg p-3 flex justify-center items-center">
+              <img 
+                src="public/lovable-uploads/3c0e643f-ab15-4a92-989b-10dc2c59374d.png"
+                alt="Food Donation Illustration" 
+                className="w-full max-w-xs"
+              />
+            </div>
           </div>
           
-          <Scanner onScan={handleScan} />
+          {/* Choose your role section */}
+          <div className="w-full max-w-md mb-8">
+            <h2 className="text-xl font-medium text-center mb-4">Choose your role</h2>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="border border-teal-500 rounded-lg p-4 flex flex-col items-center justify-center text-teal-600">
+                <div className="text-3xl mb-2">🍽️</div>
+                <h3 className="font-medium mb-1">Restaurant</h3>
+                <p className="text-xs text-center">I want to donate food</p>
+              </div>
+              
+              <div className="border border-amber-500 rounded-lg p-4 flex flex-col items-center justify-center text-amber-600">
+                <div className="text-3xl mb-2">🥫</div>
+                <h3 className="font-medium mb-1">NGO</h3>
+                <p className="text-xs text-center">I want to receive food</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Our Impact section */}
+          <div className="w-full max-w-md mb-8">
+            <h2 className="text-xl font-medium text-center mb-4">Our Impact</h2>
+            
+            <div className="bg-gray-50 rounded-lg p-4">
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div>
+                  <p className="text-xl font-bold text-teal-600">2.5k+</p>
+                  <p className="text-xs">Meals Saved</p>
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-amber-600">0+</p>
+                  <p className="text-xs">Partners</p>
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-teal-600">3.3t</p>
+                  <p className="text-xs">CO₂ Reduced</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
         
-        {/* Recent scans and quick info */}
-        <motion.div 
-          className="mt-6"
-          variants={itemVariants}
-        >
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-sm font-medium dark:text-light-400 text-dark-400">Food Information</h3>
+        {/* Scan Product Button */}
+        <motion.div className="w-full" variants={itemVariants}>
+          <Button 
+            onClick={simulateScan} 
+            disabled={isScanning}
+            className="w-full py-6 bg-teal-600 hover:bg-teal-700 text-white rounded-lg flex items-center justify-center gap-2 font-medium text-lg"
+          >
+            {isScanning ? (
+              <div className="animate-spin w-6 h-6 border-4 border-white border-t-transparent rounded-full"></div>
+            ) : (
+              <ScanBarcode size={24} className="text-white" />
+            )}
+            Scan Product
+          </Button>
+          
+          <div className="flex items-center justify-between mt-4">
+            <p className="text-sm text-gray-500">Install Khadya App</p>
             <Button 
-              variant="ghost" 
-              className="text-xs text-premium-500 p-0 h-auto"
-              onClick={navigateToHistory}
+              variant="outline" 
+              size="sm"
+              className="bg-teal-600 text-white hover:bg-teal-700 border-none"
             >
-              View All
+              Install
             </Button>
-          </div>
-          
-          <div className="premium-card-dark p-4 mb-4">
-            <div className="flex gap-3">
-              <div className="w-10 h-10 rounded-full dark:bg-premium-800 bg-premium-100 flex items-center justify-center">
-                <Info size={18} className="dark:text-premium-300 text-premium-600" />
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium dark:text-light-100 text-dark-300">Food Allergen Guide</p>
-                <p className="text-xs dark:text-light-500 text-dark-400">Learn about common food allergens and dietary restrictions</p>
-              </div>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 dark:hover:bg-dark-100 hover:bg-light-400"
-              >
-                View
-              </Button>
-            </div>
-          </div>
-          
-          <div className="premium-card-dark p-4">
-            <div className="flex gap-3">
-              <div className="w-10 h-10 rounded-full dark:bg-premium-800 bg-premium-100 flex items-center justify-center">
-                <Volume2 size={18} className="dark:text-premium-300 text-premium-600" />
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium dark:text-light-100 text-dark-300">Accessibility Features</p>
-                <p className="text-xs dark:text-light-500 text-dark-400">Voice guidance available for visually impaired users</p>
-              </div>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 dark:hover:bg-dark-100 hover:bg-light-400"
-                onClick={() => navigate('/settings')}
-              >
-                Setup
-              </Button>
-            </div>
           </div>
         </motion.div>
       </motion.div>
