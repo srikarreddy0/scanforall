@@ -1,44 +1,32 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowLeft, Bell, Settings, User, ShieldCheck, Sparkles, Palette, HelpCircle, Users } from 'lucide-react';
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import ThemeToggle from './ThemeToggle';
-
 interface HeaderProps {
   title?: string;
   showBack?: boolean;
   showHistory?: boolean;
 }
-
 const Header: React.FC<HeaderProps> = ({
   title = "",
   showBack = false,
   showHistory = false
 }) => {
   const location = useLocation();
-  
-  return (
-    <header className="premium-header flex items-center justify-between px-4 py-3 h-16">
+  return <header className="premium-header flex items-center justify-between px-4 py-3 h-16">
       <div className="flex items-center gap-2">
-        {showBack ? (
-          <Link to="/" className="premium-icon-button">
+        {showBack ? <Link to="/" className="premium-icon-button">
             <ArrowLeft size={20} />
-          </Link>
-        ) : (
-          <div className="flex items-center">
+          </Link> : <div className="flex items-center">
             <ShieldCheck size={22} className="text-premium-500 mr-2" strokeWidth={2.5} />
-          </div>
-        )}
+          </div>}
       </div>
       
       <div className="flex gap-2">
         {/* Notification button with indicator */}
-        <Link to="/notifications" className="premium-icon-button relative">
-          <Bell size={20} className={location.pathname === '/notifications' ? 'text-premium-500' : ''} />
-          <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-premium-500 dark:ring-2 dark:ring-dark-200 ring-2 ring-light-300"></span>
-        </Link>
+        
         
         {/* Settings sheet with updated categories */}
         <Sheet>
@@ -115,14 +103,11 @@ const Header: React.FC<HeaderProps> = ({
         </Sheet>
         
         {/* User profile - Only show on non-profile pages */}
-        {location.pathname !== '/profile' && (
-          <Link to="/profile" className="premium-icon-button">
+        {location.pathname !== '/profile' && <Link to="/profile" className="premium-icon-button">
             <User size={20} className={location.pathname === '/profile' ? 'text-premium-500' : ''} />
-          </Link>
-        )}
+          </Link>}
       </div>
-    </header>
-  );
+    </header>;
 };
 
 // Settings Category Component
@@ -131,8 +116,7 @@ const SettingsCategory = ({
   icon,
   items
 }) => {
-  return (
-    <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')} className="dark:border-dark-100 border-light-400">
+  return <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')} className="dark:border-dark-100 border-light-400">
       <AccordionTrigger className="text-lg font-medium py-3 dark:text-light-100 text-dark-300 hover:text-premium-500">
         <div className="flex items-center">
           {icon}
@@ -140,12 +124,9 @@ const SettingsCategory = ({
         </div>
       </AccordionTrigger>
       <AccordionContent className="pl-1">
-        {items.map((item, index) => (
-          <SettingsSubCategory key={index} title={item.title} items={item.subitems} customContent={item.customContent} />
-        ))}
+        {items.map((item, index) => <SettingsSubCategory key={index} title={item.title} items={item.subitems} customContent={item.customContent} />)}
       </AccordionContent>
-    </AccordionItem>
-  );
+    </AccordionItem>;
 };
 
 // Settings Sub-Category Component
@@ -154,33 +135,21 @@ const SettingsSubCategory = ({
   items,
   customContent
 }) => {
-  return (
-    <Accordion type="single" collapsible className="w-full dark:border-dark-100 border-light-400 pl-3 py-1 mb-2">
+  return <Accordion type="single" collapsible className="w-full dark:border-dark-100 border-light-400 pl-3 py-1 mb-2">
       <AccordionItem value={title.toLowerCase().replace(/\s/g, '-')} className="border-none">
         <AccordionTrigger className="text-md py-2 dark:text-light-300 text-dark-400 hover:text-premium-500">
           {title}
         </AccordionTrigger>
         <AccordionContent>
-          {customContent ? (
-            <div className="pl-2 py-2">
+          {customContent ? <div className="pl-2 py-2">
               {customContent}
-            </div>
-          ) : (
-            <div className="space-y-2 pl-2">
-              {items.map((item, index) => (
-                <div 
-                  key={index} 
-                  className="flex items-center text-sm py-2 px-3 rounded-lg dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400 transition-colors"
-                >
+            </div> : <div className="space-y-2 pl-2">
+              {items.map((item, index) => <div key={index} className="flex items-center text-sm py-2 px-3 rounded-lg dark:text-light-400 text-dark-500 dark:hover:bg-dark-100 hover:bg-light-400 transition-colors">
                   {item}
-                </div>
-              ))}
-            </div>
-          )}
+                </div>)}
+            </div>}
         </AccordionContent>
       </AccordionItem>
-    </Accordion>
-  );
+    </Accordion>;
 };
-
 export default Header;
