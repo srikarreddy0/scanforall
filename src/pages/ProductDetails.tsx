@@ -7,7 +7,6 @@ import Header from '../components/Header';
 import ProductHeader from '../components/product/ProductHeader';
 import ProductTabs from '../components/product/ProductTabs';
 import { verifyProduct } from '../utils/mockData';
-import { speakText, cancelSpeech, getReadAloudPreference, setReadAloudPreference } from '../utils/readAloudUtils';
 
 const ProductDetails: React.FC = () => {
   const {
@@ -85,9 +84,11 @@ const ProductDetails: React.FC = () => {
   }, [productId]);
 
   useEffect(() => {
-    // Read aloud preference - using the utility function now
-    const savedReadAloud = getReadAloudPreference();
-    setReadAloud(savedReadAloud);
+    // Read aloud preference
+    const savedReadAloud = localStorage.getItem('readAloud');
+    if (savedReadAloud) {
+      setReadAloud(savedReadAloud === 'true');
+    }
 
     // For debugging
     console.log("Full location pathname:", location.pathname);
@@ -99,22 +100,21 @@ const ProductDetails: React.FC = () => {
       setIsLoading(false);
       
       // Read product name aloud if readAloud is enabled
-      if (savedReadAloud && productData) {
-        speakText(`Product: ${productData.name} by ${productData.brand}. ${productData.description}`);
+      if (savedReadAloud === 'true' && productData) {
+        const utterance = new SpeechSynthesisUtterance(
+          `Product: ${productData.name} by ${productData.brand}. ${productData.description}`
+        );
+        window.speechSynthesis.speak(utterance);
       }
     }, 500); // Faster loading simulation (500ms instead of 1s)
     
-    return () => {
-      clearTimeout(timer);
-      cancelSpeech(); // Ensure speech is canceled when component unmounts
-    };
+    return () => clearTimeout(timer);
   }, [productId, wildcardPath, location.pathname, productData]);
 
   const toggleReadAloud = useCallback(() => {
     const newValue = !readAloud;
     setReadAloud(newValue);
-    setReadAloudPreference(newValue);
-    
+    localStorage.setItem('readAloud', newValue.toString());
     if (newValue) {
       toast.success('Read aloud enabled', {
         description: 'Product information will be read aloud',
@@ -123,19 +123,24 @@ const ProductDetails: React.FC = () => {
       
       // Read current product information
       if (productData) {
-        speakText(`Product: ${productData.name} by ${productData.brand}. ${productData.description}`);
+        const utterance = new SpeechSynthesisUtterance(
+          `Product: ${productData.name} by ${productData.brand}. ${productData.description}`
+        );
+        window.speechSynthesis.speak(utterance);
       }
     } else {
       toast.info('Read aloud disabled', {
         icon: <VolumeX className="text-muted-foreground" />
       });
-      cancelSpeech();
+      window.speechSynthesis.cancel();
     }
   }, [readAloud, productData]);
 
-  const handleReadText = useCallback((text: string) => {
-    if (readAloud) {
-      speakText(text);
+  const speakText = useCallback((text: string) => {
+    if (window.speechSynthesis && readAloud) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
     }
   }, [readAloud]);
 
@@ -147,17 +152,17 @@ const ProductDetails: React.FC = () => {
   // Loading state
   if (isLoading) {
     return (
-      <div className="app-container bg-gradient-dark flex items-center justify-center min-h-screen">
+      <div className="app-container bg-darkest dark:bg-dark-300 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-premium-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-light-100 animate-pulse">Loading product details...</p>
+          <p className="text-light-100">Loading product details...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="app-container bg-gradient-dark min-h-screen">
+    <div className="app-container bg-darkest dark:bg-dark-300">
       <ProductHeader 
         productName={productData.name} 
         readAloud={readAloud} 
@@ -165,11 +170,11 @@ const ProductDetails: React.FC = () => {
         onShare={shareProduct} 
       />
       
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto bg-zinc-400">
         <div className="p-4 space-y-4">
           <div 
-            className="text-left space-y-2 p-4 rounded-xl bg-gradient-premium shadow-glow-premium transition-all duration-300 hover:shadow-premium-lg"
-            onClick={() => handleReadText(`${productData.name} by ${productData.brand}. ${productData.description}`)}
+            className="text-left space-y-2 p-4 rounded-xl bg-zinc-500"
+            onClick={() => speakText(`${productData.name} by ${productData.brand}. ${productData.description}`)}
           >
             <h1 className="text-2xl font-bold text-white">
               {productData.name}
@@ -180,13 +185,13 @@ const ProductDetails: React.FC = () => {
             </p>
           </div>
 
-          <ProductTabs product={productData} readText={handleReadText} />
+          <ProductTabs product={productData} readText={speakText} />
           
           {/* Action buttons */}
-          <div className="flex gap-3 mt-6 animate-fade-in">
+          <div className="flex gap-3 mt-4">
             <button 
               onClick={() => toast.info('Viewing offline data', { description: 'Product loaded from local database' })}
-              className="flex-1 py-3 px-4 bg-gradient-premium text-white rounded-lg font-medium text-sm hover:shadow-premium-lg transition-all duration-300"
+              className="flex-1 py-3 px-4 bg-premium-600 text-white rounded-lg font-medium text-sm hover:bg-premium-700 transition-colors"
             >
               View Offline (From App Database)
             </button>
@@ -201,7 +206,7 @@ const ProductDetails: React.FC = () => {
                   });
                 }, 1000);
               }}
-              className="flex-1 py-3 px-4 bg-light-300 text-dark-300 rounded-lg font-medium text-sm hover:bg-light-400 hover:shadow-premium-sm transition-all duration-300"
+              className="flex-1 py-3 px-4 bg-light-300 text-dark-300 rounded-lg font-medium text-sm hover:bg-light-400 transition-colors"
             >
               Open Web Page
             </button>

@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import QRScanner from './QRScanner';
 
 interface ScannerProps {
@@ -21,14 +20,9 @@ const Scanner: React.FC<ScannerProps> = ({
   };
 
   return (
-    <motion.div 
-      className="w-full max-w-lg mx-auto"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-    >
+    <div className="w-full max-w-lg mx-auto">
       <QRScanner onScan={handleScan} />
-    </motion.div>
+    </div>
   );
 };
 

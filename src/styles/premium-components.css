@@ -21,35 +21,35 @@
   }
   
   .premium-glass {
-    @apply dark:bg-dark-200/40 bg-light-200/40 backdrop-blur-xl dark:border dark:border-premium-900/30 
-           border border-premium-300/30 dark:shadow-glass shadow-premium-sm hover:shadow-premium-md transition-all duration-300;
+    @apply dark:bg-dark-200/80 bg-light-200/80 backdrop-blur-md dark:border dark:border-dark-100/50 
+           border border-light-400/50 dark:shadow-glass shadow-premium-sm;
   }
   
   .premium-glass-dark {
-    @apply dark:bg-dark-200/40 bg-light-200/40 backdrop-blur-xl dark:border dark:border-premium-900/30 
-           border border-premium-300/30 dark:shadow-glass-dark shadow-premium-sm hover:shadow-premium-md transition-all duration-300;
+    @apply dark:bg-dark-200/80 bg-light-200/80 backdrop-blur-md dark:border dark:border-dark-100/50 
+           border border-light-400/50 dark:shadow-glass-dark shadow-premium-sm;
   }
   
   /* Premium Interactive Components */
   .premium-button {
-    @apply bg-gradient-premium text-white rounded-lg px-4 py-2 font-medium shadow-premium-sm
-           hover:shadow-glow-premium active:bg-premium-700 transition-all duration-200;
+    @apply bg-premium-500 text-white rounded-lg px-4 py-2 font-medium shadow-premium-sm
+           hover:bg-premium-600 active:bg-premium-700 transition-all duration-200;
   }
   
   .premium-button-outline {
     @apply bg-transparent border border-premium-500 text-premium-500 rounded-lg px-4 py-2 font-medium
-           dark:hover:bg-premium-900/30 hover:bg-premium-50 active:bg-premium-800/30 transition-all duration-200;
+           dark:hover:bg-premium-900 hover:bg-premium-50 active:bg-premium-800 transition-all duration-200;
   }
   
   .premium-button-subtle {
-    @apply dark:bg-dark-100/60 bg-light-400/60 dark:text-light-300 text-dark-400 rounded-lg px-4 py-2 font-medium
-           dark:hover:bg-dark-200/80 hover:bg-light-500/80 active:bg-dark-300/80 transition-all duration-200;
+    @apply dark:bg-dark-100 bg-light-400 dark:text-light-300 text-dark-400 rounded-lg px-4 py-2 font-medium
+           dark:hover:bg-dark-200 hover:bg-light-500 active:bg-dark-300 transition-all duration-200;
   }
   
   .premium-icon-button {
-    @apply w-10 h-10 flex items-center justify-center rounded-full dark:bg-dark-200/60 bg-dark-300/60 
-           backdrop-blur-md shadow-premium-sm dark:text-light-400 text-light-400
-           dark:hover:bg-premium-900/20 hover:bg-premium-600/20 hover:text-premium-400 active:bg-dark-300/80 
+    @apply w-10 h-10 flex items-center justify-center rounded-full dark:bg-dark-200 bg-light-300 
+           dark:border dark:border-dark-100/50 border border-light-400/50 shadow-premium-sm dark:text-light-400 text-dark-400
+           dark:hover:bg-dark-100 hover:bg-light-400 hover:text-premium-500 active:bg-dark-300 
            transition-all duration-200;
   }
   
@@ -65,36 +65,6 @@
   
   .text-shine {
     @apply bg-gradient-premium bg-clip-text text-transparent bg-[size:200%] animate-shine;
-  }
-  
-  /* Background gradients */
-  .bg-gradient-premium {
-    @apply bg-gradient-to-br from-premium-500 to-premium-700;
-  }
-  
-  .bg-gradient-dark {
-    @apply bg-gradient-to-br from-dark-300 to-dark-500;
-  }
-  
-  .bg-gradient-success {
-    @apply bg-gradient-to-br from-success-DEFAULT to-success-dark;
-  }
-  
-  .bg-gradient-warning {
-    @apply bg-gradient-to-br from-warning-DEFAULT to-warning-foreground;
-  }
-  
-  /* Glow Effects */
-  .glow-premium {
-    box-shadow: 0 0 15px rgba(0, 145, 255, 0.6);
-  }
-  
-  .glow-success {
-    box-shadow: 0 0 15px rgba(50, 213, 131, 0.6);
-  }
-  
-  .glow-warning {
-    box-shadow: 0 0 15px rgba(255, 168, 0, 0.6);
   }
 }
 
@@ -122,50 +92,4 @@
 
 .nav-button {
   @apply premium-action-icon;
-}
-
-/* Interactive elements */
-.hover-scale {
-  @apply transition-transform duration-200;
-}
-
-.hover-scale:hover {
-  transform: scale(1.05);
-}
-
-/* Shimmer effect for cards */
-.shimmer {
-  position: relative;
-  overflow: hidden;
-}
-
-.shimmer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  animation: shimmer 2s infinite;
-}
-
-@keyframes shimmer {
-  100% {
-    left: 150%;
-  }
-}
-
-/* Glass morphism effects */
-.glass-card {
-  @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl;
-}
-
-.neo-blur {
-  @apply backdrop-blur-xl bg-black/30 dark:bg-dark-300/30 border border-premium-500/20;
 }

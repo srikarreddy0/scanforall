@@ -9,31 +9,27 @@ import {
   Volume2,
   AlertOctagon
 } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { toast } from 'sonner';
 import Header from '../components/Header';
 import Scanner from '../components/Scanner';
 import { Button } from '@/components/ui/button';
-import { getReadAloudPreference } from '../utils/readAloudUtils';
+import { motion } from 'framer-motion';
 
 // Extracted QuickActionButton to improve component readability
 const QuickActionButton = ({ icon, label, onClick, hasNotification = false }) => (
-  <motion.button 
+  <button 
     className="flex flex-col items-center gap-1 group"
     onClick={onClick}
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
   >
-    <div className="relative w-12 h-12 rounded-full bg-gradient-premium flex items-center justify-center border border-premium-400/30 shadow-premium-sm group-hover:shadow-glow-premium transition-all duration-200">
-      <div className="text-white group-hover:text-light-100 transition-colors duration-200">
+    <div className="relative w-12 h-12 rounded-full dark:bg-dark-200 bg-light-300 flex items-center justify-center dark:border dark:border-dark-100 border border-light-400 group-hover:border-premium-700 dark:group-hover:bg-dark-100 group-hover:bg-light-400 transition-all duration-200">
+      <div className="dark:text-light-400 text-dark-400 group-hover:text-premium-400 transition-colors duration-200">
         {icon}
       </div>
       {hasNotification && (
-        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-accent1-DEFAULT animate-pulse dark:ring-2 dark:ring-dark-200 ring-2 ring-light-300"></span>
+        <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-premium-500 dark:ring-2 dark:ring-dark-200 ring-2 ring-light-300"></span>
       )}
     </div>
     <span className="text-xs font-medium dark:text-light-400 text-dark-400">{label}</span>
-  </motion.button>
+  </button>
 );
 
 const Index: React.FC = () => {
@@ -66,11 +62,13 @@ const Index: React.FC = () => {
 
   useEffect(() => {
     // Get read aloud preference from localStorage
-    const savedReadAloud = getReadAloudPreference();
-    setReadAloud(savedReadAloud);
+    const savedReadAloud = localStorage.getItem('readAloud');
+    if (savedReadAloud) {
+      setReadAloud(savedReadAloud === 'true');
+    }
     
     // Welcome message for visually impaired users
-    if (savedReadAloud) {
+    if (savedReadAloud === 'true') {
       setTimeout(() => {
         const welcomeMessage = "Welcome to ScanForAll. Position a food product QR code within the frame to scan. Tap the center button to start scanning.";
         const utterance = new SpeechSynthesisUtterance(welcomeMessage);
@@ -115,7 +113,7 @@ const Index: React.FC = () => {
   const navigateToBookmarks = useCallback(() => navigate('/bookmarks'), [navigate]);
 
   return (
-    <div className="app-container bg-gradient-dark min-h-screen dark:text-light-100 text-dark-300">
+    <div className="app-container dark:bg-dark-300 bg-light-300 dark:text-light-100 text-dark-300">
       <Header />
       
       <motion.div 
@@ -125,7 +123,7 @@ const Index: React.FC = () => {
         animate="visible"
       >
         <motion.div className="mb-6 text-center" variants={itemVariants}>
-          <h1 className="text-3xl font-display font-bold text-gradient mb-2">
+          <h1 className="text-3xl font-display font-bold dark:text-light-100 text-dark-300 mb-2">
             ScanForAll
           </h1>
           <p className="dark:text-light-500 text-dark-400 font-medium">
@@ -166,7 +164,7 @@ const Index: React.FC = () => {
           variants={itemVariants}
         >
           <div className="text-center mb-4">
-            <p className="dark:text-light-300 text-light-100 text-sm font-medium">
+            <p className="dark:text-light-500 text-dark-400 text-sm font-medium">
               Position food product QR code within the frame to scan
             </p>
           </div>
@@ -180,62 +178,54 @@ const Index: React.FC = () => {
           variants={itemVariants}
         >
           <div className="flex justify-between items-center mb-3">
-            <h3 className="text-sm font-medium dark:text-light-300 text-light-100">Food Information</h3>
+            <h3 className="text-sm font-medium dark:text-light-400 text-dark-400">Food Information</h3>
             <Button 
               variant="ghost" 
-              className="text-xs text-premium-400 p-0 h-auto hover:text-premium-300"
+              className="text-xs text-premium-500 p-0 h-auto"
               onClick={navigateToHistory}
             >
               View All
             </Button>
           </div>
           
-          <motion.div 
-            className="premium-glass p-4 mb-4 border border-premium-500/20"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-          >
+          <div className="premium-card-dark p-4 mb-4">
             <div className="flex gap-3">
-              <div className="w-10 h-10 rounded-full bg-premium-800 flex items-center justify-center">
-                <Info size={18} className="text-premium-300" />
+              <div className="w-10 h-10 rounded-full dark:bg-premium-800 bg-premium-100 flex items-center justify-center">
+                <Info size={18} className="dark:text-premium-300 text-premium-600" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-light-100">Food Allergen Guide</p>
-                <p className="text-xs text-light-400">Learn about common food allergens and dietary restrictions</p>
+                <p className="text-sm font-medium dark:text-light-100 text-dark-300">Food Allergen Guide</p>
+                <p className="text-xs dark:text-light-500 text-dark-400">Learn about common food allergens and dietary restrictions</p>
               </div>
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 dark:hover:bg-dark-100/40 hover:bg-light-400/20"
+                className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 dark:hover:bg-dark-100 hover:bg-light-400"
               >
                 View
               </Button>
             </div>
-          </motion.div>
+          </div>
           
-          <motion.div 
-            className="premium-glass p-4 border border-premium-500/20"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-          >
+          <div className="premium-card-dark p-4">
             <div className="flex gap-3">
-              <div className="w-10 h-10 rounded-full bg-premium-800 flex items-center justify-center">
-                <Volume2 size={18} className="text-premium-300" />
+              <div className="w-10 h-10 rounded-full dark:bg-premium-800 bg-premium-100 flex items-center justify-center">
+                <Volume2 size={18} className="dark:text-premium-300 text-premium-600" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-light-100">Accessibility Features</p>
-                <p className="text-xs text-light-400">Voice guidance available for visually impaired users</p>
+                <p className="text-sm font-medium dark:text-light-100 text-dark-300">Accessibility Features</p>
+                <p className="text-xs dark:text-light-500 text-dark-400">Voice guidance available for visually impaired users</p>
               </div>
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 dark:hover:bg-dark-100/40 hover:bg-light-400/20"
+                className="h-8 px-3 text-xs text-premium-400 hover:text-premium-300 dark:hover:bg-dark-100 hover:bg-light-400"
                 onClick={() => navigate('/settings')}
               >
                 Setup
               </Button>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </motion.div>
     </div>
