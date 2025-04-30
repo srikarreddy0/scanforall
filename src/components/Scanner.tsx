@@ -9,18 +9,13 @@ interface ScannerProps {
 const Scanner: React.FC<ScannerProps> = ({
   onScan
 }) => {
-  const handleScan = (barcode: string) => {
-    // Clean the barcode to ensure it's a valid string
-    const cleanBarcode = barcode?.trim();
-    console.log("Scanner component received barcode:", cleanBarcode);
+  const handleScan = (productId: string) => {
+    // Clean the product ID to ensure it's a valid string
+    const cleanId = productId.trim();
+    console.log("Scanner component received product ID:", cleanId);
     
-    if (cleanBarcode) {
-      // For the demo image (Juicy Orange), let's add a special case
-      if (cleanBarcode.includes("juicy") || cleanBarcode.includes("orange")) {
-        onScan("PROD123456"); // Map to an existing product ID in mockData
-      } else {
-        onScan(cleanBarcode);
-      }
+    if (cleanId) {
+      onScan(cleanId);
     }
   };
 

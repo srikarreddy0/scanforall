@@ -4,7 +4,6 @@ import { Camera, ScanBarcode, ShieldCheck, Loader2, Check, Volume2, VolumeX } fr
 import { toast } from 'sonner';
 import { AnimatePresence, motion } from 'framer-motion';
 import jsQR from 'jsqr';
-import { fetchProductByBarcode, recordScan } from '../services/productService';
 
 interface QRScannerProps {
   onScan: (productId: string) => void;
@@ -64,18 +63,15 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan }) => {
       console.log("QR code data:", code.data);
       
       // Pass scanned data to parent - ensure it's a clean string
-      const barcode = code.data.trim();
-      if (barcode) {
-        // Record the scan in history
-        recordScan(barcode).catch(console.error);
-        
+      const productId = code.data.trim();
+      if (productId) {
         // Show success toast
         toast.success('QR Code scanned successfully', {
           description: 'Retrieving product details...'
         });
         
-        // Call the onScan handler with the barcode
-        onScan(barcode);
+        // Call the onScan handler with the product ID
+        onScan(productId);
       } else {
         toast.error('Invalid QR code', {
           description: 'The scanned QR code does not contain valid product information.'
@@ -121,12 +117,10 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan }) => {
         toast.error('Camera access denied', {
           description: 'Please allow camera access to scan QR codes'
         });
-        // Simulate scan for demo purposes when camera is not available
-        simulateScan();
       }
     };
 
-    // Simulate a QR code scan when camera button is clicked or camera is not available
+    // Simulate a QR code scan when camera button is clicked
     const simulateScan = () => {
       setScanning(true);
       // Simulate scanning for 1 second
@@ -143,21 +137,16 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan }) => {
           description: 'Retrieving product details...'
         });
         
-        // For demo purposes, always use the orange juice product when simulating
-        onScan("juicy-orange");
+        // Simulate a product ID
+        onScan("PROD123456");
       }, 1000);
     };
 
     if (scanning && !scanComplete) {
-      // Try to use real camera first
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        startScanning().catch(error => {
-          console.error('Failed to start camera:', error);
-          simulateScan();
-        });
+      // Only use real camera if we're not simulating
+      if (videoRef.current) {
+        startScanning();
       } else {
-        // Fallback to simulation
-        console.log('Media devices not supported, using simulation');
         simulateScan();
       }
     }
@@ -211,17 +200,6 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan }) => {
           playsInline
         />
         <canvas ref={canvasRef} className="hidden" />
-        
-        {/* Special feature: Display example product image when no camera */}
-        {!scanning && !scanComplete && (
-          <div className="absolute inset-0 flex items-center justify-center z-10">
-            <img 
-              src="/lovable-uploads/e36db5f1-caab-42c7-a29e-86be18609257.png" 
-              alt="Scan this product" 
-              className="w-3/4 h-auto object-contain"
-            />
-          </div>
-        )}
         
         {/* Scanning states overlay */}
         <AnimatePresence mode="wait">
@@ -280,11 +258,8 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan }) => {
       
       {/* Scan button */}
       <button 
-        onClick={() => {
-          setScanning(true);
-          setScanComplete(false);
-        }} 
-        disabled={scanning} 
+        onClick={() => setScanning(true)} 
+        disabled={scanning || scanComplete} 
         className="premium-scan-button"
         aria-label="Scan product"
       >
