@@ -111,12 +111,12 @@ const ProductDetails: React.FC = () => {
       
       <div className="flex-1 overflow-auto">
         <div className="p-4 space-y-4">
-          <div className="text-left space-y-2">
+          <div className="text-left space-y-2 bg-white/5 p-4 rounded-xl">
             <h1 className="text-2xl font-bold text-white">
               {defaultProduct.name}
             </h1>
-            <p className="text-gray-400">{defaultProduct.brand}</p>
-            <p className="text-sm text-gray-500">
+            <p className="text-blue-300">{defaultProduct.brand}</p>
+            <p className="text-sm text-white">
               {defaultProduct.description}
             </p>
           </div>

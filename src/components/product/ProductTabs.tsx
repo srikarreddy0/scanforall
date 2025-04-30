@@ -48,12 +48,12 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product, readText }) => {
         </TabsTrigger>
       </TabsList>
 
-      <div className="mt-4 space-y-4 text-gray-300">
-        <TabsContent value="details" className="m-0">
-          <div className="space-y-4">
+      <div className="mt-4 space-y-4">
+        <TabsContent value="details" className="m-0 text-white">
+          <div className="space-y-4 bg-white/5 rounded-xl p-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
-                <div className="flex items-center text-gray-400">
+                <div className="flex items-center text-blue-300">
                   <Calendar size={16} className="mr-2" />
                   <span className="text-sm">Manufacturing Date</span>
                 </div>
@@ -63,7 +63,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product, readText }) => {
               </div>
               
               <div className="space-y-1">
-                <div className="flex items-center text-gray-400">
+                <div className="flex items-center text-blue-300">
                   <Calendar size={16} className="mr-2" />
                   <span className="text-sm">Expiry Date</span>
                 </div>
@@ -74,7 +74,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product, readText }) => {
             </div>
             
             <div className="space-y-1">
-              <p className="text-sm font-medium text-gray-400">Batch Number</p>
+              <p className="text-sm font-medium text-blue-300">Batch Number</p>
               <p className="text-sm text-white">{product.batchNumber}</p>
             </div>
           </div>
@@ -85,7 +85,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product, readText }) => {
             {product.contents && (
               <>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-400">Ingredients</p>
+                  <p className="text-sm font-medium text-blue-300">Ingredients</p>
                   <ul className="text-sm list-disc pl-5 text-white">
                     {product.contents.ingredients.map((ingredient: string, index: number) => (
                       <li key={index}>{ingredient}</li>
@@ -93,7 +93,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product, readText }) => {
                   </ul>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-400">Allergens</p>
+                  <p className="text-sm font-medium text-blue-300">Allergens</p>
                   <ul className="text-sm list-disc pl-5 text-white">
                     {product.contents.allergens.map((allergen: string, index: number) => (
                       <li key={index}>{allergen}</li>
@@ -110,7 +110,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product, readText }) => {
             {product.usage && (
               <>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-400">Instructions</p>
+                  <p className="text-sm font-medium text-blue-300">Instructions</p>
                   <ul className="text-sm list-disc pl-5 text-white">
                     {product.usage.instructions.map((instruction: string, index: number) => (
                       <li key={index}>{instruction}</li>
@@ -118,7 +118,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product, readText }) => {
                   </ul>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium text-gray-400">Storage</p>
+                  <p className="text-sm font-medium text-blue-300">Storage</p>
                   <ul className="text-sm list-disc pl-5 text-white">
                     {product.usage.storage.map((item: string, index: number) => (
                       <li key={index}>{item}</li>
@@ -133,11 +133,11 @@ const ProductTabs: React.FC<ProductTabsProps> = ({ product, readText }) => {
         <TabsContent value="mfg-exp" className="m-0">
           <div className="space-y-4">
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-400">Manufacturing Date</p>
+              <p className="text-sm font-medium text-blue-300">Manufacturing Date</p>
               <p className="text-sm text-white">{formatDate(product.manufacturingDate)}</p>
             </div>
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-400">Expiry Date</p>
+              <p className="text-sm font-medium text-blue-300">Expiry Date</p>
               <p className="text-sm text-white">{formatDate(product.expiryDate)}</p>
             </div>
           </div>
