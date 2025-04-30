@@ -86,7 +86,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
         </TabsContent>
 
         <TabsContent value="usage" className="m-0">
-          <div className="space-y-4 bg-zinc-500">
+          <div className="space-y-4 bg-zinc-500 px-[16px] py-[16px] rounded-xl">
             {product.usage && <>
                 <div className="space-y-2">
                   <p className="text-sm font-medium text-blue-300">Instructions</p>
