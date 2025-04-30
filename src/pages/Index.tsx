@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -6,7 +5,8 @@ import {
   HistoryIcon, 
   Bookmark,
   Info,
-  Volume2
+  Volume2,
+  ShieldCheck
 } from 'lucide-react';
 import Header from '../components/Header';
 import Scanner from '../components/Scanner';
@@ -116,14 +116,14 @@ const Index: React.FC = () => {
             onClick={() => navigate('/search')} 
           />
           <QuickActionButton 
+            icon={<ShieldCheck size={20} />} 
+            label="Verify" 
+            onClick={() => navigate('/settings')} 
+          />
+          <QuickActionButton 
             icon={<HistoryIcon size={20} />} 
             label="History" 
             onClick={() => navigate('/history')} 
-          />
-          <QuickActionButton 
-            icon={<Bookmark size={20} />} 
-            label="Saved" 
-            onClick={() => navigate('/saved')} 
           />
         </motion.div>
         
