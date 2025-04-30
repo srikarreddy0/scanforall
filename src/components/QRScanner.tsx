@@ -1,9 +1,9 @@
-
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Camera, ScanBarcode, ShieldCheck, Loader2, Check, Volume2, VolumeX } from 'lucide-react';
 import { toast } from 'sonner';
 import { AnimatePresence, motion } from 'framer-motion';
 import jsQR from 'jsqr';
+import { fetchProductByBarcode, recordScan } from '../services/productService';
 
 interface QRScannerProps {
   onScan: (productId: string) => void;
@@ -63,15 +63,18 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan }) => {
       console.log("QR code data:", code.data);
       
       // Pass scanned data to parent - ensure it's a clean string
-      const productId = code.data.trim();
-      if (productId) {
+      const barcode = code.data.trim();
+      if (barcode) {
+        // Record the scan in history
+        recordScan(barcode).catch(console.error);
+        
         // Show success toast
         toast.success('QR Code scanned successfully', {
           description: 'Retrieving product details...'
         });
         
-        // Call the onScan handler with the product ID
-        onScan(productId);
+        // Call the onScan handler with the barcode
+        onScan(barcode);
       } else {
         toast.error('Invalid QR code', {
           description: 'The scanned QR code does not contain valid product information.'

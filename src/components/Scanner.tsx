@@ -9,13 +9,13 @@ interface ScannerProps {
 const Scanner: React.FC<ScannerProps> = ({
   onScan
 }) => {
-  const handleScan = (productId: string) => {
-    // Clean the product ID to ensure it's a valid string
-    const cleanId = productId.trim();
-    console.log("Scanner component received product ID:", cleanId);
+  const handleScan = (barcode: string) => {
+    // Clean the barcode to ensure it's a valid string
+    const cleanBarcode = barcode.trim();
+    console.log("Scanner component received barcode:", cleanBarcode);
     
-    if (cleanId) {
-      onScan(cleanId);
+    if (cleanBarcode) {
+      onScan(cleanBarcode);
     }
   };
 

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -78,31 +77,15 @@ const Index: React.FC = () => {
   }, []);
 
   // Optimized scan handler with useCallback
-  const handleScan = useCallback((productId: string) => {
-    console.log("Scanned product ID:", productId);
+  const handleScan = useCallback((barcode: string) => {
+    console.log("Scanned product barcode:", barcode);
     
-    // Clean up and encode the product ID for URL safety
-    let formattedId = productId.trim();
-    
-    // Remove HTTP:// or http:// prefix for routing purposes
-    if (formattedId.toUpperCase().startsWith('HTTP://')) {
-      formattedId = formattedId.substring(7);
-    } else if (formattedId.toLowerCase().startsWith('http://')) {
-      formattedId = formattedId.substring(7);
-    }
-    
-    // Also handle https:// prefix
-    if (formattedId.toUpperCase().startsWith('HTTPS://')) {
-      formattedId = formattedId.substring(8);
-    } else if (formattedId.toLowerCase().startsWith('https://')) {
-      formattedId = formattedId.substring(8);
-    }
-    
-    if (formattedId) {
+    // Navigate to product details page with the barcode
+    if (barcode && barcode.trim()) {
       // Navigate to product details page with the cleaned product ID
-      navigate(`/product/${formattedId}`);
+      navigate(`/product/${encodeURIComponent(barcode.trim())}`);
     } else {
-      console.error("Invalid product ID scanned:", productId);
+      console.error("Invalid barcode scanned:", barcode);
     }
   }, [navigate]);
 

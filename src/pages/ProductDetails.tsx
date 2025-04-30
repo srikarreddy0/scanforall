@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import Header from '../components/Header';
 import ProductHeader from '../components/product/ProductHeader';
 import ProductTabs from '../components/product/ProductTabs';
-import { verifyProduct } from '../utils/mockData';
+import { fetchProductByBarcode, mapProductDataToComponentFormat, ProductData } from '../services/productService';
 
 const ProductDetails: React.FC = () => {
   const {
@@ -20,69 +20,75 @@ const ProductDetails: React.FC = () => {
   const navigate = useNavigate();
   const [readAloud, setReadAloud] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [productData, setProductData] = useState<any>(null);
   
-  // Improved product details loading with verification
-  const productData = useMemo(() => {
-    // Check if we have a valid product ID
-    if (!productId) return null;
-    
-    // Verify and get product data
-    const { product, status } = verifyProduct(productId);
-    
-    if (product) {
-      return {
-        name: product.name,
-        brand: product.brand,
-        description: product.description,
-        manufacturingDate: product.manufacturingDate,
-        expiryDate: product.expiryDate || 'N/A',
-        batchNumber: product.batchNumber,
-        category: product.category,
-        contents: product.contents || {
-          ingredients: ['Information not available'],
-          allergens: ['Information not available'],
-          nutritionalInfo: {
-            calories: 'N/A',
-            protein: 'N/A',
-            carbs: 'N/A',
-            fat: 'N/A'
-          }
-        },
-        usage: product.usage || {
-          instructions: ['Information not available'],
-          storage: ['Information not available']
-        },
-        verification: status
-      };
-    }
-    
-    // Default product data as fallback
-    return {
-      name: 'Organic Granola',
-      brand: "Nature's Best",
-      description: 'Delicious and nutritious organic granola made with whole grains and natural ingredients.',
-      manufacturingDate: '2023-06-15',
-      expiryDate: '2024-06-15',
-      batchNumber: 'BN-http://q',
-      category: 'Food',
-      contents: {
-        ingredients: ['Whole grain oats', 'Honey', 'Almonds', 'Raisins', 'Sunflower seeds', 'Coconut oil'],
-        allergens: ['Contains tree nuts (almonds)', 'May contain traces of other nuts', 'Produced in a facility that processes wheat'],
-        nutritionalInfo: {
-          calories: '240 kcal',
-          protein: '6g',
-          carbs: '32g',
-          fat: '12g'
+  // Load product data from Supabase
+  useEffect(() => {
+    const getProductData = async () => {
+      setIsLoading(true);
+      
+      try {
+        // Clean the product ID (which is the barcode)
+        let barcode = productId.trim();
+        
+        // Remove HTTP:// or http:// prefix if present
+        if (barcode.toLowerCase().startsWith('http://')) {
+          barcode = barcode.substring(7);
+        } else if (barcode.toLowerCase().startsWith('https://')) {
+          barcode = barcode.substring(8);
         }
-      },
-      usage: {
-        instructions: ['Pour desired amount into bowl', 'Add milk or yogurt as preferred', 'Can be eaten as a dry snack'],
-        storage: ['Store in a cool, dry place', 'Keep sealed after opening', 'Best consumed within 30 days of opening']
-      },
-      verification: 'authentic'
+        
+        console.log("Fetching product with barcode:", barcode);
+        
+        // Fetch product data from Supabase
+        const data = await fetchProductByBarcode(barcode);
+        
+        if (data) {
+          // Format the data for our components
+          const formattedData = mapProductDataToComponentFormat(data);
+          setProductData(formattedData);
+          console.log("Product data loaded:", formattedData);
+        } else {
+          console.log("No product data found, using fallback");
+          // Use fallback data if no product found
+          setProductData({
+            name: 'Product Not Found',
+            brand: "Unknown Brand",
+            description: 'No information available for this product.',
+            manufacturingDate: 'N/A',
+            expiryDate: 'N/A',
+            batchNumber: barcode,
+            category: 'Unknown',
+            contents: {
+              ingredients: ['Information not available'],
+              allergens: ['Information not available'],
+              nutritionalInfo: {
+                calories: 'N/A',
+                protein: 'N/A',
+                carbs: 'N/A',
+                fat: 'N/A'
+              }
+            },
+            usage: {
+              instructions: ['Information not available'],
+              storage: ['Information not available']
+            },
+            verification: 'not-found'
+          });
+        }
+      } catch (error) {
+        console.error("Error loading product:", error);
+        toast.error("Failed to load product details");
+      } finally {
+        setIsLoading(false);
+      }
     };
+    
+    if (productId) {
+      getProductData();
+    }
   }, [productId]);
-
+  
   useEffect(() => {
     // Read aloud preference
     const savedReadAloud = localStorage.getItem('readAloud');
@@ -94,22 +100,17 @@ const ProductDetails: React.FC = () => {
     console.log("Full location pathname:", location.pathname);
     console.log("Product ID from params:", productId);
     console.log("Wildcard path:", wildcardPath);
-    
-    // Simulate loading
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      
-      // Read product name aloud if readAloud is enabled
-      if (savedReadAloud === 'true' && productData) {
-        const utterance = new SpeechSynthesisUtterance(
-          `Product: ${productData.name} by ${productData.brand}. ${productData.description}`
-        );
-        window.speechSynthesis.speak(utterance);
-      }
-    }, 500); // Faster loading simulation (500ms instead of 1s)
-    
-    return () => clearTimeout(timer);
-  }, [productId, wildcardPath, location.pathname, productData]);
+  }, [productId, wildcardPath, location.pathname]);
+
+  // Read product info aloud when loaded
+  useEffect(() => {
+    if (!isLoading && productData && readAloud) {
+      const utterance = new SpeechSynthesisUtterance(
+        `Product: ${productData.name} by ${productData.brand}. ${productData.description}`
+      );
+      window.speechSynthesis.speak(utterance);
+    }
+  }, [isLoading, productData, readAloud]);
 
   const toggleReadAloud = useCallback(() => {
     const newValue = !readAloud;
@@ -193,7 +194,7 @@ const ProductDetails: React.FC = () => {
               onClick={() => toast.info('Viewing offline data', { description: 'Product loaded from local database' })}
               className="flex-1 py-3 px-4 bg-premium-600 text-white rounded-lg font-medium text-sm hover:bg-premium-700 transition-colors"
             >
-              View Offline (From App Database)
+              Save Offline
             </button>
             
             <button 
