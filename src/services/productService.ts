@@ -33,7 +33,8 @@ export async function fetchProductByBarcode(barcode: string): Promise<ProductDat
   try {
     console.log("Fetching product with barcode:", barcode);
     
-    const { data, error } = await supabase
+    // Type casting to workaround TypeScript checking until types are generated
+    const { data, error } = await (supabase as any)
       .from('products')
       .select('*')
       .eq('barcode', barcode)
@@ -72,7 +73,8 @@ export async function recordScan(barcode: string): Promise<void> {
       platform: navigator.platform
     };
     
-    const { error } = await supabase
+    // Type casting to workaround TypeScript checking until types are generated
+    const { error } = await (supabase as any)
       .from('scan_history')
       .insert({
         product_barcode: barcode,
