@@ -43,7 +43,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
                   <Calendar size={16} className="mr-2" />
                   <span className="text-sm">Manufacturing Date</span>
                 </div>
-                <p className="text-sm font-medium pl-6 text-zinc-700">
+                <p className="text-sm font-medium pl-6 text-white">
                   {formatDate(product.manufacturingDate)}
                 </p>
               </div>
@@ -53,7 +53,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
                   <Calendar size={16} className="mr-2" />
                   <span className="text-sm">Expiry Date</span>
                 </div>
-                <p className="text-sm font-medium pl-6 text-zinc-700">
+                <p className="text-sm font-medium pl-6 text-white">
                   {formatDate(product.expiryDate)}
                 </p>
               </div>
@@ -61,7 +61,7 @@ const ProductTabs: React.FC<ProductTabsProps> = ({
             
             <div className="space-y-1">
               <p className="text-sm font-medium text-blue-300">Batch Number</p>
-              <p className="text-sm text-zinc-700">{product.batchNumber}</p>
+              <p className="text-sm text-white">{product.batchNumber}</p>
             </div>
           </div>
         </TabsContent>
