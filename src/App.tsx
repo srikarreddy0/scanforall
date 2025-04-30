@@ -13,6 +13,7 @@ import Notifications from "./pages/Notifications";
 import Settings from "./pages/Settings";
 import Search from "./pages/Search";
 import Bookmarks from "./pages/Bookmarks";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +34,7 @@ const App = () => (
           <Route path="/report/:productId" element={<Report />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/profile" element={<NotFound />} /> {/* Still using fallback for Profile */}
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
