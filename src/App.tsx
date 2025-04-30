@@ -11,6 +11,8 @@ import Report from "./pages/Report";
 import NotFound from "./pages/NotFound";
 import Notifications from "./pages/Notifications";
 import Settings from "./pages/Settings";
+import Search from "./pages/Search";
+import Bookmarks from "./pages/Bookmarks";
 
 const queryClient = new QueryClient();
 
@@ -26,11 +28,12 @@ const App = () => (
           {/* Special catch-all route for product IDs with slashes */}
           <Route path="/product/:productId/*" element={<ProductDetails />} />
           <Route path="/history" element={<History />} />
-          <Route path="/bookmarks" element={<NotFound />} /> {/* Temporary fallback until we create a dedicated Bookmarks page */}
+          <Route path="/bookmarks" element={<Bookmarks />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/report/:productId" element={<Report />} />
           <Route path="/notifications" element={<Notifications />} />
-          <Route path="/settings" element={<Settings />} /> {/* Updated to use our new Settings page */}
-          <Route path="/profile" element={<NotFound />} /> {/* Temporary fallback */}
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={<NotFound />} /> {/* Still using fallback for Profile */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
